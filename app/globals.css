@@ -1,26 +1,111 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:is(.dark *));
+
+/* ── Clash Display ── */
+@font-face {
+  font-family: "Clash Display";
+  src: url("https://cdn.fontsource.org/font-family/clash-display/latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Clash Display";
+  src: url("https://cdn.fontsource.org/font-family/clash-display/latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Clash Display";
+  src: url("https://cdn.fontsource.org/font-family/clash-display/latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
+/* ── Theme tokens (Tailwind v4) ── */
 @theme inline {
+  /* shadcn semantic colors → mapped to our dark palette */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Custom brand tokens */
+  --color-bg: #0A0A0A;
+  --color-surface: #141414;
+  --color-surface-elevated: #1E1E1E;
+  --color-brand: #E8A838;
+  --color-brand-dim: rgba(232, 168, 56, 0.08);
+  --color-text-primary: #F5F0EB;
+  --color-text-secondary: #888888;
+  --color-border-custom: #2A2A2A;
+
+  /* Fonts */
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --font-display: "Clash Display", sans-serif;
+  --font-heading: "Clash Display", sans-serif;
+
+  /* Border radius — capped at 4px everywhere */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
+  --radius-2xl: 4px;
+  --radius-3xl: 4px;
+  --radius-4xl: 4px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ── Dark-first: our design is always dark ── */
+:root {
+  --background: #0A0A0A;
+  --foreground: #F5F0EB;
+  --card: #141414;
+  --card-foreground: #F5F0EB;
+  --popover: #1E1E1E;
+  --popover-foreground: #F5F0EB;
+  --primary: #E8A838;
+  --primary-foreground: #0A0A0A;
+  --secondary: #1E1E1E;
+  --secondary-foreground: #F5F0EB;
+  --muted: #141414;
+  --muted-foreground: #888888;
+  --accent: #E8A838;
+  --accent-foreground: #0A0A0A;
+  --destructive: #ef4444;
+  --border: #2A2A2A;
+  --input: #2A2A2A;
+  --ring: #E8A838;
+  --radius: 4px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }
