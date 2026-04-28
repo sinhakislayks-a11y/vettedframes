@@ -8,6 +8,7 @@ export async function POST(request: Request) {
     // ── 1. Validate ──
     const result = contactFormSchema.safeParse(body);
     if (!result.success) {
+      console.error("[contact] validation failed:", result.error.issues);
       return NextResponse.json(
         { error: "Validation failed", issues: result.error.issues },
         { status: 400 }
@@ -16,19 +17,31 @@ export async function POST(request: Request) {
 
     const { name, email, projectType, message, videoLink } = result.data;
 
-    // ── 2. Insert into Supabase ──
+    // ── 2. Check Supabase env vars ──
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
     if (!supabaseUrl || !supabaseKey) {
-      console.error("Supabase env vars not configured");
+      console.error("[contact] missing env vars:", {
+        hasUrl: !!supabaseUrl,
+        hasKey: !!supabaseKey,
+        rawUrl: supabaseUrl,
+        rawKey: supabaseKey ? "[REDACTED]" : undefined,
+      });
       return NextResponse.json(
-        { error: "Service temporarily unavailable. Please try again later." },
+        {
+          error: "Database not configured. Please contact the administrator.",
+          detail: "Supabase environment variables are missing or misconfigured.",
+        },
         { status: 503 }
       );
     }
+
+    // ── 3. Insert into Supabase ──
     const { createClient } = await import("@supabase/supabase-js");
     const sb = createClient(supabaseUrl, supabaseKey);
-    const { error: dbError } = await sb
+
+    const { data: insertData, error: dbError } = await sb
       .from("contact_submissions")
       .insert({
         name,
@@ -37,17 +50,26 @@ export async function POST(request: Request) {
         message,
         video_link: videoLink || null,
         created_at: new Date().toISOString(),
-      });
+      })
+      .select()
+      .single();
 
     if (dbError) {
-      console.error("Supabase insert error:", dbError);
+      console.error("[contact] Supabase insert error:", {
+        message: dbError.message,
+        code: dbError.code,
+        details: dbError.details,
+        hint: dbError.hint,
+      });
       return NextResponse.json(
-        { error: "Failed to save submission. Please try again." },
+        { error: "Failed to save submission.", detail: dbError.message },
         { status: 500 }
       );
     }
 
-    // ── 3. WhatsApp notification via CallMeBot ──
+    console.log("[contact] insert success:", { id: insertData?.id });
+
+    // ── 4. WhatsApp notification via CallMeBot ──
     const callmebotKey = process.env.CALLMEBOT_API_KEY;
     const whatsappPhone = process.env.WHATSAPP_PHONE;
     if (callmebotKey && whatsappPhone) {
@@ -60,11 +82,11 @@ export async function POST(request: Request) {
           { method: "GET" }
         );
       } catch (webhookErr) {
-        console.error("CallMeBot webhook error:", webhookErr);
+        console.error("[contact] CallMeBot error:", webhookErr);
       }
     }
 
-    // ── 4. Email notification via Resend ──
+    // ── 5. Email notification via Resend ──
     if (process.env.RESEND_API_KEY) {
       try {
         const { Resend } = await import("resend");
@@ -86,13 +108,13 @@ export async function POST(request: Request) {
           ].join("\n"),
         });
       } catch (emailErr) {
-        // Non-blocking: log and continue
-        console.error("Resend email error:", emailErr);
+        console.error("[contact] Resend email error:", emailErr);
       }
     }
 
-    return NextResponse.json({ success: true }, { status: 200 });
-  } catch {
+    return NextResponse.json({ success: true, id: insertData?.id }, { status: 200 });
+  } catch (err) {
+    console.error("[contact] unexpected error:", err);
     return NextResponse.json(
       { error: "Invalid request body." },
       { status: 400 }
