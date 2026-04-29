@@ -12,7 +12,7 @@ const OPTIONS = [
     label: "Book a call",
     description: "15-minute intro call. Pick a time that works for you.",
     cta: "Schedule a call",
-    href: "https://calendly.com/YOUR_CALENDLY_LINK",
+    href: "https://calendly.com/sinhakislayks/30min",
     variant: "default" as const,
   },
   {
