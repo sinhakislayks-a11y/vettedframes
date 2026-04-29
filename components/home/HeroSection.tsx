@@ -2,20 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import dynamic from "next/dynamic";
-
-const SplineScene = dynamic(() => import("./SplineScene"), {
-  ssr: false,
-  loading: () => (
-    <div
-      className="absolute inset-0"
-      style={{
-        background:
-          "linear-gradient(135deg, var(--background) 0%, var(--card) 50%, var(--background) 100%)",
-      }}
-    />
-  ),
-});
+import SplineScene from "./SplineScene";
 
 const stagger = {
   hidden: {},
