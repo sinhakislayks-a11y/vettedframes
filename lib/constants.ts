@@ -171,11 +171,11 @@ export const DELIVERABLES = [
 
 // ── Site metadata ──
 export const SITE = {
-  name: "Frames by Kislay",
+  name: "VettedFrames",
   tagline: "Convert your ideas into defining visuals",
   description:
     "High-retention reels and short-form content for SaaS founders and YouTube creators.",
-  url: "https://framesbykislay.com",
+  url: "https://vettedframes.vercel.app",
 } as const;
 
 // ── Service Tiers ──

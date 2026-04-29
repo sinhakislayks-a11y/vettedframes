@@ -6,7 +6,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://vettedframes.vercel.app"),
-  title: "Frames by Kislay — Video Editor, Colorist, Cinematographer",
+  title: "VettedFrames — Video Editor, Colorist, Cinematographer",
   description:
     "High-retention reels and short-form content for SaaS founders and YouTube creators. Convert your ideas into defining visuals.",
   openGraph: {

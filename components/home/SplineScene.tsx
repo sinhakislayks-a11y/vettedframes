@@ -17,49 +17,54 @@ function GradientFallback() {
 }
 
 export default function SplineScene() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  // Lazy load: only load when near viewport
+  // Forward mouse position to Spline via postMessage
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" } // Start loading 200px before visible
-    );
+    const handleMouseMove = (e: MouseEvent) => {
+      if (iframeRef.current && isLoaded) {
+        iframeRef.current.contentWindow?.postMessage(
+          {
+            type: "mousemove",
+            x: e.clientX,
+            y: e.clientY,
+          },
+          "*"
+        );
+      }
+    };
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [isLoaded]);
 
   if (hasError) {
     return <GradientFallback />;
   }
 
   return (
-    <div ref={containerRef} className="absolute inset-0">
-      {/* Show gradient until loaded */}
-      {!isVisible && <GradientFallback />}
+    <>
+      {/* Show gradient until Spline has loaded */}
+      {!isLoaded && <GradientFallback />}
 
-      {isVisible && (
-        <iframe
-          src={SPLINE_SCENE_URL}
-          style={{ width: "100%", height: "100%", border: "none" }}
-          className="w-full h-full"
-          allow="autoplay; xr-spatial-tracking"
-          loading="lazy"
-          title="3D Background"
-          onError={() => setHasError(true)}
-        />
-      )}
-    </div>
+      <iframe
+        ref={iframeRef}
+        src={SPLINE_SCENE_URL}
+        style={{
+          width: "100%",
+          height: "100%",
+          border: "none",
+          opacity: isLoaded ? 1 : 0,
+          transition: "opacity 0.5s ease",
+        }}
+        className="absolute inset-0"
+        allow="autoplay; xr-spatial-tracking"
+        onLoad={() => setIsLoaded(true)}
+        onError={() => setHasError(true)}
+        title="3D Background"
+      />
+    </>
   );
 }

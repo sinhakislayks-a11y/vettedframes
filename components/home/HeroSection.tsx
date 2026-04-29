@@ -38,13 +38,13 @@ export default function HeroSection() {
       id="hero"
       className="relative flex items-center justify-center h-screen w-full overflow-hidden"
     >
-      {/* Spline 3D Background - full viewport, receives pointer events */}
-      <div className="fixed inset-0 w-screen h-screen z-0">
+      {/* Spline 3D Background - absolute, scoped to hero section only */}
+      <div className="absolute inset-0 z-0">
         <SplineScene />
       </div>
 
-      {/* Dark overlay for text readability - z-0.5, blocks Spline color bleed */}
-      <div className="fixed inset-0 w-screen h-screen z-[1] bg-bg/70 pointer-events-none" />
+      {/* Dark overlay - scoped to hero, better contrast */}
+      <div className="absolute inset-0 z-[1] bg-bg/80 pointer-events-none" />
 
       {/* Content Overlay - z-10, interactive */}
       <motion.div
@@ -56,7 +56,7 @@ export default function HeroSection() {
         {/* Label */}
         <motion.p
           variants={fadeUp}
-          className="font-mono text-text-secondary uppercase tracking-widest text-xs mb-6"
+          className="font-mono text-text-secondary/80 uppercase tracking-widest text-xs mb-6"
         >
           Video Editor — Colorist — Cinematographer
         </motion.p>
@@ -66,15 +66,15 @@ export default function HeroSection() {
           variants={fadeUp}
           className="font-display font-bold text-4xl md:text-6xl leading-tight mb-6"
         >
-          <span className="text-text-primary">Convert your ideas into</span>
+          <span className="text-text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">Convert your ideas into</span>
           <br />
-          <span className="text-brand">defining visuals.</span>
+          <span className="text-brand drop-shadow-[0_2px_12px_rgba(232,168,56,0.4)]">defining visuals.</span>
         </motion.h1>
 
         {/* Subheadline */}
         <motion.p
           variants={fadeUp}
-          className="font-sans text-text-secondary text-lg max-w-[480px] mb-10"
+          className="font-sans text-text-secondary/80 text-lg max-w-[480px] mb-10"
         >
           High-retention reels and short-form content for SaaS founders and
           YouTube creators.
@@ -84,7 +84,7 @@ export default function HeroSection() {
         <motion.div variants={fadeUp}>
           <Button
             onClick={handleCTA}
-            className="bg-brand text-bg font-sans font-medium text-sm px-6 h-10 border border-transparent hover:bg-transparent hover:border-brand hover:text-brand transition-all duration-300 cursor-pointer"
+            className="bg-brand text-bg font-sans font-semibold text-sm px-8 h-12 border border-transparent shadow-[0_0_20px_rgba(232,168,56,0.25)] hover:shadow-[0_0_30px_rgba(232,168,56,0.4)] hover:bg-brand/90 transition-all duration-300 cursor-pointer"
           >
             Send me your last video
           </Button>

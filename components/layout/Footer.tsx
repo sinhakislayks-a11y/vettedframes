@@ -11,7 +11,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="flex flex-col items-center md:items-start gap-2">
             <span className="font-display text-lg font-semibold text-text-primary tracking-tight">
-              Frames<span className="text-brand">.</span>
+              Vetted<span className="text-brand"> Frames</span>
             </span>
             <p className="text-text-secondary text-sm font-sans">
               {SITE.tagline}
