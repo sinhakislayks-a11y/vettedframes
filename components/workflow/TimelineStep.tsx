@@ -23,12 +23,12 @@ export default function TimelineStep({ step, index, isLast }: TimelineStepProps)
         delay: index * 0.1,
         ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
       }}
-      className="relative flex gap-6 md:gap-8"
+      className="relative flex gap-6 md:gap-8 group hover:-translate-y-0.5 transition-transform duration-300"
     >
       {/* Timeline rail */}
       <div className="flex flex-col items-center flex-shrink-0">
         {/* Node */}
-        <div className="w-8 h-8 rounded-[4px] bg-brand-dim border border-brand/30 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-[4px] bg-brand-dim border border-brand/30 flex items-center justify-center group-hover:border-brand/50 group-hover:shadow-[0_0_15px_rgba(139,92,246,0.25)] transition-all duration-300">
           <span className="font-mono text-brand text-xs font-bold">
             {String(step.step).padStart(2, "0")}
           </span>
@@ -45,7 +45,7 @@ export default function TimelineStep({ step, index, isLast }: TimelineStepProps)
           <h3 className="font-display font-semibold text-lg text-text-primary">
             {step.title}
           </h3>
-          <span className="font-mono text-xs text-brand bg-brand-dim px-2 py-0.5 rounded-[4px]">
+          <span className="font-mono text-xs text-brand-light bg-brand-dim px-2 py-0.5 rounded-[4px]">
             {step.duration}
           </span>
         </div>

@@ -7,29 +7,29 @@
 /* ── Clash Display ── */
 @font-face {
   font-family: "Clash Display";
-  src: url("https://cdn.fontsource.org/font-family/clash-display/latin-500-normal.woff2") format("woff2");
+  src: url("https://cdn.fontspace.org/font-family/clash-display/latin-500-normal.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Clash Display";
-  src: url("https://cdn.fontsource.org/font-family/clash-display/latin-600-normal.woff2") format("woff2");
+  src: url("https://cdn.fontspace.org/font-family/clash-display/latin-600-normal.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Clash Display";
-  src: url("https://cdn.fontsource.org/font-family/clash-display/latin-700-normal.woff2") format("woff2");
+  src: url("https://cdn.fontspace.org/font-family/clash-display/latin-700-normal.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
-/* ── Theme tokens (Tailwind v4) ── */
+/* ── AI-Brutalist Purple Theme ── */
 @theme inline {
-  /* shadcn semantic colors → mapped to our dark palette */
+  /* shadcn semantic colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -49,15 +49,27 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Custom brand tokens */
-  --color-bg: #0A0A0A;
-  --color-surface: #141414;
-  --color-surface-elevated: #1E1E1E;
-  --color-brand: #E8A838;
-  --color-brand-dim: rgba(232, 168, 56, 0.08);
-  --color-text-primary: #F5F0EB;
-  --color-text-secondary: #888888;
-  --color-border-custom: #2A2A2A;
+  /* ── AI-Brutalist Color System ── */
+
+  /* Base */
+  --color-bg: #050507;
+  --color-bg-secondary: #0A0A0F;
+  --color-surface: #12121A;
+  --color-surface-elevated: #2A2A35;
+
+  /* Borders */
+  --color-border-custom: #1A1A24;
+
+  /* Purple accent system */
+  --color-brand: #8B5CF6;
+  --color-brand-light: #A78BFA;
+  --color-brand-dark: #6D28D9;
+  --color-brand-dim: rgba(139, 92, 246, 0.08);
+
+  /* Text hierarchy */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #9CA3AF;
+  --color-text-muted: #6B7280;
 
   /* Fonts */
   --font-sans: var(--font-inter);
@@ -65,7 +77,7 @@
   --font-display: "Clash Display", sans-serif;
   --font-heading: "Clash Display", sans-serif;
 
-  /* Border radius — capped at 4px everywhere */
+  /* Border radius - minimal brutalist */
   --radius-sm: 2px;
   --radius-md: 4px;
   --radius-lg: 4px;
@@ -75,27 +87,53 @@
   --radius-4xl: 4px;
 }
 
-/* ── Dark-first: our design is always dark ── */
+/* ── Dark-first: AI-brutalist is always dark ── */
 :root {
-  --background: #0A0A0A;
-  --foreground: #F5F0EB;
-  --card: #141414;
-  --card-foreground: #F5F0EB;
-  --popover: #1E1E1E;
-  --popover-foreground: #F5F0EB;
-  --primary: #E8A838;
-  --primary-foreground: #0A0A0A;
-  --secondary: #1E1E1E;
-  --secondary-foreground: #F5F0EB;
-  --muted: #141414;
-  --muted-foreground: #888888;
-  --accent: #E8A838;
-  --accent-foreground: #0A0A0A;
+  --background: #050507;
+  --foreground: #FFFFFF;
+  --card: #12121A;
+  --card-foreground: #FFFFFF;
+  --popover: #2A2A35;
+  --popover-foreground: #FFFFFF;
+  --primary: #8B5CF6;
+  --primary-foreground: #FFFFFF;
+  --secondary: #2A2A35;
+  --secondary-foreground: #FFFFFF;
+  --muted: #12121A;
+  --muted-foreground: #6B7280;
+  --accent: #8B5CF6;
+  --accent-foreground: #FFFFFF;
   --destructive: #ef4444;
-  --border: #2A2A2A;
-  --input: #2A2A2A;
-  --ring: #E8A838;
+  --border: #1A1A24;
+  --input: #1A1A24;
+  --ring: #8B5CF6;
   --radius: 4px;
+}
+
+/* ── Glow utilities (selective use) ── */
+.glow-soft {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
+}
+
+.glow-medium {
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.35);
+}
+
+.glow-cta {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.35);
+}
+
+.glow-cta-hover {
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.45);
+}
+
+/* ── Background gradients ── */
+.bg-radial-purple {
+  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+}
+
+.bg-subtle-gradient {
+  background: linear-gradient(180deg, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
 }
 
 @layer base {

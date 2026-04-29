@@ -5,7 +5,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-border-custom bg-bg">
+    <footer className="w-full border-t border-border-custom bg-bg-secondary">
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Brand */}
@@ -24,7 +24,7 @@ export default function Footer() {
               href={SOCIALS.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-text-secondary hover:text-brand text-sm font-sans transition-colors duration-200"
+              className="text-text-secondary hover:text-brand-light hover:shadow-[0_0_10px_rgba(139,92,246,0.2)] px-2 py-1 rounded-[4px] text-sm font-sans transition-all duration-200"
             >
               Instagram
             </a>
@@ -32,7 +32,7 @@ export default function Footer() {
               href={SOCIALS.youtube}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-text-secondary hover:text-brand text-sm font-sans transition-colors duration-200"
+              className="text-text-secondary hover:text-brand-light hover:shadow-[0_0_10px_rgba(139,92,246,0.2)] px-2 py-1 rounded-[4px] text-sm font-sans transition-all duration-200"
             >
               YouTube
             </a>
@@ -40,13 +40,13 @@ export default function Footer() {
               href={SOCIALS.twitter}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-text-secondary hover:text-brand text-sm font-sans transition-colors duration-200"
+              className="text-text-secondary hover:text-brand-light hover:shadow-[0_0_10px_rgba(139,92,246,0.2)] px-2 py-1 rounded-[4px] text-sm font-sans transition-all duration-200"
             >
               Twitter
             </a>
             <a
               href={`mailto:${SOCIALS.email}`}
-              className="text-text-secondary hover:text-brand text-sm font-sans transition-colors duration-200"
+              className="text-text-secondary hover:text-brand-light hover:shadow-[0_0_10px_rgba(139,92,246,0.2)] px-2 py-1 rounded-[4px] text-sm font-sans transition-all duration-200"
             >
               Email
             </a>

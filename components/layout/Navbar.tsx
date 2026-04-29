@@ -46,7 +46,7 @@ export default function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "border-b border-border-custom/50 bg-bg/90 backdrop-blur-md py-3"
+            ? "border-b border-border-custom/50 bg-bg-secondary/80 backdrop-blur-md py-3"
             : "bg-transparent py-4"
         )}
       >
@@ -63,13 +63,17 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-sm font-sans transition-colors duration-200",
+                  "text-sm font-sans transition-colors duration-200 relative group",
                   pathname === link.href
-                    ? "text-text-primary"
+                    ? "text-brand-light"
                     : "text-text-secondary hover:text-text-primary"
                 )}
               >
                 {link.label}
+                {pathname === link.href && (
+                  <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-brand-light/60 shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
+                )}
+                <span className="absolute -bottom-0.5 left-0 h-px w-0 group-hover:w-full bg-brand/40 transition-all duration-200" />
               </Link>
             ))}
 
@@ -84,7 +88,7 @@ export default function Navbar() {
 
             <Link
               href="/contact"
-              className="bg-brand text-bg text-sm font-medium font-sans px-4 py-1.5 rounded-[4px] hover:bg-brand/90 transition-colors duration-200"
+              className="bg-gradient-to-r from-brand to-brand-dark text-white text-sm font-medium font-sans px-4 py-1.5 rounded-[4px] hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:brightness-110 transition-all duration-200"
             >
               Start a project
             </Link>
@@ -192,7 +196,7 @@ export default function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="bg-brand text-bg text-sm font-medium font-sans px-4 py-2 rounded-[4px] text-center mt-2"
+                className="bg-gradient-to-r from-brand to-brand-dark text-white text-sm font-medium font-sans px-4 py-2 rounded-[4px] text-center mt-2 hover:shadow-[0_0_15px_rgba(139,92,246,0.35)] transition-all duration-200"
               >
                 Start a project
               </Link>

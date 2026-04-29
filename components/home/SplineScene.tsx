@@ -10,7 +10,7 @@ function GradientFallback() {
     <div
       className="absolute inset-0"
       style={{
-        background: "linear-gradient(135deg, #0A0A0A 0%, #141414 50%, #0A0A0A 100%)",
+        background: "radial-gradient(ellipse at 30% 20%, rgba(139,92,246,0.12) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(109,40,217,0.08) 0%, transparent 50%), linear-gradient(180deg, #050507 0%, #0A0A0F 50%, #050507 100%)",
       }}
     />
   );

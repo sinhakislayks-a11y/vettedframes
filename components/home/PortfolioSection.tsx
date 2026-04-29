@@ -27,7 +27,7 @@ function PortfolioCard({
         delay: index * 0.06,
         ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
       }}
-      className="bg-surface-elevated border border-border-custom rounded-[4px] p-4 flex flex-col"
+      className="bg-surface-elevated border border-border-custom rounded-[4px] p-4 flex flex-col hover:border-brand/40 hover:shadow-[0_0_15px_rgba(139,92,246,0.1)] hover:-translate-y-1 transition-all duration-300"
     >
       {/* Thumbnail */}
       <div className="relative w-full aspect-video rounded-[4px] overflow-hidden mb-4 bg-bg">

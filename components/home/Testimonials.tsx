@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TESTIMONIALS } from "@/lib/constants";
-import { Quote } from "lucide-react";
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
@@ -21,7 +20,7 @@ export default function Testimonials() {
   const testimonial = TESTIMONIALS[current];
 
   return (
-    <section className="w-full bg-bg py-20">
+    <section className="w-full bg-bg-secondary py-20">
       <div className="mx-auto max-w-3xl px-6">
         {/* Section header */}
         <div className="mb-14 text-center">
@@ -35,7 +34,11 @@ export default function Testimonials() {
 
         {/* Testimonial card */}
         <div className="relative min-h-[240px] flex flex-col items-center">
-          <Quote className="w-8 h-8 text-brand/30 mb-6" />
+          <div className="w-8 h-8 mb-6 text-brand/30">
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+              <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>
+            </svg>
+          </div>
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -69,7 +72,7 @@ export default function Testimonials() {
                 onClick={() => setCurrent(i)}
                 className={`w-2 h-2 rounded-[4px] transition-all duration-300 cursor-pointer ${
                   i === current
-                    ? "bg-brand w-6"
+                    ? "bg-brand-light w-6 shadow-[0_0_10px_rgba(139,92,246,0.4)]"
                     : "bg-border-custom hover:bg-text-secondary"
                 }`}
                 aria-label={`Testimonial ${i + 1}`}

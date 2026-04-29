@@ -44,7 +44,7 @@ export default function ToolsSection() {
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.25, delay: i * 0.04 }}
-              className="bg-surface border border-border-custom rounded-[4px] px-5 py-2.5 font-mono text-xs text-text-secondary hover:text-brand hover:border-brand/20 transition-colors duration-200"
+              className="bg-surface border border-border-custom rounded-[4px] px-5 py-2.5 font-mono text-xs text-text-secondary hover:text-brand-light hover:border-brand/30 hover:shadow-[0_0_10px_rgba(139,92,246,0.15)] transition-all duration-200"
             >
               {tool}
             </motion.span>

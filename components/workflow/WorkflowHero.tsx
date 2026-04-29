@@ -19,12 +19,12 @@ export default function WorkflowHero() {
     <section className="relative w-full bg-bg pt-40 pb-32 overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-brand/5 rounded-full blur-[120px]" />
-        <div className="absolute top-20 right-1/4 w-[300px] h-[200px] bg-brand/3 rounded-full blur-[80px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-brand/8 rounded-full blur-[120px]" />
+        <div className="absolute top-20 right-1/4 w-[300px] h-[200px] bg-brand/5 rounded-full blur-[80px]" />
       </div>
 
-      {/* Vertical flow line (subtle) */}
-      <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-brand/20 via-brand/5 to-transparent" />
+      {/* Vertical flow line (subtle purple glow) */}
+      <div className="absolute left-8 top-0 bottom-0 w-px shadow-[0_0_10px_rgba(139,92,246,0.3)] bg-gradient-to-b from-brand/30 via-brand/10 to-transparent" />
 
       <div className="relative mx-auto max-w-4xl px-6">
         <motion.p
@@ -32,9 +32,9 @@ export default function WorkflowHero() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="inline-flex items-center gap-2 font-mono text-brand uppercase tracking-[0.2em] text-[11px] mb-8"
+          className="inline-flex items-center gap-2 font-mono text-brand-light uppercase tracking-[0.2em] text-[11px] mb-8"
         >
-          <span className="w-5 h-px bg-brand" />
+          <span className="w-5 h-px bg-brand-light" />
           How I work
         </motion.p>
 
@@ -47,7 +47,7 @@ export default function WorkflowHero() {
         >
           From raw footage
           <br />
-          <span className="text-brand">to finished reel.</span>
+          <span className="text-brand-light">to finished reel.</span>
         </motion.h1>
 
         <motion.p

@@ -22,7 +22,7 @@ export default function WorkflowCTA() {
 
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 bg-brand text-bg font-sans font-medium text-sm px-6 py-3 rounded-[4px] hover:bg-brand/90 transition-colors duration-200"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-brand to-brand-dark text-white font-sans font-medium text-sm px-7 py-3 rounded-[4px] hover:shadow-[0_0_30px_rgba(139,92,246,0.45)] hover:brightness-110 transition-all duration-200"
           >
             Send me your footage
             <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">

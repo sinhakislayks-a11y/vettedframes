@@ -103,7 +103,7 @@ function CutVisual({ className }: { className?: string }) {
         </div>
         {/* Color panel hint */}
         <div className="absolute bottom-4 right-4 flex gap-1.5">
-          {["#E8A838", "#4A9EFF", "#22C55E", "#EF4444", "#A855F7"].map((c) => (
+          {["#8B5CF6", "#4A9EFF", "#22C55E", "#EF4444", "#A855F7"].map((c) => (
             <div key={c} className="w-4 h-4 rounded-full border border-border-custom" style={{ background: c }} />
           ))}
         </div>

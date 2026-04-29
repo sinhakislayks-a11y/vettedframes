@@ -60,7 +60,7 @@ export default function ContactOptions() {
                     number,
                   ],
                 }}
-                className="bg-surface border border-border-custom rounded-[4px] p-6 hover:border-brand transition-colors duration-200 flex flex-col"
+                className="bg-surface border border-border-custom rounded-[4px] p-6 hover:border-brand/50 hover:shadow-[0_0_15px_rgba(139,92,246,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col"
               >
                 {/* Icon */}
                 <div className="w-10 h-10 rounded-[4px] bg-brand/10 flex items-center justify-center mb-5">

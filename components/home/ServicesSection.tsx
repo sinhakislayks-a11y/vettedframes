@@ -36,7 +36,7 @@ export default function ServicesSection() {
                 delay: i * 0.12,
                 ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
               }}
-              className="group bg-surface border border-border-custom rounded-[4px] p-8 hover:border-brand transition-colors duration-200 flex flex-col"
+              className="group bg-surface border border-border-custom rounded-[4px] p-8 hover:border-brand/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col"
             >
               {/* Tier label */}
               <span className="font-mono text-brand text-xs uppercase tracking-widest mb-4">

@@ -50,8 +50,9 @@ export default function HeroSection() {
         <SplineScene />
       </div>
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 z-[1] bg-bg/80 pointer-events-none" />
+      {/* Purple radial gradient overlay */}
+      <div className="absolute inset-0 z-[1] bg-radial-purple pointer-events-none" />
+      <div className="absolute inset-0 z-[2] bg-bg/60 pointer-events-none" />
 
       {/* Content Overlay */}
       <motion.div
@@ -73,7 +74,7 @@ export default function HeroSection() {
         >
           <span className="text-text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">Convert your ideas into</span>
           <br />
-          <span className="text-brand drop-shadow-[0_2px_12px_rgba(232,168,56,0.4)]">defining visuals.</span>
+          <span className="text-brand-light drop-shadow-[0_2px_12px_rgba(139,92,246,0.4)]">defining visuals.</span>
         </motion.h1>
 
         <motion.p
@@ -87,7 +88,7 @@ export default function HeroSection() {
         <motion.div variants={prefersReducedMotion ? {} : fadeUp}>
           <Button
             onClick={handleCTA}
-            className="bg-brand text-bg font-sans font-semibold text-sm px-8 h-12 border border-transparent shadow-[0_0_20px_rgba(232,168,56,0.25)] hover:shadow-[0_0_30px_rgba(232,168,56,0.4)] hover:bg-brand/90 transition-all duration-300 cursor-pointer"
+            className="bg-gradient-to-r from-brand to-brand-dark text-white font-sans font-semibold text-sm px-8 h-12 border border-transparent shadow-[0_0_25px_rgba(139,92,246,0.4)] hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] hover:brightness-110 transition-all duration-300 cursor-pointer"
           >
             Send me your last video
           </Button>

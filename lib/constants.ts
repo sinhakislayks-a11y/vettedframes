@@ -81,12 +81,12 @@ export interface ReelItem {
 }
 
 export const REEL_ITEMS: ReelItem[] = [
-  { title: "SaaS Product Launch", category: "Short-form", gradient: "from-amber-900/40 to-orange-950/40" },
-  { title: "YouTube Documentary", category: "Long-form", gradient: "from-blue-900/40 to-indigo-950/40" },
-  { title: "Brand Story Film", category: "Cinematography", gradient: "from-emerald-900/40 to-teal-950/40" },
-  { title: "Viral Reel Series", category: "Short-form", gradient: "from-rose-900/40 to-pink-950/40" },
-  { title: "Podcast Highlights", category: "Editing", gradient: "from-violet-900/40 to-purple-950/40" },
-  { title: "Tech Review Edit", category: "YouTube", gradient: "from-cyan-900/40 to-sky-950/40" },
+  { title: "SaaS Product Launch", category: "Short-form", gradient: "from-purple-900/40 to-violet-950/40" },
+  { title: "YouTube Documentary", category: "Long-form", gradient: "from-indigo-900/40 to-blue-950/40" },
+  { title: "Brand Story Film", category: "Cinematography", gradient: "from-violet-900/40 to-purple-950/40" },
+  { title: "Viral Reel Series", category: "Short-form", gradient: "from-fuchsia-900/40 to-pink-950/40" },
+  { title: "Podcast Highlights", category: "Editing", gradient: "from-purple-900/40 to-indigo-950/40" },
+  { title: "Tech Review Edit", category: "YouTube", gradient: "from-violet-900/40 to-slate-950/40" },
 ];
 
 // ── Client logos (text-based placeholders) ──
