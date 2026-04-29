@@ -38,15 +38,15 @@ export default function HeroSection() {
       id="hero"
       className="relative flex items-center justify-center h-screen w-full overflow-hidden"
     >
-      {/* Spline 3D Background */}
-      <div className="fixed inset-0 w-screen h-screen -z-10 pointer-events-none">
+      {/* Spline 3D Background - full viewport, receives pointer events */}
+      <div className="fixed inset-0 w-screen h-screen z-0">
         <SplineScene />
       </div>
 
-      {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-bg/60 -z-[5]" />
+      {/* Dark overlay for text readability - z-0.5, blocks Spline color bleed */}
+      <div className="fixed inset-0 w-screen h-screen z-[1] bg-bg/70 pointer-events-none" />
 
-      {/* Content Overlay */}
+      {/* Content Overlay - z-10, interactive */}
       <motion.div
         className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl"
         variants={stagger}
