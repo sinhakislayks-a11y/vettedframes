@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
+import StepVisual from "./StepVisual";
 
 interface Step {
   number: number;
@@ -48,55 +49,99 @@ const STEPS: Step[] = [
   },
 ];
 
-function StepCard({ step, index }: { step: Step; index: number }) {
-  const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.3 });
+function StepSection({ step, index }: { step: Step; index: number }) {
+  const { ref, isInView } = useInView<HTMLElement>({ threshold: 0.15 });
+  const isEven = index % 2 === 0;
 
   return (
-    <motion.div
+    <section
       ref={ref}
-      initial={{ opacity: 0, y: 28 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-      transition={{
-        duration: 0.45,
-        delay: index * 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
-      }}
-      className="bg-surface border border-border-custom rounded-[4px] p-6 flex flex-col"
+      className="relative py-24 md:py-32 overflow-hidden"
     >
-      {/* Step number */}
-      <span className="font-display font-bold text-3xl text-brand mb-4">
+      {/* Faded background step number */}
+      <div
+        className="absolute select-none pointer-events-none font-display font-bold text-[20vw] md:text-[16vw] leading-none text-brand/[0.03] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        aria-hidden
+      >
         {String(step.number).padStart(2, "0")}
-      </span>
+      </div>
 
-      {/* Title */}
-      <h3 className="font-display font-semibold text-lg text-text-primary mb-3">
-        {step.title}
-      </h3>
+      {/* Vertical connector line */}
+      {index > 0 && (
+        <div className="absolute left-8 md:left-[calc(50%-320px)] top-0 w-px h-24 bg-gradient-to-b from-border-custom to-transparent" />
+      )}
 
-      {/* Description */}
-      <p className="font-sans text-text-secondary text-sm leading-relaxed mb-5 flex-1">
-        {step.description}
-      </p>
+      <div className="relative mx-auto max-w-6xl px-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{
+            duration: 0.35,
+          }}
+          className={`grid md:grid-cols-2 gap-8 md:gap-16 items-center ${
+            isEven ? "" : "md:grid-flow-dense"
+          }`}
+        >
+          {/* Text block */}
+          <div className={`${isEven ? "md:order-1" : "md:order-2"} flex flex-col`}>
+            {/* Step indicator */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-brand/30 bg-brand/5">
+                <span className="font-mono text-brand text-sm font-medium">
+                  {String(step.number).padStart(2, "0")}
+                </span>
+              </div>
+              <div className="h-px flex-1 bg-gradient-to-r from-brand/30 to-transparent" />
+            </div>
 
-      {/* Turnaround */}
-      <p className="font-mono text-text-secondary text-xs">
-        {step.turnaround}
-      </p>
-    </motion.div>
+            <h3 className="font-display font-semibold text-2xl md:text-3xl text-text-primary mb-4 tracking-tight">
+              {step.title}
+            </h3>
+
+            <p className="font-sans text-text-secondary text-base leading-relaxed mb-6 max-w-md">
+              {step.description}
+            </p>
+
+            <div className="inline-flex items-center gap-2 font-mono text-brand text-xs">
+              <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M8 5v3.5l2.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+              {step.turnaround}
+            </div>
+          </div>
+
+          {/* Visual block */}
+          <div className={`${isEven ? "md:order-2" : "md:order-1"}`}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{
+                duration: 0.4,
+                delay: 0.15,
+              }}
+              className="relative"
+            >
+              <StepVisual step={step.number} className="w-full" />
+              {/* Glow edge */}
+              <div className="absolute -inset-px rounded-[4px] bg-gradient-to-br from-brand/10 to-transparent pointer-events-none" />
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 
 export default function ProcessSteps() {
   return (
-    <section className="w-full bg-bg pb-24">
-      <div className="mx-auto max-w-6xl px-6">
-        {/* Desktop: horizontal row / Mobile: vertical stack */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {STEPS.map((step, i) => (
-            <StepCard key={step.number} step={step} index={i} />
-          ))}
-        </div>
-      </div>
+    <section className="w-full bg-bg pb-16">
+      {STEPS.map((step, i) => (
+        <StepSection key={step.number} step={step} index={i} />
+      ))}
+
+      {/* Bottom glow */}
+      <div className="h-24 bg-gradient-to-b from-transparent to-bg/50" />
     </section>
   );
 }

@@ -3,29 +3,38 @@
 import { motion } from "framer-motion";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
-      delay: i * 0.15,
-      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
+      duration: 0.4,
+      delay: i * 0.1,
     },
   }),
 };
 
 export default function WorkflowHero() {
   return (
-    <section className="w-full bg-bg pt-30 pb-16">
-      <div className="mx-auto max-w-6xl px-6">
+    <section className="relative w-full bg-bg pt-40 pb-32 overflow-hidden">
+      {/* Ambient background glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-brand/5 rounded-full blur-[120px]" />
+        <div className="absolute top-20 right-1/4 w-[300px] h-[200px] bg-brand/3 rounded-full blur-[80px]" />
+      </div>
+
+      {/* Vertical flow line (subtle) */}
+      <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-brand/20 via-brand/5 to-transparent" />
+
+      <div className="relative mx-auto max-w-4xl px-6">
         <motion.p
           custom={0}
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="font-mono text-brand uppercase tracking-widest text-xs mb-4"
+          className="inline-flex items-center gap-2 font-mono text-brand uppercase tracking-[0.2em] text-[11px] mb-8"
         >
+          <span className="w-5 h-px bg-brand" />
           How I work
         </motion.p>
 
@@ -34,9 +43,11 @@ export default function WorkflowHero() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="font-display font-bold text-3xl md:text-5xl text-text-primary mb-6"
+          className="font-display font-semibold text-4xl sm:text-5xl md:text-6xl text-text-primary leading-[1.1] tracking-tight mb-8"
         >
-          From raw footage to finished reel.
+          From raw footage
+          <br />
+          <span className="text-brand">to finished reel.</span>
         </motion.h1>
 
         <motion.p
@@ -44,10 +55,24 @@ export default function WorkflowHero() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="font-sans text-text-secondary text-lg max-w-[560px] leading-relaxed"
+          className="font-sans text-text-secondary text-lg md:text-xl leading-relaxed max-w-xl"
         >
-          A clear process means fewer revisions, faster delivery, and work that actually performs.
+          A clear 5-step process. No black boxes, no guesswork. Every decision is deliberate — from brief to final export.
         </motion.p>
+
+        {/* Scroll hint */}
+        <motion.div
+          custom={3}
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          className="mt-16 flex items-center gap-3 text-text-secondary/50"
+        >
+          <div className="flex flex-col items-center gap-1.5">
+            <div className="w-px h-8 bg-gradient-to-b from-brand/50 to-transparent" />
+          </div>
+          <span className="font-mono text-[10px] uppercase tracking-widest">Scroll to explore</span>
+        </motion.div>
       </div>
     </section>
   );
