@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Search, X } from "lucide-react";
@@ -52,8 +53,16 @@ export default function Navbar() {
       >
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
           {/* Logo */}
-          <Link href="/" className="font-display text-lg font-semibold text-text-primary tracking-tight">
-            Vetted<span className="text-brand">Frames</span>
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo.png"
+              alt="VettedFrames"
+              width={120}
+              height={32}
+              style={{ objectFit: "contain" }}
+              className="h-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop links */}

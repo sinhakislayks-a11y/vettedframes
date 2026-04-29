@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SOCIALS, SITE } from "@/lib/constants";
 
 export default function Footer() {
@@ -9,10 +10,17 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Brand */}
-          <div className="flex flex-col items-center md:items-start gap-2">
-            <span className="font-display text-lg font-semibold text-text-primary tracking-tight">
-              Vetted<span className="text-brand"> Frames</span>
-            </span>
+          <div className="flex flex-col items-center md:items-start gap-4">
+            <Link href="/">
+              <Image
+                src="/logo.png"
+                alt="VettedFrames"
+                width={100}
+                height={28}
+                style={{ objectFit: "contain" }}
+                className="h-auto"
+              />
+            </Link>
             <p className="text-text-secondary text-sm font-sans">
               {SITE.tagline}
             </p>
