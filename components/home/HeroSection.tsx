@@ -50,9 +50,8 @@ export default function HeroSection() {
         <SplineScene />
       </div>
 
-      {/* Purple radial gradient overlay */}
+      {/* Purple radial gradient overlay - pointer-events-none allows clicks to pass through */}
       <div className="absolute inset-0 z-[1] bg-radial-purple pointer-events-none" />
-      <div className="absolute inset-0 z-[2] bg-bg/60 pointer-events-none" />
 
       {/* Content Overlay */}
       <motion.div

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const SPLINE_SCENE_URL =
   "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/";
@@ -18,11 +18,12 @@ function GradientFallback() {
 
 export default function SplineScene() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true); // Start visible for hero section
   const [hasError, setHasError] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   // Detect mobile
   useEffect(() => {
@@ -32,46 +33,30 @@ export default function SplineScene() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Lazy load: only start loading when near viewport
+  // Hero section is always visible on load, no need for lazy observer
+  // Keep intersection observer for future-proofing if moved elsewhere
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    if (!containerRef.current) return;
+
+    observerRef.current = new IntersectionObserver(
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
-        if (!entry.isIntersecting) {
-          observer.disconnect();
-        }
       },
-      { rootMargin: "100px" }
+      { threshold: 0 }
     );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
+    observerRef.current.observe(containerRef.current);
 
-    return () => observer.disconnect();
-  }, []);
-
-  // Disable iframe when scrolled past
-  useEffect(() => {
-    const handleScroll = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const scrolledPast = rect.bottom < 0;
-        if (scrolledPast && iframeRef.current) {
-          iframeRef.current.style.visibility = "hidden";
-        } else if (iframeRef.current) {
-          iframeRef.current.style.visibility = "visible";
-        }
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
       }
     };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Mouse tracking (desktop only, when visible)
+  // Mouse tracking (desktop only, when loaded)
   useEffect(() => {
-    if (isMobile || !isVisible) return;
+    if (isMobile) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       if (iframeRef.current && isLoaded) {
@@ -82,9 +67,23 @@ export default function SplineScene() {
       }
     };
 
+    const handleClick = (e: MouseEvent) => {
+      if (iframeRef.current && isLoaded) {
+        iframeRef.current.contentWindow?.postMessage(
+          { type: "click", x: e.clientX, y: e.clientY },
+          "*"
+        );
+      }
+    };
+
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [isLoaded, isVisible, isMobile]);
+    window.addEventListener("click", handleClick, { passive: true });
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("click", handleClick);
+    };
+  }, [isLoaded, isMobile]);
 
   if (hasError || isMobile) {
     return <GradientFallback />;
@@ -92,10 +91,11 @@ export default function SplineScene() {
 
   return (
     <div ref={containerRef} className="absolute inset-0">
-      {!isLoaded && <GradientFallback />}
+      {/* Always show gradient as base layer */}
+      <GradientFallback />
 
-      {/* Only render iframe when visible */}
-      {isVisible && (
+      {/* Spline iframe - always render when not mobile/error, visibility handled by CSS */}
+      {!hasError && !isMobile && (
         <iframe
           ref={iframeRef}
           src={SPLINE_SCENE_URL}
@@ -105,18 +105,15 @@ export default function SplineScene() {
             border: "none",
             opacity: isLoaded ? 1 : 0,
             transition: "opacity 0.5s ease",
-            pointerEvents: "none",
+            pointerEvents: "auto", // Changed from "none" - allows interaction
           }}
-          className="absolute inset-0"
+          className="absolute inset-0 z-10"
           allow="autoplay; xr-spatial-tracking"
           onLoad={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
           title="3D Background"
         />
       )}
-
-      {/* Always show gradient when not loaded (and not visible means hidden anyway) */}
-      {!isVisible && <GradientFallback />}
     </div>
   );
 }
