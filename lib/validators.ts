@@ -4,10 +4,16 @@ export const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.email("Please enter a valid email address"),
   projectType: z.enum([
-    "hook-surgery",
-    "retention-engine",
+    "youtube-edit",
+    "reels-shortform",
+    "motion-graphics",
+    "saas-animation",
+    "promotional-ad",
+    "music-video",
+    "color-grading",
+    "ai-content",
     "done-for-you",
-    "quick-question",
+    "not-sure",
   ]),
   message: z
     .string()
@@ -18,8 +24,14 @@ export const contactFormSchema = z.object({
 export type ContactFormData = z.infer<typeof contactFormSchema>;
 
 export const PROJECT_TYPES = [
-  { value: "hook-surgery", label: "Hook Surgery" },
-  { value: "retention-engine", label: "Retention Engine" },
-  { value: "done-for-you", label: "Done-For-You" },
-  { value: "quick-question", label: "Quick question" },
+  { value: "youtube-edit", label: "YouTube Edit (Long-form)" },
+  { value: "reels-shortform", label: "Reels / Short-form" },
+  { value: "motion-graphics", label: "Motion Graphics" },
+  { value: "saas-animation", label: "SaaS Animation" },
+  { value: "promotional-ad", label: "Promotional Ad" },
+  { value: "music-video", label: "Music Video" },
+  { value: "color-grading", label: "Color Grading Only" },
+  { value: "ai-content", label: "AI-Generated Content" },
+  { value: "done-for-you", label: "Done-For-You (Full Pipeline)" },
+  { value: "not-sure", label: "Not sure yet — let's talk" },
 ] as const;

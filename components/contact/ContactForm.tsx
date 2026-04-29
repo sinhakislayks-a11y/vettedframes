@@ -35,7 +35,7 @@ export default function ContactForm() {
     defaultValues: {
       name: "",
       email: "",
-      projectType: "hook-surgery",
+      projectType: "not-sure",
       message: "",
       videoLink: "",
     },
@@ -154,12 +154,12 @@ export default function ContactForm() {
                     <SelectTrigger className="w-full bg-surface-elevated border-border-custom rounded-[4px] px-4 py-2.5 h-auto text-sm font-sans text-text-primary focus-visible:border-brand focus-visible:ring-brand/20 cursor-pointer">
                       <SelectValue placeholder="Select a project type" />
                     </SelectTrigger>
-                    <SelectContent className="bg-surface-elevated border-border-custom">
+                    <SelectContent className="bg-surface-elevated border-border-custom rounded-[4px]">
                       {PROJECT_TYPES.map((type) => (
                         <SelectItem
                           key={type.value}
                           value={type.value}
-                          className="text-sm text-text-primary font-sans cursor-pointer focus:bg-brand/10 focus:text-text-primary"
+                          className="text-sm text-text-primary font-sans cursor-pointer focus:bg-brand/15 focus:text-brand-light hover:bg-surface transition-colors"
                         >
                           {type.label}
                         </SelectItem>
