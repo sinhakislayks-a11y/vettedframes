@@ -65,7 +65,7 @@ export default function Navbar() {
             </div>
             <div className="flex items-baseline gap-0.5">
               <span className="font-display font-bold text-xl text-brand-light">Vetted</span>
-              <span className="text-xl text-white" style={{ fontFamily: 'Blosta Script, cursive', fontSize: '1.4rem' }}>Frames</span>
+              <span className="font-brand text-xl text-white">Frames</span>
             </div>
           </Link>
 

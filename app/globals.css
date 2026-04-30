@@ -6,25 +6,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ── Clash Display ── */
+/* ── MADE Coachella (Alternative to Foda Display) ── */
 @font-face {
-  font-family: "Clash Display";
-  src: url("https://cdn.fontspace.org/font-family/clash-display/latin-500-normal.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Clash Display";
-  src: url("https://cdn.fontspace.org/font-family/clash-display/latin-600-normal.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Clash Display";
-  src: url("https://cdn.fontspace.org/font-family/clash-display/latin-700-normal.woff2") format("woff2");
-  font-weight: 700;
+  font-family: "MADE Coachella";
+  src: url("/fonts/MADE Coachella Regular PERSONAL USE.otf") format("opentype");
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -32,17 +18,8 @@
 /* ── Blosta Script ── */
 @font-face {
   font-family: "Blosta Script";
-  src: url("https://cdn.fontspace.org/font-family/blosta-script/latin-regular-normal.woff2") format("woff2");
+  src: url("/fonts/Blosta-Script.otf") format("opentype");
   font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ── Foda Display (using Fraunces as fallback) ── */
-@font-face {
-  font-family: "Foda Display";
-  src: url("https://fonts.gstatic.com/s/fraunces/v31/6NUh8FyLNQoI1A8VzXTCfN7H2c7WygWI.woff2") format("woff2");
-  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -94,8 +71,9 @@
   /* Fonts */
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
-  --font-display: "Clash Display", sans-serif;
-  --font-heading: "Clash Display", sans-serif;
+  --font-display: "MADE Coachella", serif;
+  --font-brand: "Blosta Script", cursive;
+  --font-heading: "MADE Coachella", serif;
 
   /* Border radius - minimal brutalist */
   --radius-sm: 2px;
