@@ -32,14 +32,14 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex items-center justify-center h-screen w-full"
+      className="relative flex items-center justify-center h-[100dvh] w-full"
     >
       {/* Radial gradient overlay */}
       <div className="absolute inset-0 z-[1] bg-radial-purple pointer-events-none" />
 
       {/* Content Overlay */}
       <motion.div
-        className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl"
+        className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl pointer-events-none select-none"
         initial="hidden"
         animate="visible"
         variants={prefersReducedMotion ? {} : fadeUp}
@@ -68,7 +68,7 @@ export default function HeroSection() {
           YouTube creators.
         </motion.p>
 
-        <motion.div variants={prefersReducedMotion ? {} : fadeUp}>
+        <motion.div variants={prefersReducedMotion ? {} : fadeUp} className="pointer-events-auto">
           <Button
             onClick={handleCTA}
             className="bg-gradient-to-r from-brand to-brand-dark text-white font-sans font-semibold text-sm px-8 h-12 border border-transparent shadow-[0_0_25px_rgba(139,92,246,0.4)] hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] hover:brightness-110 transition-all duration-300 cursor-pointer"
