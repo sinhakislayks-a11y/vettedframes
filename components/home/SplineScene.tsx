@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 // Spline viewer URL (iframe embed method — used because we have a viewer URL, not a .splinecode URL)
 const SPLINE_SCENE_URL =
@@ -24,29 +24,15 @@ function GradientFallback() {
 }
 
 export default function SplineScene() {
-  const [isMobile, setIsMobile] = useState(true); // Default true to prevent flash
   const [isLoaded, setIsLoaded] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile, { passive: true });
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Mobile: gradient fallback only (per Spline performance guide)
-  if (isMobile) {
-    return <GradientFallback />;
-  }
 
   return (
     <>
       <GradientFallback />
       {/* 
-        Spline iframe embed — scoped to hero section only.
-        pointerEvents: "auto" allows native cursor interaction (drag to rotate, hover effects).
-        The iframe natively handles all mouse events internally.
+        Spline iframe embed — full screen on all devices (test).
+        pointerEvents: "auto" allows native cursor/touch interaction.
       */}
       <iframe
         ref={iframeRef}
