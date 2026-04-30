@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import SplineScene from "@/components/home/SplineScene";
 
 const fadeUp = {
   hidden: { opacity: 0 },
@@ -32,12 +33,17 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex items-center justify-center h-[100dvh] w-full"
+      className="relative flex items-center justify-center h-[100dvh] w-full overflow-hidden"
     >
-      {/* Radial gradient overlay */}
+      {/* 3D Spline Background — fills the entire hero, sits behind everything */}
+      <div className="absolute inset-0 z-0">
+        <SplineScene />
+      </div>
+
+      {/* Radial gradient overlay for text readability */}
       <div className="absolute inset-0 z-[1] bg-radial-purple pointer-events-none" />
 
-      {/* Content Overlay */}
+      {/* Content Overlay — pointer-events-none so clicks pass through to Spline */}
       <motion.div
         className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl pointer-events-none select-none"
         initial="hidden"

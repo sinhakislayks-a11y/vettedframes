@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { inter, jetbrainsMono } from "@/lib/fonts";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import SplineLayoutWrapper from "@/components/layout/SplineLayoutWrapper";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -63,7 +62,6 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-text-primary font-sans">
-        <SplineLayoutWrapper />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
 
-const Spline = dynamic(() => import("@splinetool/react-spline"), {
-  ssr: false,
-  loading: () => null,
-});
+// Spline viewer URL (iframe embed method — used because we have a viewer URL, not a .splinecode URL)
+const SPLINE_SCENE_URL =
+  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/";
 
 function GradientFallback() {
   return (
@@ -25,40 +23,50 @@ function GradientFallback() {
   );
 }
 
-const SPLINE_SCENE_URL =
-  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/";
-
 export default function SplineScene() {
+  const [isMobile, setIsMobile] = useState(true); // Default true to prevent flash
   const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile, { passive: true });
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Mobile: gradient fallback only (per Spline performance guide)
+  if (isMobile) {
+    return <GradientFallback />;
+  }
 
   return (
-    <div className="absolute inset-0">
+    <>
       <GradientFallback />
-      {!hasError && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            zIndex: 1,
-            opacity: isLoaded ? 1 : 0,
-            transition: "opacity 0.5s ease",
-          }}
-        >
-          <Spline
-            scene={SPLINE_SCENE_URL}
-            onLoad={() => setIsLoaded(true)}
-            onError={() => setHasError(true)}
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-          />
-        </div>
-      )}
-    </div>
+      {/* 
+        Spline iframe embed — scoped to hero section only.
+        pointerEvents: "auto" allows native cursor interaction (drag to rotate, hover effects).
+        The iframe natively handles all mouse events internally.
+      */}
+      <iframe
+        ref={iframeRef}
+        src={SPLINE_SCENE_URL}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          border: "none",
+          opacity: isLoaded ? 1 : 0,
+          transition: "opacity 0.8s ease-in-out",
+          pointerEvents: "auto",
+          zIndex: 1,
+        }}
+        allow="autoplay; xr-spatial-tracking"
+        onLoad={() => setIsLoaded(true)}
+        title="3D Background Scene"
+      />
+    </>
   );
 }
