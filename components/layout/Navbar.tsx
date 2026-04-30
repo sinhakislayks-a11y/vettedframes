@@ -52,17 +52,21 @@ export default function Navbar() {
         )}
       >
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/logo.png"
-              alt="VettedFrames"
-              width={120}
-              height={32}
-              style={{ objectFit: "contain" }}
-              className="h-auto"
-              priority
-            />
+          {/* Logo & Branding */}
+          <Link href="/" className="flex items-center gap-3">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-brand shadow-[0_0_12px_rgba(139,92,246,0.4)]">
+              <Image
+                src="/logo.png"
+                alt="VettedFrames Logo"
+                fill
+                style={{ objectFit: "cover" }}
+                priority
+              />
+            </div>
+            <div className="flex items-baseline gap-0.5">
+              <span className="font-display font-bold text-xl text-brand-light">Vetted</span>
+              <span className="text-xl text-white" style={{ fontFamily: 'Blosta Script, cursive', fontSize: '1.4rem' }}>Frames</span>
+            </div>
           </Link>
 
           {/* Desktop links */}

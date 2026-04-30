@@ -82,12 +82,7 @@ export default function ContactForm() {
           Or send a brief directly
         </h2>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-surface border border-border-custom rounded-[4px] p-8 md:p-10"
-        >
+        <div id="contact-form">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-5"
@@ -234,7 +229,7 @@ export default function ContactForm() {
               )}
             </Button>
           </form>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

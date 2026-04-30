@@ -1,16 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import dynamic from "next/dynamic";
-
-const SplineScene = dynamic(() => import("./SplineScene"), {
-  ssr: false,
-  loading: () => (
-    <div className="absolute inset-0 bg-bg/80" />
-  ),
-});
 
 const fadeUp = {
   hidden: { opacity: 0 },
@@ -40,17 +33,16 @@ export default function HeroSection() {
     }
   };
 
+  const handleCTA = () => {
+    window.location.href = "/contact#contact-form";
+  };
+
   return (
     <section
       id="hero"
-      className="relative flex items-center justify-center h-screen w-full overflow-hidden"
+      className="relative flex items-center justify-center h-screen w-full"
     >
-      {/* Spline 3D Background */}
-      <div className="absolute inset-0 z-0">
-        <SplineScene />
-      </div>
-
-      {/* Purple radial gradient overlay - pointer-events-none allows clicks to pass through */}
+      {/* Radial gradient overlay */}
       <div className="absolute inset-0 z-[1] bg-radial-purple pointer-events-none" />
 
       {/* Content Overlay */}

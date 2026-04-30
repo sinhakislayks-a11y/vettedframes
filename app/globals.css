@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800;900&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -22,6 +24,24 @@
 @font-face {
   font-family: "Clash Display";
   src: url("https://cdn.fontspace.org/font-family/clash-display/latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Blosta Script ── */
+@font-face {
+  font-family: "Blosta Script";
+  src: url("https://cdn.fontspace.org/font-family/blosta-script/latin-regular-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Foda Display (using Fraunces as fallback) ── */
+@font-face {
+  font-family: "Foda Display";
+  src: url("https://fonts.gstatic.com/s/fraunces/v31/6NUh8FyLNQoI1A8VzXTCfN7H2c7WygWI.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -113,6 +133,15 @@
 /* ── Glow utilities (selective use) ── */
 .glow-soft {
   box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
 .glow-medium {
