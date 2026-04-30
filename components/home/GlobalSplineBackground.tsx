@@ -30,17 +30,9 @@ export default function GlobalSplineBackground() {
   const [isMobile, setIsMobile] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const loadTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const hasLoadedRef = useRef(false);
+  const hasLoadedBefore = useRef(false);
 
-  // Check if we've successfully loaded before (persists during session)
   useEffect(() => {
-    // Check if spline was previously loaded in this session
-    if (sessionStorage.getItem("splineLoaded") === "true") {
-      hasLoadedRef.current = true;
-      setShowSpline(true);
-      setIsLoaded(true);
-    }
-
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile, { passive: true });
@@ -50,11 +42,15 @@ export default function GlobalSplineBackground() {
   useEffect(() => {
     if (isMobile) return;
 
+    // Check if spline loaded successfully in previous session
+    if (sessionStorage.getItem("splineLoaded") === "true") {
+      hasLoadedBefore.current = true;
+    }
+
     // Delay spline loading to not block initial render
-    const loadDelay = hasLoadedRef.current ? 1000 : 2000;
+    const loadDelay = hasLoadedBefore.current ? 1000 : 2000;
 
     const startSplineLoad = setTimeout(() => {
-      // Set spline to show (it will fade in when loaded)
       setShowSpline(true);
     }, loadDelay);
 
@@ -64,12 +60,11 @@ export default function GlobalSplineBackground() {
   useEffect(() => {
     if (!showSpline || isMobile || hasError) return;
 
-    // Timeout fallback
     loadTimeoutRef.current = setTimeout(() => {
       if (!isLoaded && !hasError) {
         setHasError(true);
       }
-    }, 10000);
+    }, 12000);
 
     return () => {
       if (loadTimeoutRef.current) {
@@ -78,12 +73,13 @@ export default function GlobalSplineBackground() {
     };
   }, [showSpline, isMobile, isLoaded, hasError]);
 
+  // Mouse tracking - separate effect that only activates when iframe is ready
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile || !showSpline) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (iframeRef.current && isLoaded) {
-        iframeRef.current.contentWindow?.postMessage(
+      if (iframeRef.current?.contentWindow) {
+        iframeRef.current.contentWindow.postMessage(
           { type: "mousemove", x: e.clientX, y: e.clientY },
           "*"
         );
@@ -92,14 +88,13 @@ export default function GlobalSplineBackground() {
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [isLoaded, isMobile]);
+  }, [isMobile, showSpline]);
 
   const handleLoad = () => {
     if (loadTimeoutRef.current) {
       clearTimeout(loadTimeoutRef.current);
     }
     setIsLoaded(true);
-    // Remember that spline loaded successfully
     sessionStorage.setItem("splineLoaded", "true");
   };
 
