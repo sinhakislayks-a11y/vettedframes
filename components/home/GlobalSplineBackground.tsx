@@ -102,11 +102,11 @@ export default function GlobalSplineBackground() {
             top: 0,
             left: 0,
             width: "100vw",
-            height: "100vh",
+            height: "100dvh",
             border: "none",
             opacity: isLoaded ? 1 : 0,
             transition: "opacity 1.5s ease-in-out",
-            pointerEvents: "none",
+            pointerEvents: "auto",
             zIndex: -10,
           }}
           allow="autoplay; xr-spatial-tracking"
