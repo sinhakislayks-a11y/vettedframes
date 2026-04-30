@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import dynamic from "next/dynamic";
 
-const SPLINE_SCENE_URL =
-  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/";
+const Spline = dynamic(() => import("@splinetool/react-spline"), {
+  ssr: false,
+  loading: () => null,
+});
 
 function GradientBackground() {
   return (
@@ -23,84 +26,49 @@ function GradientBackground() {
   );
 }
 
+const SPLINE_SCENE_URL =
+  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/";
+
 export default function GlobalSplineBackground() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== "undefined") {
-      return window.innerWidth < 768;
-    }
-    return false;
-  });
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile, { passive: true });
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Mouse tracking for Spline cursor interaction
-  useEffect(() => {
-    if (isMobile || !iframeRef.current) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (iframeRef.current?.contentWindow) {
-        iframeRef.current.contentWindow.postMessage(
-          { type: "mousemove", x: e.clientX, y: e.clientY },
-          "*"
-        );
-      }
-    };
-
-    const handleClick = (e: MouseEvent) => {
-      if (iframeRef.current?.contentWindow) {
-        iframeRef.current.contentWindow.postMessage(
-          { type: "click", x: e.clientX, y: e.clientY },
-          "*"
-        );
-      }
-    };
-
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    window.addEventListener("click", handleClick, { passive: true });
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("click", handleClick);
-    };
-  }, [isMobile]);
+  const [hasError, setHasError] = useState(false);
 
   const handleLoad = () => {
     setIsLoaded(true);
   };
 
-  if (isMobile) {
-    return <GradientBackground />;
-  }
+  const handleError = () => {
+    setHasError(true);
+  };
 
   return (
     <>
       <GradientBackground />
-      <iframe
-        ref={iframeRef}
-        src={SPLINE_SCENE_URL}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100dvh",
-          border: "none",
-          opacity: isLoaded ? 1 : 0,
-          transition: "opacity 0.8s ease",
-          pointerEvents: "auto",
-          zIndex: -5,
-        }}
-        allow="autoplay; xr-spatial-tracking"
-        onLoad={handleLoad}
-        title="3D Background"
-      />
+      {!hasError && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100dvh",
+            zIndex: -5,
+            opacity: isLoaded ? 1 : 0,
+            transition: "opacity 1s ease",
+            pointerEvents: "auto",
+          }}
+        >
+          <Spline
+            scene={SPLINE_SCENE_URL}
+            onLoad={handleLoad}
+            onError={handleError}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        </div>
+      )}
     </>
   );
 }
