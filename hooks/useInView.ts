@@ -18,7 +18,7 @@ export function useInView<T extends HTMLElement = HTMLDivElement>(
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mq.matches);
+    queueMicrotask(() => setPrefersReducedMotion(mq.matches));
     const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
@@ -27,7 +27,7 @@ export function useInView<T extends HTMLElement = HTMLDivElement>(
   useEffect(() => {
     // Reduced motion: skip IntersectionObserver, show content immediately
     if (prefersReducedMotion) {
-      setIsInView(true);
+      queueMicrotask(() => setIsInView(true));
       return;
     }
 

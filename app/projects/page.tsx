@@ -49,10 +49,8 @@ const GRID_ITEMS = PORTFOLIO_ITEMS.filter((item) => item.title !== "SHOWREEL 202
 
 function PortfolioCard({
   item,
-  index,
 }: {
   item: (typeof GRID_ITEMS)[number];
-  index: number;
 }) {
   const [imgError, setImgError] = useState(false);
   const showPlaceholder = !item.thumbnail || imgError;
@@ -227,8 +225,8 @@ export default function ProjectsPage() {
               layout
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {filteredItems.map((item, i) => (
-                <PortfolioCard key={item.title} item={item} index={i} />
+              {filteredItems.map((item) => (
+                <PortfolioCard key={item.title} item={item} />
               ))}
             </motion.div>
           </AnimatePresence>

@@ -61,7 +61,7 @@ function ReviewVisual({ className }: { className?: string }) {
             <div
               key={i}
               className="w-1 bg-brand/30 rounded-full"
-              style={{ height: `${Math.random() * 100}%` }}
+              style={{ height: `${20 + ((i * 17) % 80)}%` }}
             />
           ))}
         </div>

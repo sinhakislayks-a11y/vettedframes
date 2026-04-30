@@ -70,7 +70,6 @@ const PATH_D =
 function WorkflowNode({ step, index }: { step: StepData; index: number }) {
   const { ref, isInView } = useInView<HTMLElement>({ threshold: 0.12 });
   const isEven = index % 2 === 0;
-  const nodePercent = 40 + index * 100;
 
   return (
     <section

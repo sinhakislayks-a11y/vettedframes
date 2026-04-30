@@ -25,8 +25,12 @@ function GradientBackground() {
 
 export default function GlobalSplineBackground() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -71,10 +75,6 @@ export default function GlobalSplineBackground() {
     setIsLoaded(true);
   };
 
-  const handleError = () => {
-    setHasError(true);
-  };
-
   if (isMobile) {
     return <GradientBackground />;
   }
@@ -99,7 +99,6 @@ export default function GlobalSplineBackground() {
         }}
         allow="autoplay; xr-spatial-tracking"
         onLoad={handleLoad}
-        onError={handleError}
         title="3D Background"
       />
     </>
