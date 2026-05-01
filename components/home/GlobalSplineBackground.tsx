@@ -1,12 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import dynamic from "next/dynamic";
+import { useRef, useState } from "react";
 
-const Spline = dynamic(() => import("@splinetool/react-spline"), {
-  ssr: false,
-  loading: () => null,
-});
+const SPLINE_SCENE_URL =
+  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/?v=1";
 
 function GradientBackground() {
   return (
@@ -26,61 +23,38 @@ function GradientBackground() {
   );
 }
 
-const SPLINE_SCENE_URL =
-  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/";
-
 export default function GlobalSplineBackground() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
-
-  const handleLoad = () => {
-    setIsLoaded(true);
-  };
-
-  const handleError = () => {
-    setHasError(true);
-  };
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   return (
     <>
       <GradientBackground />
-      {!hasError && (
-        <div
+      <div
+        className="fixed inset-0 overflow-hidden"
+        style={{ zIndex: -5 }}
+      >
+        <iframe
+          ref={iframeRef}
+          src={SPLINE_SCENE_URL}
           style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100dvh",
-            zIndex: -5,
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: "130%",
+            height: "130%",
+            transform: "translate(-50%, -50%)",
+            border: "none",
             opacity: isLoaded ? 1 : 0,
-            transition: "opacity 1s ease",
-            overflow: "hidden",
+            transition: "opacity 0.8s ease-in-out",
             pointerEvents: "auto",
+            zIndex: 1,
           }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              width: "130%",
-              height: "130%",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <Spline
-              scene={SPLINE_SCENE_URL}
-              onLoad={handleLoad}
-              onError={handleError}
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-            />
-          </div>
-        </div>
-      )}
+          allow="autoplay; xr-spatial-tracking"
+          onLoad={() => setIsLoaded(true)}
+          title="3D Background Scene"
+        />
+      </div>
     </>
   );
 }

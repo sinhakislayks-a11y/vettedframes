@@ -1,12 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
 
-const Spline = dynamic(() => import("@splinetool/react-spline"), {
-  ssr: false,
-  loading: () => null,
-});
+const SPLINE_SCENE_URL =
+  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/?v=1";
 
 function GradientFallback() {
   return (
@@ -25,13 +22,10 @@ function GradientFallback() {
   );
 }
 
-const SPLINE_SCENE_URL =
-  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/";
-
 export default function SplineScene() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -43,49 +37,42 @@ export default function SplineScene() {
   return (
     <div className="absolute inset-0 overflow-hidden">
       <GradientFallback />
-      {!hasError && (
-        <div
-          className="absolute inset-0"
+      {isMobile ? (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: "opacity 0.8s ease-in-out",
           }}
+          onLoadedData={() => setIsLoaded(true)}
         >
-          {isMobile ? (
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-              onLoadedData={() => setIsLoaded(true)}
-              onError={() => setHasError(true)}
-            >
-              <source src="/videos/light-streaks.mp4" type="video/mp4" />
-            </video>
-          ) : (
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                width: "130%",
-                height: "130%",
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              <Spline
-                scene={SPLINE_SCENE_URL}
-                onLoad={() => setIsLoaded(true)}
-                onError={() => setHasError(true)}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                }}
-              />
-            </div>
-          )}
-        </div>
+          <source src="/videos/light-streaks.mp4" type="video/mp4" />
+        </video>
+      ) : (
+        <iframe
+          ref={iframeRef}
+          src={SPLINE_SCENE_URL}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: "130%",
+            height: "130%",
+            transform: "translate(-50%, -50%)",
+            border: "none",
+            opacity: isLoaded ? 1 : 0,
+            transition: "opacity 0.8s ease-in-out",
+            pointerEvents: "auto",
+            zIndex: 1,
+          }}
+          allow="autoplay; xr-spatial-tracking"
+          onLoad={() => setIsLoaded(true)}
+          title="3D Background Scene"
+        />
       )}
     </div>
   );

@@ -1,15 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-
-const Spline = dynamic(() => import("@splinetool/react-spline"), {
-  ssr: false,
-  loading: () => null,
-});
+import { useEffect, useRef, useState } from "react";
 
 const WORKFLOW_SPLINE_URL =
-  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/";
+  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/?v=1";
 
 function GradientFallback() {
   return (
@@ -29,7 +23,7 @@ function GradientFallback() {
 export default function WorkflowSplineBackground() {
   const [isMobile, setIsMobile] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -41,49 +35,42 @@ export default function WorkflowSplineBackground() {
   return (
     <>
       <GradientFallback />
-      {!hasError && (
-        <div
-          className="absolute inset-0"
+      {isMobile ? (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: "opacity 0.8s ease-in-out",
           }}
+          onLoadedData={() => setIsLoaded(true)}
         >
-          {isMobile ? (
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-              onLoadedData={() => setIsLoaded(true)}
-              onError={() => setHasError(true)}
-            >
-              <source src="/videos/light-streaks.mp4" type="video/mp4" />
-            </video>
-          ) : (
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                width: "130%",
-                height: "130%",
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              <Spline
-                scene={WORKFLOW_SPLINE_URL}
-                onLoad={() => setIsLoaded(true)}
-                onError={() => setHasError(true)}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                }}
-              />
-            </div>
-          )}
-        </div>
+          <source src="/videos/light-streaks.mp4" type="video/mp4" />
+        </video>
+      ) : (
+        <iframe
+          ref={iframeRef}
+          src={WORKFLOW_SPLINE_URL}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: "130%",
+            height: "130%",
+            transform: "translate(-50%, -50%)",
+            border: "none",
+            opacity: isLoaded ? 1 : 0,
+            transition: "opacity 0.8s ease-in-out",
+            pointerEvents: "auto",
+            zIndex: 1,
+          }}
+          allow="autoplay; xr-spatial-tracking"
+          onLoad={() => setIsLoaded(true)}
+          title="Workflow 3D Background"
+        />
       )}
     </>
   );
