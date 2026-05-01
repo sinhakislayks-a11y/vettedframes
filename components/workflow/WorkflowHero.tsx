@@ -33,7 +33,7 @@ export default function WorkflowHero() {
       <div className="absolute left-8 top-0 bottom-0 w-px z-[2] shadow-[0_0_10px_rgba(139,92,246,0.3)] bg-gradient-to-b from-brand/30 via-brand/10 to-transparent pointer-events-none" />
 
       {/* Content — pointer-events-none so Spline receives cursor events */}
-      <div className="relative z-10 mx-auto max-w-4xl px-6 pointer-events-none select-none">
+      <div className="relative z-10 mx-auto max-w-4xl px-6 pointer-events-auto select-none">
         <motion.p
           custom={0}
           initial="hidden"

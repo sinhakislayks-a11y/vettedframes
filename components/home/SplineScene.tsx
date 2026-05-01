@@ -64,7 +64,7 @@ export default function SplineScene() {
             border: "none",
             opacity: isLoaded ? 1 : 0,
             transition: "opacity 0.8s ease-in-out",
-            pointerEvents: "none",
+            pointerEvents: "auto",
             zIndex: 1,
           }}
           allow="autoplay; xr-spatial-tracking"

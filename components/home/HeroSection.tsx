@@ -45,7 +45,7 @@ export default function HeroSection() {
 
       {/* Content Overlay — pointer-events-none so clicks pass through to Spline */}
       <motion.div
-        className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl pointer-events-none select-none"
+        className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl pointer-events-auto select-none"
         initial="hidden"
         animate="visible"
         variants={prefersReducedMotion ? {} : fadeUp}
