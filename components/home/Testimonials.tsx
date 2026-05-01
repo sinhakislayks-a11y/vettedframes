@@ -6,6 +6,7 @@ import { TESTIMONIALS } from "@/lib/constants";
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % TESTIMONIALS.length);
@@ -13,15 +14,21 @@ export default function Testimonials() {
 
   // Auto-rotate every 5 seconds
   useEffect(() => {
+    if (isHovered) return;
     const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, [next, isHovered]);
 
   const testimonial = TESTIMONIALS[current];
 
   return (
-    <section className="w-full bg-bg-secondary py-20">
-      <div className="mx-auto max-w-3xl px-6">
+    <section className="w-full bg-gradient-to-b from-bg-secondary via-surface to-bg-secondary py-20 relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-radial from-brand/5 to-transparent blur-[100px]" />
+      </div>
+
+      <div className="mx-auto max-w-3xl px-6 relative z-10">
         {/* Section header */}
         <div className="mb-14 text-center">
           <p className="font-mono text-text-secondary uppercase tracking-widest text-xs mb-3">
@@ -70,10 +77,12 @@ export default function Testimonials() {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
                 className={`w-2 h-2 rounded-[4px] transition-all duration-300 cursor-pointer ${
                   i === current
-                    ? "bg-brand-light w-6 shadow-[0_0_10px_rgba(139,92,246,0.4)]"
-                    : "bg-border-custom hover:bg-text-secondary"
+                    ? "bg-brand-light w-6 shadow-[0_0_10px_rgba(96,37,213,0.4)]"
+                    : "bg-border-custom hover:bg-brand/50"
                 }`}
                 aria-label={`Testimonial ${i + 1}`}
               />

@@ -70,10 +70,17 @@ export default function ServicesSection() {
                 onMouseMove={(e) => handleMouseMove(e, service.name)}
                 onMouseLeave={() => handleMouseLeave(service.name)}
                 style={{
-                  background: bgStyle,
-                  transition: "background 200ms ease-out",
+                  background: cardState.isHovered
+                    ? `radial-gradient(circle at ${cardState.x}px ${cardState.y}px, rgba(96,37,213,0.08) 0%, rgba(96,37,213,0.03) 30%, #12121A 70%), #12121A`
+                    : "linear-gradient(135deg, #12121A 0%, #0A0A0F 50%, #12121A 100%)",
+                  transition: "background 400ms cubic-bezier(0.4, 0, 0.2, 1)",
+                  transform: cardState.isHovered ? "translateY(-8px) scale(1.02)" : "translateY(0) scale(1)",
+                  filter: cardState.isHovered ? "hue-rotate(10deg) saturate(1.1)" : "hue-rotate(0deg)",
+                  boxShadow: cardState.isHovered
+                    ? "0 25px 50px rgba(96,37,213,0.2), 0 0 30px rgba(96,37,213,0.1)"
+                    : "0 0 0 rgba(96,37,213,0)",
                 }}
-                className="group border border-border-custom rounded-[4px] p-8 hover:border-brand/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                className="group border border-border-custom rounded-[4px] p-8 hover:border-brand/50 transition-all duration-500 flex flex-col"
               >
                 {/* Tier label */}
                 <span className="font-mono text-brand text-xs uppercase tracking-widest mb-4">

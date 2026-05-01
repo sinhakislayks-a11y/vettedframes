@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 interface PipelineStep {
@@ -63,6 +64,7 @@ const STEPS: PipelineStep[] = [
 
 function PipelineNode({ step, index }: { step: PipelineStep; index: number }) {
   const isLast = index === STEPS.length - 1;
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="relative flex items-start gap-0">
@@ -88,7 +90,7 @@ function PipelineNode({ step, index }: { step: PipelineStep; index: number }) {
             whileInView={{ scaleY: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: index * 0.1 - 0.05 }}
-            className="w-[2px] h-12 bg-brand/40 origin-top"
+            className="w-[2px] h-12 bg-gradient-to-b from-brand/40 to-brand/20 origin-top"
           />
         )}
 
@@ -98,7 +100,7 @@ function PipelineNode({ step, index }: { step: PipelineStep; index: number }) {
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: index * 0.1 }}
-          className="w-3 h-3 rounded-full bg-brand flex-shrink-0 z-10"
+          className="w-3 h-3 rounded-full bg-gradient-to-br from-brand to-brand-light flex-shrink-0 z-10 shadow-[0_0_10px_rgba(96,37,213,0.4)]"
         />
 
         {/* Vertical connector line (below node, hidden on last) */}
@@ -108,7 +110,7 @@ function PipelineNode({ step, index }: { step: PipelineStep; index: number }) {
             whileInView={{ scaleY: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: index * 0.1 + 0.15 }}
-            className="w-[2px] flex-1 bg-brand/40 origin-top"
+            className="w-[2px] flex-1 bg-gradient-to-b from-brand/20 to-brand/40 origin-top"
           />
         )}
       </div>
@@ -119,9 +121,17 @@ function PipelineNode({ step, index }: { step: PipelineStep; index: number }) {
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: index * 0.1 }}
-        className="flex-1 md:pl-8 pl-4 pb-12"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={`flex-1 md:pl-8 pl-4 pb-12 cursor-pointer transition-all duration-500 ${
+          isHovered ? 'transform translate-x-2' : ''
+        }`}
       >
-        <div className="bg-surface-elevated border border-border-custom rounded-[4px] p-6">
+        <div className={`relative bg-gradient-to-br from-surface-elevated via-surface to-surface-elevated border rounded-[4px] p-6 transition-all duration-500 ${
+          isHovered
+            ? 'border-brand/40 shadow-[0_0_30px_rgba(96,37,213,0.15)] -translate-y-2'
+            : 'border-border-custom'
+        }`}>
           {/* Mobile: inline number tag */}
           <div className="flex items-center gap-3 mb-4 md:hidden">
             <span className="font-mono text-brand text-xs uppercase tracking-wider">
@@ -130,17 +140,24 @@ function PipelineNode({ step, index }: { step: PipelineStep; index: number }) {
             <div className="h-px flex-1 bg-gradient-to-r from-brand/30 to-transparent" />
           </div>
 
-          <h3 className="font-display font-semibold text-lg md:text-xl text-text-primary mb-2 tracking-tight">
+          <h3 className={`font-display font-semibold text-lg md:text-xl mb-2 tracking-tight transition-colors duration-300 ${
+            isHovered ? 'text-brand-light' : 'text-text-primary'
+          }`}>
             {step.title}
           </h3>
           <p className="font-sans text-text-secondary text-sm leading-relaxed mb-4">
             {step.description}
           </p>
 
-          <div className="inline-flex items-center gap-2 font-mono text-brand text-[11px] uppercase tracking-widest">
-            <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+          <div className="inline-flex items-center gap-2 font-mono text-brand-light text-[11px] uppercase tracking-widest">
+            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-brand to-brand-light shadow-[0_0_8px_rgba(96,37,213,0.5)] animate-pulse" />
             {step.turnaround}
           </div>
+
+          {/* Hover glow effect */}
+          {isHovered && (
+            <div className="absolute -inset-px rounded-[4px] bg-gradient-to-r from-brand/10 via-transparent to-brand/10 pointer-events-none" />
+          )}
         </div>
       </motion.div>
     </div>

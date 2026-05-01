@@ -63,7 +63,7 @@ export default function HeroSection() {
         >
           <span className="text-text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">Convert your ideas into</span>
           <br />
-          <span className="text-brand-light drop-shadow-[0_2px_12px_rgba(139,92,246,0.4)]">defining visuals.</span>
+          <span className="bg-gradient-to-r from-brand-light via-purple-400 to-brand bg-clip-text text-transparent drop-shadow-[0_2px_12px_rgba(96,37,213,0.4)]">defining visuals.</span>
         </motion.h1>
 
         <motion.p
@@ -77,7 +77,7 @@ export default function HeroSection() {
         <motion.div variants={prefersReducedMotion ? {} : fadeUp} className="pointer-events-auto">
           <Button
             onClick={handleCTA}
-            className="bg-gradient-to-r from-brand to-brand-dark text-white font-sans font-semibold text-sm px-8 h-12 border border-transparent shadow-[0_0_25px_rgba(139,92,246,0.4)] hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] hover:brightness-110 transition-all duration-300 cursor-pointer"
+            className="bg-gradient-to-r from-brand to-brand-dark text-white font-sans font-semibold text-sm px-8 h-12 border border-transparent shadow-[0_0_25px_rgba(96,37,213,0.4)] hover:shadow-[0_0_40px_rgba(96,37,213,0.5)] hover:brightness-110 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
           >
             Send me your last video
           </Button>

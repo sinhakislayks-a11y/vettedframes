@@ -85,6 +85,13 @@ function WorkflowNode({ step, index }: { step: StepData; index: number }) {
         {String(step.number).padStart(2, "0")}
       </div>
 
+      {/* Gradient backdrop for each section */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full blur-[100px] ${
+          isEven ? 'bg-gradient-to-r from-brand/3 to-transparent' : 'bg-gradient-to-l from-brand/3 to-transparent'
+        }`} />
+      </div>
+
       <div className="relative mx-auto max-w-6xl px-6">
         {/* Node + path layout */}
         <div className="relative flex items-center justify-center">
@@ -100,7 +107,7 @@ function WorkflowNode({ step, index }: { step: StepData; index: number }) {
             <path
               d={PATH_D}
               fill="none"
-              stroke="#8B5CF6"
+              stroke="#6025D5"
               strokeWidth="1"
               strokeOpacity="0.08"
               strokeLinecap="round"
@@ -109,7 +116,7 @@ function WorkflowNode({ step, index }: { step: StepData; index: number }) {
             <motion.path
               d={PATH_D}
               fill="none"
-              stroke="#8B5CF6"
+              stroke="#6025D5"
               strokeWidth="0.8"
               strokeOpacity="0.25"
               strokeLinecap="round"
@@ -126,12 +133,12 @@ function WorkflowNode({ step, index }: { step: StepData; index: number }) {
             transition={{ duration: 0.4, delay: 0.1 }}
             className="absolute top-[40px] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 hidden md:flex"
           >
-            <div className="relative">
+            <div className="relative group cursor-pointer">
               {/* Glow ring */}
-              <div className="absolute inset-0 rounded-full bg-brand/20 blur-md scale-150 shadow-[0_0_30px_rgba(139,92,246,0.2)]" />
+              <div className="absolute inset-0 rounded-full bg-brand/20 blur-md scale-150 shadow-[0_0_30px_rgba(96, 37, 213,0.2)] group-hover:shadow-[0_0_40px_rgba(96, 37, 213,0.35)] transition-all duration-500" />
               {/* Node circle */}
-              <div className="relative w-12 h-12 rounded-full border border-brand/50 bg-bg flex items-center justify-center group cursor-pointer hover:border-brand hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition-all duration-300">
-                <span className="font-mono text-brand-light text-sm font-medium">
+              <div className="relative w-12 h-12 rounded-full border border-brand/50 bg-bg flex items-center justify-center group-hover:border-brand group-hover:shadow-[0_0_25px_rgba(96, 37, 213,0.4)] transition-all duration-500 group-hover:scale-110">
+                <span className="font-mono text-brand-light text-sm font-medium group-hover:text-white transition-colors duration-300">
                   {String(step.number).padStart(2, "0")}
                 </span>
               </div>
@@ -146,52 +153,58 @@ function WorkflowNode({ step, index }: { step: StepData; index: number }) {
               initial={{ opacity: 0, y: 16 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-              className="relative"
+              className="relative group"
             >
-              {/* Mobile: inline step number */}
-              <div className="flex items-center gap-3 mb-6 md:hidden">
-                <div className="w-9 h-9 rounded-full border border-brand/30 bg-brand-dim flex items-center justify-center flex-shrink-0">
-                  <span className="font-mono text-brand-light text-xs">
-                    {String(step.number).padStart(2, "0")}
-                  </span>
+              {/* Gradient backdrop for card */}
+              <div className="absolute -inset-4 bg-gradient-to-br from-brand/5 via-transparent to-brand/5 rounded-[8px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-[1px]" />
+
+              {/* Card with gradient */}
+              <div className="relative bg-gradient-to-br from-surface via-surface-elevated to-surface border border-border-custom rounded-[6px] p-6 group-hover:border-brand/30 group-hover:shadow-[0_0_30px_rgba(96, 37, 213,0.1)] group-hover:-translate-y-2 transition-all duration-500">
+                {/* Mobile: inline step number */}
+                <div className="flex items-center gap-3 mb-6 md:hidden">
+                  <div className="w-9 h-9 rounded-full border border-brand/30 bg-gradient-to-br from-brand/20 to-brand/5 flex items-center justify-center flex-shrink-0 shadow-[0_0_10px_rgba(96, 37, 213,0.2)]">
+                    <span className="font-mono text-brand-light text-xs">
+                      {String(step.number).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <div className="h-px flex-1 bg-gradient-to-r from-brand/20 to-transparent" />
                 </div>
-                <div className="h-px flex-1 bg-gradient-to-r from-brand/20 to-transparent" />
-              </div>
 
-              {/* Connector line above content (mobile only) */}
-              <div className="absolute left-4 -top-10 w-px h-10 bg-gradient-to-b from-border-custom to-transparent md:hidden" />
+                {/* Connector line above content (mobile only) */}
+                <div className="absolute left-4 -top-10 w-px h-10 bg-gradient-to-b from-brand/30 to-transparent md:hidden" />
 
-              {/* Annotation (offset to opposite side) */}
-              {step.annotation && (
-                <div
-                  className={`hidden md:block absolute top-6 ${
-                    isEven ? "left-[calc(100%+24px)] text-left" : "right-[calc(100%+24px)] text-right"
-                  }`}
-                  style={{ maxWidth: "140px" }}
-                >
-                  <span
-                    className="font-sans italic text-[11px] text-text-secondary/60 leading-relaxed"
-                    style={{ fontStyle: "italic" }}
+                {/* Annotation (offset to opposite side) */}
+                {step.annotation && (
+                  <div
+                    className={`hidden md:block absolute top-6 ${
+                      isEven ? "left-[calc(100%+24px)] text-left" : "right-[calc(100%+24px)] text-right"
+                    }`}
+                    style={{ maxWidth: "140px" }}
                   >
-                    {step.annotation}
-                  </span>
+                    <span
+                      className="font-sans italic text-[11px] text-text-secondary/60 leading-relaxed"
+                      style={{ fontStyle: "italic" }}
+                    >
+                      {step.annotation}
+                    </span>
+                  </div>
+                )}
+
+                {/* Step title */}
+                <h3 className="font-display font-semibold text-2xl md:text-3xl text-text-primary mb-4 tracking-tight leading-tight group-hover:text-brand-light transition-colors duration-300">
+                  {step.title}
+                </h3>
+
+                {/* Description */}
+                <p className="font-sans text-text-secondary text-sm md:text-base leading-relaxed mb-6 max-w-sm">
+                  {step.description}
+                </p>
+
+                {/* Turnaround badge */}
+                <div className="inline-flex items-center gap-2 font-mono text-brand-light text-[11px] uppercase tracking-widest">
+                  <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-brand to-brand-light shadow-[0_0_8px_rgba(96, 37, 213,0.5)] animate-pulse" />
+                  {step.turnaround}
                 </div>
-              )}
-
-              {/* Step title */}
-              <h3 className="font-display font-semibold text-2xl md:text-3xl text-text-primary mb-4 tracking-tight leading-tight">
-                {step.title}
-              </h3>
-
-              {/* Description */}
-              <p className="font-sans text-text-secondary text-sm md:text-base leading-relaxed mb-6 max-w-sm">
-                {step.description}
-              </p>
-
-              {/* Turnaround badge */}
-              <div className="inline-flex items-center gap-2 font-mono text-brand-light text-[11px] uppercase tracking-widest">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
-                {step.turnaround}
               </div>
             </motion.div>
           </div>
@@ -216,7 +229,7 @@ export default function ProcessSteps() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, transparent 0%, rgba(139,92,246,0.05) 20%, rgba(139,92,246,0.08) 50%, rgba(139,92,246,0.05) 80%, transparent 100%)",
+              "linear-gradient(180deg, transparent 0%, rgba(96, 37, 213,0.05) 20%, rgba(96, 37, 213,0.08) 50%, rgba(96, 37, 213,0.05) 80%, transparent 100%)",
             filter: "blur(20px)",
             width: "1px",
           }}

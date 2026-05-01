@@ -25,12 +25,12 @@ export default function WorkflowHero() {
 
       {/* Ambient glow overlay */}
       <div className="absolute inset-0 z-[1] pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-brand/8 rounded-full blur-[120px]" />
-        <div className="absolute top-20 right-1/4 w-[300px] h-[200px] bg-brand/5 rounded-full blur-[80px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gradient-radial from-brand/10 via-brand/5 to-transparent rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute top-20 right-1/4 w-[300px] h-[200px] bg-gradient-radial from-brand/8 to-transparent rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
       {/* Vertical flow line */}
-      <div className="absolute left-8 top-0 bottom-0 w-px z-[2] shadow-[0_0_10px_rgba(139,92,246,0.3)] bg-gradient-to-b from-brand/30 via-brand/10 to-transparent pointer-events-none" />
+      <div className="absolute left-8 top-0 bottom-0 w-px z-[2] shadow-[0_0_15px_rgba(96,37,213,0.4)] bg-gradient-to-b from-brand via-brand/50 to-brand/20 pointer-events-none" />
 
       {/* Content — pointer-events-none so Spline receives cursor events */}
       <div className="relative z-10 mx-auto max-w-4xl px-6 pointer-events-auto select-none">

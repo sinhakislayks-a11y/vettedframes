@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
+import { useState } from "react";
 import {
   Accordion,
   AccordionItem,
@@ -38,11 +39,17 @@ const FAQS = [
 
 export default function FAQSection() {
   const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.1 });
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="w-full bg-surface border-t border-border-custom py-24">
-      <div className="mx-auto max-w-3xl px-6">
-        <div className="mb-10">
+    <section className="w-full bg-gradient-to-b from-surface via-bg to-surface border-t border-border-custom py-24 relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-radial from-brand/5 to-transparent blur-[100px]" />
+      </div>
+
+      <div className="mx-auto max-w-3xl px-6 relative z-10">
+        <div className="mb-10 text-center">
           <p className="font-mono text-text-secondary uppercase tracking-widest text-xs mb-3">
             FAQ
           </p>
@@ -62,13 +69,21 @@ export default function FAQSection() {
               <AccordionItem
                 key={i}
                 value={i}
-                className="border-border-custom"
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                className={`border-border-custom mb-3 rounded-[4px] transition-all duration-500 ${
+                  hoveredIndex === i
+                    ? 'bg-gradient-to-r from-surface-elevated via-surface to-surface-elevated shadow-[0_0_15px_rgba(96,37,213,0.08)]'
+                    : ''
+                }`}
               >
-                <AccordionTrigger className="font-sans text-sm text-text-primary hover:no-underline hover:text-brand py-4 cursor-pointer">
+                <AccordionTrigger className={`font-sans text-sm py-4 cursor-pointer transition-colors duration-300 ${
+                  hoveredIndex === i ? 'text-brand-light' : 'text-text-primary'
+                } hover:no-underline hover:text-brand`}>
                   {faq.q}
                 </AccordionTrigger>
                 <AccordionContent className="text-text-secondary">
-                  <p className="font-sans text-sm leading-relaxed">
+                  <p className="font-sans text-sm leading-relaxed pb-4">
                     {faq.a}
                   </p>
                 </AccordionContent>

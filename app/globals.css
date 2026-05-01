@@ -58,10 +58,10 @@
   --color-border-custom: #1A1A24;
 
   /* Purple accent system */
-  --color-brand: #8B5CF6;
-  --color-brand-light: #A78BFA;
-  --color-brand-dark: #6D28D9;
-  --color-brand-dim: rgba(139, 92, 246, 0.08);
+  --color-brand: #6025D5;
+  --color-brand-light: #7B5CF0;
+  --color-brand-dark: #4515B0;
+  --color-brand-dim: rgba(96, 37, 213, 0.08);
 
   /* Text hierarchy */
   --color-text-primary: #FFFFFF;
@@ -93,24 +93,24 @@
   --card-foreground: #FFFFFF;
   --popover: #2A2A35;
   --popover-foreground: #FFFFFF;
-  --primary: #8B5CF6;
+  --primary: #6025D5;
   --primary-foreground: #FFFFFF;
   --secondary: #2A2A35;
   --secondary-foreground: #FFFFFF;
   --muted: #12121A;
   --muted-foreground: #6B7280;
-  --accent: #8B5CF6;
+  --accent: #6025D5;
   --accent-foreground: #FFFFFF;
   --destructive: #ef4444;
   --border: #1A1A24;
   --input: #1A1A24;
-  --ring: #8B5CF6;
+  --ring: #6025D5;
   --radius: 4px;
 }
 
 /* ── Glow utilities (selective use) ── */
 .glow-soft {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
+  box-shadow: 0 0 20px rgba(96, 37, 213, 0.25);
 }
 
 @keyframes fadeIn {
@@ -123,24 +123,149 @@
 }
 
 .glow-medium {
-  box-shadow: 0 0 40px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 0 40px rgba(96, 37, 213, 0.35);
 }
 
 .glow-cta {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 0 20px rgba(96, 37, 213, 0.35);
 }
 
 .glow-cta-hover {
-  box-shadow: 0 0 30px rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 30px rgba(96, 37, 213, 0.45);
 }
 
 /* ── Background gradients ── */
 .bg-radial-purple {
-  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(96, 37, 213, 0.15) 0%, transparent 70%);
 }
 
 .bg-subtle-gradient {
-  background: linear-gradient(180deg, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+  background: linear-gradient(180deg, rgba(96, 37, 213, 0.05) 0%, transparent 50%);
+}
+
+/* ── Radial gradient utility ── */
+.bg-gradient-radial {
+  background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+}
+
+/* ── Liquid smooth gradient animations ── */
+@keyframes liquidGradient {
+  0%, 100% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    background-position: 50% 100%;
+    filter: hue-rotate(10deg);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: hue-rotate(0deg);
+  }
+  75% {
+    background-position: 50% 0%;
+    filter: hue-rotate(-10deg);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    filter: hue-rotate(15deg);
+  }
+  100% {
+    filter: hue-rotate(0deg);
+  }
+}
+
+@keyframes floatUp {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(96, 37, 213, 0.15), 0 0 40px rgba(96, 37, 213, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(96, 37, 213, 0.25), 0 0 60px rgba(96, 37, 213, 0.1);
+  }
+}
+
+/* ── Hover gradient effects ── */
+.hover-gradient-liquid {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-gradient-liquid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(96, 37, 213, 0.1) 0%, rgba(123, 92, 240, 0.05) 50%, rgba(96, 37, 213, 0.1) 100%);
+  background-size: 200% 200%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.hover-gradient-liquid:hover::before {
+  opacity: 1;
+  animation: liquidGradient 3s ease infinite;
+}
+
+.hover-gradient-liquid:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(96, 37, 213, 0.15), 0 0 20px rgba(96, 37, 213, 0.1);
+}
+
+/* ── Gradient border on hover ── */
+.gradient-border-hover {
+  position: relative;
+}
+
+.gradient-border-hover::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #6025D5, #7B5CF0, #6025D5);
+  background-size: 200% 200%;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+  filter: blur(0px);
+}
+
+.gradient-border-hover:hover::after {
+  opacity: 0.4;
+  animation: gradientShift 2s ease infinite;
+}
+
+/* ── Floating animation utility ── */
+.float-lift {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
+}
+
+.float-lift:hover {
+  transform: translateY(-8px) scale(1.02);
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* ── Hue shift on hover ── */
+.hue-shift-hover {
+  transition: filter 0.5s ease;
+}
+
+.hue-shift-hover:hover {
+  filter: hue-rotate(15deg) saturate(1.2);
 }
 
 @layer base {
