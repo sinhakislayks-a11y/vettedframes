@@ -51,7 +51,7 @@ export default function WorkflowSplineBackground() {
       ) : (
         <iframe
           ref={iframeRef}
-          src="https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/"
+          src="https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/?v=2"
           frameBorder="0"
           width="100%"
           height="100%"
