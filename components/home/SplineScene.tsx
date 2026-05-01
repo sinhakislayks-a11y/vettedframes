@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Spline viewer URL (iframe embed method — used because we have a viewer URL, not a .splinecode URL)
+// Spline viewer URL (iframe embed method)
+// Cache-bust: update this timestamp whenever you re-export from the Spline editor
 const SPLINE_SCENE_URL =
-  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/";
+  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/?v=20260501";
 
 function GradientFallback() {
   return (
@@ -24,7 +25,7 @@ function GradientFallback() {
 }
 
 export default function SplineScene() {
-  const [isMobile, setIsMobile] = useState(true); // Default true to prevent flash
+  const [isMobile, setIsMobile] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -67,19 +68,20 @@ export default function SplineScene() {
     <>
       <GradientFallback />
       {/* 
-        Spline iframe embed — scoped to hero section only.
-        pointerEvents: "auto" allows native cursor interaction (drag to rotate, hover effects).
-        The iframe natively handles all mouse events internally.
+        Spline iframe — scaled 130% and centered to simulate object-fit: cover.
+        This eliminates black bars on the sides regardless of viewport aspect ratio.
+        The parent container's overflow-hidden crops the excess.
       */}
       <iframe
         ref={iframeRef}
         src={SPLINE_SCENE_URL}
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
+          top: "50%",
+          left: "50%",
+          width: "130%",
+          height: "130%",
+          transform: "translate(-50%, -50%)",
           border: "none",
           opacity: isLoaded ? 1 : 0,
           transition: "opacity 0.8s ease-in-out",
