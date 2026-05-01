@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 // Spline viewer URL (iframe embed method)
 // Cache-bust: update this timestamp whenever you re-export from the Spline editor
 const SPLINE_SCENE_URL =
-  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/?v=20260501";
+  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/?v=20260501b";
 
 function GradientFallback() {
   return (
