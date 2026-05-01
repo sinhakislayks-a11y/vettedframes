@@ -57,10 +57,24 @@ export default function RootLayout({
     },
   };
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
-    >
+    <>
+      <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+      />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstaticaliased"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap"
+        rel="stylesheet"
+      />
+      <html
+        lang="en"
+        className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      >
       <body className="min-h-full flex flex-col bg-bg text-text-primary font-sans">
         <script
           type="application/ld+json"
@@ -70,6 +84,7 @@ export default function RootLayout({
         <div className="flex-1">{children}</div>
         <Footer />
       </body>
-    </html>
+      </html>
+    </>
   );
 }
