@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 
 const SPLINE_SCENE_URL =
-  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/?v=1";
+  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/?v=1";
 
 function GradientBackground() {
   return (
