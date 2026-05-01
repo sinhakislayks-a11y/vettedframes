@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import WorkflowSplineBackground from "@/components/workflow/WorkflowSplineBackground";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -16,17 +17,23 @@ const fadeUp = {
 
 export default function WorkflowHero() {
   return (
-    <section className="relative w-full bg-bg pt-40 pb-32 overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute inset-0 pointer-events-none">
+    <section className="relative w-full min-h-[100dvh] pt-40 pb-32 overflow-hidden flex items-center">
+      {/* 3D Spline Background */}
+      <div className="absolute inset-0 z-0">
+        <WorkflowSplineBackground />
+      </div>
+
+      {/* Ambient glow overlay */}
+      <div className="absolute inset-0 z-[1] pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-brand/8 rounded-full blur-[120px]" />
         <div className="absolute top-20 right-1/4 w-[300px] h-[200px] bg-brand/5 rounded-full blur-[80px]" />
       </div>
 
-      {/* Vertical flow line (subtle purple glow) */}
-      <div className="absolute left-8 top-0 bottom-0 w-px shadow-[0_0_10px_rgba(139,92,246,0.3)] bg-gradient-to-b from-brand/30 via-brand/10 to-transparent" />
+      {/* Vertical flow line */}
+      <div className="absolute left-8 top-0 bottom-0 w-px z-[2] shadow-[0_0_10px_rgba(139,92,246,0.3)] bg-gradient-to-b from-brand/30 via-brand/10 to-transparent pointer-events-none" />
 
-      <div className="relative mx-auto max-w-4xl px-6">
+      {/* Content — pointer-events-none so Spline receives cursor events */}
+      <div className="relative z-10 mx-auto max-w-4xl px-6 pointer-events-none select-none">
         <motion.p
           custom={0}
           initial="hidden"
