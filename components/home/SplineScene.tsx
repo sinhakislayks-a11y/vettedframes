@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 
-// Spline viewer URL (iframe embed method)
-// Cache-bust: update this timestamp whenever you re-export from the Spline editor
-const SPLINE_SCENE_URL =
-  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/?v=20260501c";
+const Spline = dynamic(() => import("@splinetool/react-spline"), {
+  ssr: false,
+  loading: () => null,
+});
 
 function GradientFallback() {
   return (
@@ -24,74 +25,68 @@ function GradientFallback() {
   );
 }
 
+const SPLINE_SCENE_URL =
+  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/";
+
 export default function SplineScene() {
-  const [isMobile, setIsMobile] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [hasError, setHasError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
-    window.addEventListener("resize", checkMobile, { passive: true });
+    window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Mobile: looping video fallback (lightweight, no GPU-heavy WebGL)
-  if (isMobile) {
-    return (
-      <>
-        <GradientFallback />
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/hero-mobile-poster.jpg"
-          preload="metadata"
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      <GradientFallback />
+      {!hasError && (
+        <div
+          className="absolute inset-0"
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            zIndex: 1,
+            opacity: isLoaded ? 1 : 0,
+            transition: "opacity 0.8s ease-in-out",
           }}
         >
-          <source src="/hero-mobile.mp4" type="video/mp4" />
-        </video>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <GradientFallback />
-      {/* 
-        Spline iframe — scaled 130% and centered to simulate object-fit: cover.
-        This eliminates black bars on the sides regardless of viewport aspect ratio.
-        The parent container's overflow-hidden crops the excess.
-      */}
-      <iframe
-        ref={iframeRef}
-        src={SPLINE_SCENE_URL}
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          width: "130%",
-          height: "130%",
-          transform: "translate(-50%, -50%)",
-          border: "none",
-          opacity: isLoaded ? 1 : 0,
-          transition: "opacity 0.8s ease-in-out",
-          pointerEvents: "auto",
-          zIndex: 1,
-        }}
-        allow="autoplay; xr-spatial-tracking"
-        onLoad={() => setIsLoaded(true)}
-        title="3D Background Scene"
-      />
-    </>
+          {isMobile ? (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+              onLoadedData={() => setIsLoaded(true)}
+              onError={() => setHasError(true)}
+            >
+              <source src="/videos/light-streaks.mp4" type="video/mp4" />
+            </video>
+          ) : (
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                width: "130%",
+                height: "130%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <Spline
+                scene={SPLINE_SCENE_URL}
+                onLoad={() => setIsLoaded(true)}
+                onError={() => setHasError(true)}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 }

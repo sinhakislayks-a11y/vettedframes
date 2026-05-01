@@ -27,7 +27,7 @@ function GradientBackground() {
 }
 
 const SPLINE_SCENE_URL =
-  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/";
+  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/";
 
 export default function GlobalSplineBackground() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -55,18 +55,30 @@ export default function GlobalSplineBackground() {
             zIndex: -5,
             opacity: isLoaded ? 1 : 0,
             transition: "opacity 1s ease",
+            overflow: "hidden",
             pointerEvents: "auto",
           }}
         >
-          <Spline
-            scene={SPLINE_SCENE_URL}
-            onLoad={handleLoad}
-            onError={handleError}
+          <div
             style={{
-              width: "100%",
-              height: "100%",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              width: "130%",
+              height: "130%",
+              transform: "translate(-50%, -50%)",
             }}
-          />
+          >
+            <Spline
+              scene={SPLINE_SCENE_URL}
+              onLoad={handleLoad}
+              onError={handleError}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </div>
         </div>
       )}
     </>
