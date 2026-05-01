@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 // Export from Spline: Public URL → Copy Embed → paste the src URL here
 // After updating the scene, bump the ?v= number to bust cache
 const WORKFLOW_SPLINE_URL =
-  "https://my.spline.design/REPLACE_WITH_YOUR_WORKFLOW_SCENE_URL/?v=1";
+  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/?v=1";
 
 function GradientFallback() {
   return (
