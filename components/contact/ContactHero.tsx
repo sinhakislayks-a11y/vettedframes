@@ -66,6 +66,24 @@ export default function ContactHero() {
           audit. No pitch. No strings. If it clicks, we work together.
         </motion.p>
       </div>
+
+      {/* Invisible clickable overlay on the Spline "Get in touch" button area → WhatsApp */}
+      <a
+        href="https://wa.me/919470878005?text=Hi%20Kislay%2C%20I%20want%20to%20discuss%20a%20project"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Get in touch on WhatsApp"
+        className="absolute z-20"
+        style={{
+          left: "50%",
+          bottom: "18%",
+          transform: "translateX(-50%)",
+          width: "220px",
+          height: "60px",
+          pointerEvents: "auto",
+          cursor: "pointer",
+        }}
+      />
     </section>
   );
 }
