@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import ContactSplineBackground from "@/components/contact/ContactSplineBackground";
+import AnoAI from "@/components/ui/animated-shader-background";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -17,14 +19,25 @@ const fadeUp = {
 };
 
 export default function ContactHero() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <section className="relative w-full min-h-[100dvh] overflow-hidden flex items-center">
-      {/* 3D Spline Background — robot follows cursor */}
+      {/* Background — shader on mobile, Spline on desktop */}
       <div className="absolute inset-0 z-0">
-        <ContactSplineBackground />
+        {isMobile ? <AnoAI /> : <ContactSplineBackground />}
       </div>
 
-      {/* Subtle dark gradient for text readability */}
+      {/* Dark gradient for text readability */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
@@ -33,7 +46,7 @@ export default function ContactHero() {
         }}
       />
 
-      {/* Content — pointer-events-none so robot tracks the cursor */}
+      {/* Content */}
       <div className="relative z-10 mx-auto max-w-6xl px-6 pointer-events-none select-none">
         <motion.p
           custom={0}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Fraunces:wght@400;500;600;700;800;900&display=swap');
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -12,6 +12,14 @@
   src: url("/fonts/MADECoachella.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MADE Coachella";
+  src: url("/fonts/MADECoachella.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -71,7 +79,7 @@
   /* Fonts */
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
-  --font-display: "MADE Coachella", serif;
+  --font-display: "Cormorant Garamond", serif;
   --font-brand: "Blosta Script", cursive;
   --font-heading: "MADE Coachella", serif;
 
