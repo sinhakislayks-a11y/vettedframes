@@ -35,9 +35,32 @@ export default function SplineScene() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Mobile: gradient fallback only (per Spline performance guide)
+  // Mobile: looping video fallback (lightweight, no GPU-heavy WebGL)
   if (isMobile) {
-    return <GradientFallback />;
+    return (
+      <>
+        <GradientFallback />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/hero-mobile-poster.jpg"
+          preload="metadata"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            zIndex: 1,
+          }}
+        >
+          <source src="/hero-mobile.mp4" type="video/mp4" />
+        </video>
+      </>
+    );
   }
 
   return (
