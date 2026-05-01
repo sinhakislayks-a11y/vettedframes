@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const SPLINE_SCENE_URL =
-  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/?v=1";
+  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/";
 
 function GradientFallback() {
   return (
@@ -60,8 +60,8 @@ export default function SplineScene() {
             position: "absolute",
             top: "50%",
             left: "50%",
-            width: "130%",
-            height: "130%",
+            width: "200%",
+            height: "200%",
             transform: "translate(-50%, -50%)",
             border: "none",
             opacity: isLoaded ? 1 : 0,
