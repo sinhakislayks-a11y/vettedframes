@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import ContactSplineBackground from "@/components/contact/ContactSplineBackground";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -17,8 +18,23 @@ const fadeUp = {
 
 export default function ContactHero() {
   return (
-    <section className="w-full bg-bg pt-30 pb-12">
-      <div className="mx-auto max-w-6xl px-6">
+    <section className="relative w-full min-h-[100dvh] overflow-hidden flex items-center">
+      {/* 3D Spline Background — robot follows cursor */}
+      <div className="absolute inset-0 z-0">
+        <ContactSplineBackground />
+      </div>
+
+      {/* Subtle dark gradient for text readability */}
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(5,5,7,0.75) 0%, rgba(5,5,7,0.3) 50%, transparent 100%)",
+        }}
+      />
+
+      {/* Content — pointer-events-none so robot tracks the cursor */}
+      <div className="relative z-10 mx-auto max-w-6xl px-6 pointer-events-none select-none">
         <motion.p
           custom={0}
           initial="hidden"
@@ -34,7 +50,7 @@ export default function ContactHero() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="font-display font-bold text-3xl md:text-5xl text-text-primary mb-6"
+          className="font-display font-bold text-3xl md:text-5xl text-text-primary mb-6 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
         >
           Got a reel or project in mind?
         </motion.h1>
