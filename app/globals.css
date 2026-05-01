@@ -287,3 +287,8 @@
     @apply font-sans;
   }
 }
+
+/* Explicit font-display class to ensure Cormorant Garamond is applied */
+.font-display {
+  font-family: "Cormorant Garamond", serif;
+}
