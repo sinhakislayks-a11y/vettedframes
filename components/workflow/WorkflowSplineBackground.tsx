@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const WORKFLOW_SPLINE_URL =
-  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/?v=1";
+  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/";
 
 function GradientFallback() {
   return (
@@ -58,13 +58,13 @@ export default function WorkflowSplineBackground() {
             position: "absolute",
             top: "50%",
             left: "50%",
-            width: "130%",
-            height: "130%",
+            width: "200%",
+            height: "200%",
             transform: "translate(-50%, -50%)",
             border: "none",
             opacity: isLoaded ? 1 : 0,
             transition: "opacity 0.8s ease-in-out",
-            pointerEvents: "auto",
+            pointerEvents: "none",
             zIndex: 1,
           }}
           allow="autoplay; xr-spatial-tracking"
