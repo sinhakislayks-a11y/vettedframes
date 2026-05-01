@@ -2,8 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const WORKFLOW_SPLINE_URL =
-  "https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/";
 
 function GradientFallback() {
   return (
@@ -53,14 +51,14 @@ export default function WorkflowSplineBackground() {
       ) : (
         <iframe
           ref={iframeRef}
-          src={WORKFLOW_SPLINE_URL}
+          src="https://my.spline.design/retrofuturismbganimation-7JerxeLWNxftSFY13hx3FSnn/"
+          frameBorder="0"
+          width="100%"
+          height="100%"
           style={{
             position: "absolute",
-            top: "50%",
-            left: "50%",
-            width: "200%",
-            height: "200%",
-            transform: "translate(-50%, -50%)",
+            top: 0,
+            left: 0,
             border: "none",
             opacity: isLoaded ? 1 : 0,
             transition: "opacity 0.8s ease-in-out",

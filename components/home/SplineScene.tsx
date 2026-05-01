@@ -2,8 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const SPLINE_SCENE_URL =
-  "https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/";
 
 function GradientFallback() {
   return (
@@ -55,18 +53,18 @@ export default function SplineScene() {
       ) : (
         <iframe
           ref={iframeRef}
-          src={SPLINE_SCENE_URL}
+          src="https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/"
+          frameBorder="0"
+          width="100%"
+          height="100%"
           style={{
             position: "absolute",
-            top: "50%",
-            left: "50%",
-            width: "200%",
-            height: "200%",
-            transform: "translate(-50%, -50%)",
+            top: 0,
+            left: 0,
             border: "none",
             opacity: isLoaded ? 1 : 0,
             transition: "opacity 0.8s ease-in-out",
-            pointerEvents: "auto",
+            pointerEvents: "none",
             zIndex: 1,
           }}
           allow="autoplay; xr-spatial-tracking"
