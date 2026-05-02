@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import WorkflowHero from "@/components/workflow/WorkflowHero";
 import VerticalPipeline from "@/components/workflow/VerticalPipeline";
-import DailyWorkflowSection from "@/components/workflow/DailyWorkflowSection";
+import ProcessExplainers from "@/components/workflow/ProcessExplainers";
 import TableOfContents from "@/components/workflow/TableOfContents";
 import ToolsSection from "@/components/workflow/ToolsSection";
 import WorkflowCTA from "@/components/workflow/WorkflowCTA";
@@ -20,7 +20,7 @@ export default function WorkflowPage() {
     <main className="flex flex-col">
       <WorkflowHero />
       <VerticalPipeline />
-      <DailyWorkflowSection />
+      <ProcessExplainers />
       <TableOfContents />
       <ToolsSection />
       <WorkflowCTA />
