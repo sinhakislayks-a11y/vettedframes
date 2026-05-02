@@ -160,7 +160,7 @@ function ExplainerSection({ item, index, isEven }: { item: ExplainerItem; index:
 }
 
 export default function ProcessExplainers() {
-  const { ref, isInView } = useInView<HTMLElement>({ threshold: 0.1 });
+  const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.1 });
 
   return (
     <section className="w-full bg-gradient-to-b from-bg via-surface to-bg relative">
