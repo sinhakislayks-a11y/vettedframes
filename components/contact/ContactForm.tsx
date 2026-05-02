@@ -75,13 +75,13 @@ export default function ContactForm() {
   }
 
   return (
-    <section className="w-full bg-surface border-t border-border-custom py-24">
+    <section id="contact-form" className="w-full bg-surface border-t border-border-custom py-24">
       <div className="mx-auto max-w-[640px] px-6">
         <h2 className="font-display font-semibold text-xl text-text-primary mb-8 text-center">
           Or send a brief directly
         </h2>
 
-        <div id="contact-form">
+        <div>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-5"

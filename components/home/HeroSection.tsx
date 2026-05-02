@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -25,10 +26,6 @@ export default function HeroSection() {
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
-
-  const handleCTA = () => {
-    window.location.href = "/contact#contact-form";
-  };
 
   return (
     <section
@@ -75,12 +72,12 @@ export default function HeroSection() {
         </motion.p>
 
         <motion.div variants={prefersReducedMotion ? {} : fadeUp} className="pointer-events-auto">
-          <Button
-            onClick={handleCTA}
-            className="bg-gradient-to-r from-brand to-brand-dark text-white font-sans font-semibold text-sm px-8 h-12 border border-transparent shadow-[0_0_25px_rgba(96,37,213,0.4)] hover:shadow-[0_0_40px_rgba(96,37,213,0.5)] hover:brightness-110 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+          <Link
+            href="/contact#contact-form"
+            className="inline-flex items-center justify-center bg-gradient-to-r from-brand to-brand-dark text-white font-sans font-semibold text-sm px-8 h-12 border border-transparent shadow-[0_0_25px_rgba(96,37,213,0.4)] hover:shadow-[0_0_40px_rgba(96,37,213,0.5)] hover:brightness-110 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
           >
             Send me your last video
-          </Button>
+          </Link>
         </motion.div>
       </motion.div>
     </section>

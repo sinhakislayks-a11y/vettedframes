@@ -119,7 +119,19 @@ function PortfolioCard({
 export default function PortfolioSection() {
   const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.05 });
 
-  const [featured, ...rest] = FEATURED_PROJECTS;
+  // Only show the 5 specified featured projects
+  const FEATURED_IDS = [
+    "showreel-2025",
+    "abhishek-kar",
+    "before-after",
+    "talking-head",
+    "saas-animation-16x9",
+  ];
+  const featuredProjects = FEATURED_PROJECTS.filter((p) =>
+    FEATURED_IDS.includes(p.id)
+  ).slice(0, 5);
+
+  const [featured, ...rest] = featuredProjects;
 
   return (
     <section className="w-full bg-gradient-to-b from-surface via-bg to-surface py-24 relative overflow-hidden">
