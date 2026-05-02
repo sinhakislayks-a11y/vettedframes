@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PageBackground from "@/components/ui/PageBackground";
 import ContactHero from "@/components/contact/ContactHero";
 import ContactOptions from "@/components/contact/ContactOptions";
 import ContactForm from "@/components/contact/ContactForm";
@@ -28,10 +29,12 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="flex flex-col">
-      <ContactHero />
-      <ContactOptions />
-      <ContactForm />
-    </main>
+    <PageBackground variant="vertical-lines" mask="fade-left" size={48}>
+      <main className="flex flex-col">
+        <ContactHero />
+        <ContactOptions />
+        <ContactForm />
+      </main>
+    </PageBackground>
   );
 }

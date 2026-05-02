@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ALL_PROJECTS, PROJECTS_BY_CATEGORY, type Project } from "@/lib/projects";
 import { ExternalLink } from "lucide-react";
 import ProjectThumbnail from "@/components/ui/ProjectThumbnail";
+import PageBackground from "@/components/ui/PageBackground";
 import { track } from "@vercel/analytics/react";
 
 const CATEGORIES = [
@@ -129,72 +130,74 @@ export default function ProjectsClient() {
         });
 
   return (
-    <main className="flex flex-col min-h-screen">
-      <section className="pt-32 pb-16 bg-bg">
-        <div className="mx-auto max-w-6xl px-6">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="font-mono text-brand uppercase tracking-widest text-xs mb-4"
-          >
-            All work
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="font-display font-semibold text-4xl md:text-5xl text-text-primary tracking-tight"
-          >
-            Every project. Every category.
-          </motion.h1>
-        </div>
-      </section>
-
-      <section id="motion" className="sticky top-14 z-40 bg-bg-secondary/80 backdrop-blur-md border-b border-border-custom py-4">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="flex flex-wrap gap-3">
-            {CATEGORIES.map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveFilter(category)}
-                className={`px-4 py-2 rounded-[4px] text-sm font-sans transition-all duration-200 cursor-pointer ${
-                  activeFilter === category
-                    ? "bg-brand text-bg shadow-[0_0_15px_rgba(139,92,246,0.3)]"
-                    : "bg-surface border border-border-custom text-text-secondary hover:text-text-primary hover:border-brand/30"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {activeFilter === "All" && showreel && <ShowreelCard project={showreel} />}
-
-      <section id="projects" className="flex-1 bg-bg py-16">
-        <div className="mx-auto max-w-6xl px-6">
-          <AnimatePresence mode="popLayout">
-            <motion.div
-              layout
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    <PageBackground variant="diagonal-stripes" mask="fade-edges" size={24}>
+      <main className="flex flex-col min-h-screen">
+        <section className="pt-32 pb-16 bg-transparent">
+          <div className="mx-auto max-w-6xl px-6">
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="font-mono text-brand uppercase tracking-widest text-xs mb-4"
             >
-              {filteredProjects.map((project) => (
-                <PortfolioCard key={project.id} project={project} />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+              All work
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="font-display font-semibold text-4xl md:text-5xl text-text-primary tracking-tight"
+            >
+              Every project. Every category.
+            </motion.h1>
+          </div>
+        </section>
 
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-20">
-              <p className="font-sans text-text-secondary">
-                No projects in this category yet.
-              </p>
+        <section id="motion" className="sticky top-14 z-40 bg-bg-secondary/80 backdrop-blur-md border-b border-border-custom py-4">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="flex flex-wrap gap-3">
+              {CATEGORIES.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveFilter(category)}
+                  className={`px-4 py-2 rounded-[4px] text-sm font-sans transition-all duration-200 cursor-pointer ${
+                    activeFilter === category
+                      ? "bg-brand text-bg shadow-[0_0_15px_rgba(139,92,246,0.3)]"
+                      : "bg-surface border border-border-custom text-text-secondary hover:text-text-primary hover:border-brand/30"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
             </div>
-          )}
-        </div>
-      </section>
-    </main>
+          </div>
+        </section>
+
+        {activeFilter === "All" && showreel && <ShowreelCard project={showreel} />}
+
+        <section id="projects" className="flex-1 py-16">
+          <div className="mx-auto max-w-6xl px-6">
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                layout
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {filteredProjects.map((project) => (
+                  <PortfolioCard key={project.id} project={project} />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+
+            {filteredProjects.length === 0 && (
+              <div className="text-center py-20">
+                <p className="font-sans text-text-secondary">
+                  No projects in this category yet.
+                </p>
+              </div>
+            )}
+          </div>
+        </section>
+      </main>
+    </PageBackground>
   );
 }

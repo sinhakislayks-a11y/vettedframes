@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PageBackground from "@/components/ui/PageBackground";
 import AboutHero from "@/components/about/AboutHero";
 import StorySection from "@/components/about/StorySection";
 import PhilosophySection from "@/components/about/PhilosophySection";
@@ -18,12 +19,14 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="flex flex-col">
-      <AboutHero />
-      <StorySection />
-      <PhilosophySection />
-      <WhyCreatorsSection />
-      <ApproachSection />
-    </main>
+    <PageBackground variant="grid" mask="fade-edges" size={48}>
+      <main className="flex flex-col">
+        <AboutHero />
+        <StorySection />
+        <PhilosophySection />
+        <WhyCreatorsSection />
+        <ApproachSection />
+      </main>
+    </PageBackground>
   );
 }

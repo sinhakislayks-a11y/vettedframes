@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PageBackground from "@/components/ui/PageBackground";
 import HeroSection from "@/components/home/HeroSection";
 import PositioningStrip from "@/components/home/PositioningStrip";
 import ServicesSection from "@/components/home/ServicesSection";
@@ -32,14 +33,16 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <main className="flex flex-col">
-      <HeroSection />
-      <PositioningStrip />
-      <ServicesSection />
-      <WhatICreateSection />
-      <PortfolioSection />
-      <ClientLogos />
-      <Testimonials />
-    </main>
+    <PageBackground variant="dots" mask="fade-edges" size={32}>
+      <main className="flex flex-col">
+        <HeroSection />
+        <PositioningStrip />
+        <ServicesSection />
+        <WhatICreateSection />
+        <PortfolioSection />
+        <ClientLogos />
+        <Testimonials />
+      </main>
+    </PageBackground>
   );
 }

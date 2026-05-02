@@ -29,20 +29,10 @@ export function TestimonialCard({
 
   return (
     <motion.div
-      style={{
-        zIndex:
-          position === "front" ? "2" : position === "middle" ? "1" : "0",
-      }}
-      animate={{
-        rotate:
-          position === "front" ? "-6deg" : position === "middle" ? "0deg" : "6deg",
-        x:
-          position === "front"
-            ? "0%"
-            : position === "middle"
-            ? "33%"
-            : "66%",
-      }}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
       drag={true}
       dragElastic={0.35}
       dragListener={isFront}
@@ -63,11 +53,10 @@ export function TestimonialCard({
         }
         dragRef.current = 0;
       }}
-      transition={{ duration: 0.35 }}
-      className={`absolute left-0 top-0 grid h-[420px] w-[320px] select-none place-content-center space-y-5 rounded-xl border border-border-custom bg-surface/80 p-6 shadow-xl backdrop-blur-md ${
+      className={`absolute left-0 top-0 grid h-[420px] w-[320px] select-none place-content-center space-y-5 rounded-xl border border-border-custom bg-surface/80 p-6 backdrop-blur-md ${
         isFront
-          ? "cursor-grab active:cursor-grabbing border-brand/30 shadow-[0_0_40px_rgba(96,37,213,0.15)]"
-          : "border-border-custom/50"
+          ? "cursor-grab active:cursor-grabbing border-brand/30 shadow-[0_0_50px_rgba(96,37,213,0.2)]"
+          : "border-border-custom/50 shadow-xl"
       }`}
     >
       {/* Quote icon */}

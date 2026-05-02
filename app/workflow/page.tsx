@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import PageBackground from "@/components/ui/PageBackground";
 import WorkflowHero from "@/components/workflow/WorkflowHero";
 import VerticalPipeline from "@/components/workflow/VerticalPipeline";
 import ProcessExplainers from "@/components/workflow/ProcessExplainers";
@@ -33,14 +34,16 @@ export const metadata: Metadata = {
 
 export default function WorkflowPage() {
   return (
-    <main className="flex flex-col">
-      <WorkflowHero />
-      <VerticalPipeline />
-      <ProcessExplainers />
-      <TableOfContents />
-      <ToolsSection />
-      <WorkflowCTA />
-      <FAQSection />
-    </main>
+    <PageBackground variant="horizontal-lines" mask="fade-y" size={32}>
+      <main className="flex flex-col">
+        <WorkflowHero />
+        <VerticalPipeline />
+        <ProcessExplainers />
+        <TableOfContents />
+        <ToolsSection />
+        <WorkflowCTA />
+        <FAQSection />
+      </main>
+    </PageBackground>
   );
 }
