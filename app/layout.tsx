@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { inter, jetbrainsMono } from "@/lib/fonts";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -75,16 +76,24 @@ export default function RootLayout({
       <html
         lang="en"
         className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+        suppressHydrationWarning
       >
       <body className="min-h-full flex flex-col bg-bg text-text-primary font-sans">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <Navbar />
-        <div className="flex-1">{children}</div>
-        <Footer />
-        <Analytics />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+          <Navbar />
+          <div className="flex-1">{children}</div>
+          <Footer />
+          <Analytics />
+        </ThemeProvider>
       </body>
       </html>
     </>
