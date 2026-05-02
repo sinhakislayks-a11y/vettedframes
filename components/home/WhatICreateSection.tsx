@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
 
@@ -7,6 +8,7 @@ interface Capability {
   emoji: string;
   title: string;
   description: string;
+  href: string;
 }
 
 const CAPABILITIES: Capability[] = [
@@ -14,41 +16,49 @@ const CAPABILITIES: Capability[] = [
     emoji: "📢",
     title: "Promotions",
     description: "Scroll-stopping promo edits that drive action. Built for retention, designed for conversions.",
+    href: "/projects#motion",
   },
   {
     emoji: "🎙️",
     title: "Podcasts",
     description: "Clean podcast edits with visual overlays, chapter markers, and audiophile-grade sound.",
+    href: "/projects#youtube",
   },
   {
     emoji: "🎬",
     title: "Introduction Videos",
     description: "Brand-ready intros that hook viewers in the first 3 seconds. Your channel starts here.",
+    href: "/projects#youtube",
   },
   {
     emoji: "🎥",
     title: "Talking Head YouTube",
     description: "Retention-optimized talking head edits — tight pacing, captions, b-roll integration.",
+    href: "/projects#youtube",
   },
   {
     emoji: "📱",
-    title: "Reels / Shorts",
+    title: "Reels/Shorts",
     description: "Native-format short-form content built for algorithmic performance. Every frame earns its place.",
+    href: "/projects#reels",
   },
   {
     emoji: "✨",
     title: "Motion Graphics",
     description: "Kinetic type, lower thirds, and overlay sequences that add production value without distraction.",
+    href: "/projects#motion",
   },
   {
     emoji: "💻",
     title: "SaaS Animations",
     description: "Product demos and UI animations that make your SaaS feel like a premium brand.",
+    href: "/projects#animation",
   },
   {
     emoji: "🤖",
     title: "AI-Generated Content",
     description: "Synthetic footage and AI-enhanced visuals integrated seamlessly with real footage.",
+    href: "/projects#ai",
   },
 ];
 
@@ -56,39 +66,41 @@ function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
   const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.2 });
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
-      className="h-full"
-    >
+    <Link href={cap.href} className="block">
       <motion.div
-        animate={{ y: [0, -6, 0] }}
-        transition={{
-          duration: 4,
-          delay: index * 0.2,
-          ease: "easeInOut",
-          repeat: Infinity,
-        }}
-        className="bg-[#12121A] border border-white/5 rounded-[6px] p-6 h-full shadow-lg hover:shadow-brand/10 hover:border-brand/30 transition-colors"
+        ref={ref}
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.4, delay: index * 0.06 }}
+        className="h-full cursor-pointer"
       >
-        {/* Emoji */}
-        <div className="text-3xl mb-4">
-          {cap.emoji}
-        </div>
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{
+            duration: 4,
+            delay: index * 0.2,
+            ease: "easeInOut",
+            repeat: Infinity,
+          }}
+          className="bg-[#12121A] border border-white/5 rounded-[6px] p-6 h-full shadow-lg hover:shadow-brand/10 hover:border-brand/30 transition-colors"
+        >
+          {/* Emoji */}
+          <div className="text-3xl mb-4">
+            {cap.emoji}
+          </div>
 
-        {/* Title */}
-        <h3 className="font-display font-semibold text-lg text-text-primary mb-2">
-          {cap.title}
-        </h3>
+          {/* Title */}
+          <h3 className="font-display font-semibold text-lg text-text-primary mb-2">
+            {cap.title}
+          </h3>
 
-        {/* Description */}
-        <p className="font-sans text-text-secondary text-sm leading-relaxed">
-          {cap.description}
-        </p>
+          {/* Description */}
+          <p className="font-sans text-text-secondary text-sm leading-relaxed">
+            {cap.description}
+          </p>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </Link>
   );
 }
 

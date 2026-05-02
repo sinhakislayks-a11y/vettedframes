@@ -161,7 +161,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Filter Bar */}
-      <section className="sticky top-14 z-40 bg-bg-secondary/80 backdrop-blur-md border-b border-border-custom py-4">
+      <section id="motion" className="sticky top-14 z-40 bg-bg-secondary/80 backdrop-blur-md border-b border-border-custom py-4">
         <div className="mx-auto max-w-6xl px-6">
           <div className="flex flex-wrap gap-3">
             {CATEGORIES.map((category) => (
@@ -185,7 +185,7 @@ export default function ProjectsPage() {
       {activeFilter === "All" && showreel && <ShowreelCard project={showreel} />}
 
       {/* Projects Grid */}
-      <section className="flex-1 bg-bg py-16">
+      <section id="youtube" id="reels" id="motion" id="animation" id="ai" className="flex-1 bg-bg py-16">
         <div className="mx-auto max-w-6xl px-6">
           <AnimatePresence mode="popLayout">
             <motion.div
