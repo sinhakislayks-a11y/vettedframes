@@ -16,6 +16,23 @@ const fadeUp = {
   }),
 };
 
+// Gradient fallback for mobile/loading
+function GradientFallback() {
+  return (
+    <div
+      className="absolute inset-0"
+      style={{
+        background: `
+          radial-gradient(ellipse at 30% 40%, rgba(96, 37, 213, 0.3) 0%, transparent 50%),
+          radial-gradient(ellipse at 70% 60%, rgba(123, 92, 240, 0.2) 0%, transparent 45%),
+          radial-gradient(ellipse at 50% 30%, rgba(96, 37, 213, 0.15) 0%, transparent 40%),
+          linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 50%, #FAFAFA 100%)
+        `,
+      }}
+    />
+  );
+}
+
 // Floating geometric elements
 function FloatingElement({
   type,
@@ -93,42 +110,19 @@ function FilmFrame({ className }: { className: string }) {
   );
 }
 
-// Cursor spotlight effect
-function CursorSpotlight() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      setIsVisible(true);
-    };
-
-    const handleMouseLeave = () => setIsVisible(false);
-
-    window.addEventListener("mousemove", handleMouseMove);
-    document.body.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      document.body.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
-
-  return (
-    <motion.div
-      className="fixed inset-0 pointer-events-none z-[5] hidden md:block"
-      animate={{ opacity: isVisible ? 1 : 0 }}
-      transition={{ duration: 0.3 }}
-      style={{
-        background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(96, 37, 213, 0.04), transparent 50%)`,
-      }}
-    />
-  );
-}
-
 export default function AboutHero() {
   const containerRef = useRef<HTMLElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -145,12 +139,37 @@ export default function AboutHero() {
       ref={containerRef}
       className="relative w-full min-h-[100dvh] flex items-center overflow-hidden"
     >
-      {/* Cinematic gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-bg via-bg to-bg-secondary" />
+      {/* Spline 3D Background - Desktop only */}
+      <div className="absolute inset-0 overflow-hidden hidden md:block">
+        <GradientFallback />
+        <iframe
+          ref={iframeRef}
+          src="https://my.spline.design/distortingtypography-FZZGSzd1DOcI2dBCHY8XaW7d/"
+          frameBorder="0"
+          width="100%"
+          height="100%"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            border: "none",
+            opacity: isLoaded ? 1 : 0,
+            transition: "opacity 1s ease-in-out",
+            pointerEvents: "auto",
+            zIndex: 0,
+          }}
+          allow="autoplay; xr-spatial-tracking"
+          onLoad={() => setIsLoaded(true)}
+          title="3D Background Scene"
+        />
+      </div>
 
-      {/* Animated mesh gradient */}
+      {/* Mobile gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-bg via-bg to-bg-secondary md:hidden" />
+
+      {/* Animated mesh gradient for mobile */}
       <motion.div
-        className="absolute inset-0 opacity-[0.08] pointer-events-none"
+        className="absolute inset-0 opacity-[0.08] pointer-events-none md:hidden"
         animate={{
           background: [
             "radial-gradient(ellipse at 20% 30%, rgba(96, 37, 213, 0.4) 0%, transparent 50%)",
@@ -170,32 +189,36 @@ export default function AboutHero() {
         }}
       />
 
-      {/* Floating geometric elements */}
-      <FloatingElement type="circle" className="top-[15%] left-[10%]" delay={0} />
-      <FloatingElement type="square" className="top-[25%] right-[15%]" delay={0.5} />
-      <FloatingElement type="line" className="bottom-[20%] left-[20%]" delay={1} />
-      <FloatingElement type="circle" className="bottom-[30%] right-[10%]" delay={1.5} />
-      <FloatingElement type="square" className="top-[60%] left-[5%]" delay={2} />
+      {/* Floating geometric elements - Desktop only */}
+      <div className="hidden md:block">
+        <FloatingElement type="circle" className="top-[15%] left-[10%]" delay={0} />
+        <FloatingElement type="square" className="top-[25%] right-[15%]" delay={0.5} />
+        <FloatingElement type="line" className="bottom-[20%] left-[20%]" delay={1} />
+        <FloatingElement type="circle" className="bottom-[30%] right-[10%]" delay={1.5} />
+        <FloatingElement type="square" className="top-[60%] left-[5%]" delay={2} />
+      </div>
 
-      {/* Film frame motifs */}
-      <FilmFrame className="top-[20%] right-[5%] rotate-12" />
-      <FilmFrame className="bottom-[25%] left-[8%] -rotate-6" />
+      {/* Film frame motifs - Desktop only */}
+      <div className="hidden md:block">
+        <FilmFrame className="top-[20%] right-[5%] rotate-12" />
+        <FilmFrame className="bottom-[25%] left-[8%] -rotate-6" />
+      </div>
 
-      {/* Large decorative text */}
+      {/* Large decorative text - Desktop only */}
       <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none hidden md:block"
         style={{ y: smoothY }}
       >
         <span
-          className="font-display text-[20vw] md:text-[15vw] font-bold text-brand/[0.02] whitespace-nowrap"
+          className="font-display text-[20vw] font-bold text-brand/[0.02] whitespace-nowrap"
           aria-hidden
         >
           KISLAY
         </span>
       </motion.div>
 
-      {/* Horizontal scan lines (subtle) */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.015]">
+      {/* Horizontal scan lines - Desktop only */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.015] hidden md:block">
         {Array.from({ length: 20 }).map((_, i) => (
           <div
             key={i}
@@ -204,9 +227,6 @@ export default function AboutHero() {
           />
         ))}
       </div>
-
-      {/* Cursor spotlight */}
-      <CursorSpotlight />
 
       {/* Content */}
       <motion.div
