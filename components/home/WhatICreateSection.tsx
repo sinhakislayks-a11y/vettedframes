@@ -52,21 +52,6 @@ const CAPABILITIES: Capability[] = [
   },
 ];
 
-const gradientAnimation = `
-  @keyframes rotate-gradient {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  .gradient-border {
-    background: conic-gradient(from 0deg, transparent 0deg 340deg, #6025D5 340deg 360deg);
-    animation: rotate-gradient 8s linear infinite;
-  }
-  .gradient-border-inner {
-    background: #12121A;
-    border-radius: calc(6px - 1px);
-  }
-`;
-
 function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
   const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.2 });
 
@@ -76,22 +61,22 @@ function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.4, delay: index * 0.06 }}
-      className="gradient-border p-[1px] rounded-[6px]"
+      className="h-full"
     >
-      <div className="gradient-border-inner p-6 h-full">
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{
+          duration: 4,
+          delay: index * 0.2,
+          ease: "easeInOut",
+          repeat: Infinity,
+        }}
+        className="bg-[#12121A] border border-white/5 rounded-[6px] p-6 h-full shadow-lg hover:shadow-brand/10 hover:border-brand/30 transition-colors"
+      >
         {/* Emoji */}
-        <motion.div
-          animate={{ y: [0, -8, 0] }}
-          transition={{
-            duration: 4,
-            delay: index * 0.5,
-            ease: "easeInOut",
-            repeat: Infinity,
-          }}
-          className="text-3xl mb-4"
-        >
+        <div className="text-3xl mb-4">
           {cap.emoji}
-        </motion.div>
+        </div>
 
         {/* Title */}
         <h3 className="font-display font-semibold text-lg text-text-primary mb-2">
@@ -102,7 +87,7 @@ function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
         <p className="font-sans text-text-secondary text-sm leading-relaxed">
           {cap.description}
         </p>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -112,8 +97,6 @@ export default function WhatICreateSection() {
 
   return (
     <section className="w-full bg-bg py-24 relative overflow-hidden">
-      <style>{gradientAnimation}</style>
-
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-radial from-brand/5 to-transparent blur-[100px]" />
