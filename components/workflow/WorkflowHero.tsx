@@ -64,7 +64,7 @@ export default function WorkflowHero() {
           variants={fadeUp}
           className="font-sans text-text-secondary text-lg md:text-xl leading-relaxed max-w-xl"
         >
-          A clear 5-step process. No black boxes, no guesswork. Every decision is deliberate — from brief to final export.
+          A clear 7-step process. No black boxes, no guesswork. Every decision is deliberate — from brief to final export.
         </motion.p>
 
         {/* Scroll hint */}

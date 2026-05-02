@@ -41,10 +41,10 @@ export default function ServicesSection() {
       <div className="mx-auto max-w-6xl px-6">
         {/* Section header - centered */}
         <div className="mb-14 text-center">
-          <p className="font-mono text-text-secondary uppercase tracking-widest text-xs mb-3">
+          <p className="font-mono text-text-secondary uppercase tracking-widest text-xs mb-3 text-center">
             What I offer
           </p>
-          <h2 className="font-display font-bold text-3xl text-text-primary">
+          <h2 className="font-display font-bold text-3xl text-text-primary text-center">
             Three ways to work together.
           </h2>
         </div>
@@ -53,9 +53,6 @@ export default function ServicesSection() {
         <div ref={ref} className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {SERVICE_TIERS.map((service, i) => {
             const cardState = cards[service.name] || { isHovered: false, x: 0, y: 0 };
-            const bgStyle = cardState.isHovered
-              ? `radial-gradient(circle at ${cardState.x}px ${cardState.y}px, rgba(139,92,246,0.06) 0%, transparent 60%), #12121A`
-              : "#12121A";
 
             return (
               <motion.div
@@ -71,9 +68,9 @@ export default function ServicesSection() {
                 onMouseLeave={() => handleMouseLeave(service.name)}
                 style={{
                   background: cardState.isHovered
-                    ? `radial-gradient(circle at ${cardState.x}px ${cardState.y}px, rgba(96,37,213,0.08) 0%, rgba(96,37,213,0.03) 30%, #12121A 70%), #12121A`
-                    : "linear-gradient(135deg, #12121A 0%, #0A0A0F 50%, #12121A 100%)",
-                  transition: "background 400ms cubic-bezier(0.4, 0, 0.2, 1)",
+                    ? `radial-gradient(circle at ${cardState.x}px ${cardState.y}px, rgba(96,37,213,0.06) 0%, transparent 60%), #12121A`
+                    : "#12121A",
+                  transition: "background 200ms cubic-bezier(0.4, 0, 0.2, 1)",
                   transform: cardState.isHovered ? "translateY(-8px) scale(1.02)" : "translateY(0) scale(1)",
                   filter: cardState.isHovered ? "hue-rotate(10deg) saturate(1.1)" : "hue-rotate(0deg)",
                   boxShadow: cardState.isHovered

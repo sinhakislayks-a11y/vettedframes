@@ -4,6 +4,14 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TESTIMONIALS } from "@/lib/constants";
 
+const glowStyle = `
+  @keyframes breathe {
+    0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.4; }
+    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.7; }
+    100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.4; }
+  }
+`;
+
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -23,6 +31,7 @@ export default function Testimonials() {
 
   return (
     <section className="w-full bg-gradient-to-b from-bg-secondary via-surface to-bg-secondary py-20 relative overflow-hidden">
+      <style>{glowStyle}</style>
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-radial from-brand/5 to-transparent blur-[100px]" />
@@ -40,8 +49,23 @@ export default function Testimonials() {
         </div>
 
         {/* Testimonial card */}
-        <div className="relative min-h-[240px] flex flex-col items-center">
-          <div className="w-8 h-8 mb-6 text-brand/30">
+        <div className="relative min-h-[240px] flex flex-col items-center overflow-hidden">
+          {/* Animated glow behind quote */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "400px",
+              height: "400px",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(96,37,213,0.3) 0%, transparent 70%)",
+              animation: "breathe 4s ease-in-out infinite",
+              pointerEvents: "none",
+            }}
+          />
+          <div className="w-8 h-8 mb-6 text-brand/30 relative z-10">
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
               <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>
             </svg>

@@ -123,7 +123,7 @@ function PipelineNode({ step, index }: { step: PipelineStep; index: number }) {
         transition={{ duration: 0.4, delay: index * 0.1 }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`flex-1 md:pl-8 pl-4 pb-12 cursor-pointer transition-all duration-500 ${
+        className={`flex-1 min-w-0 md:pl-8 pl-4 pb-12 cursor-pointer transition-all duration-500 ${
           isHovered ? 'transform translate-x-2' : ''
         }`}
       >
@@ -140,18 +140,20 @@ function PipelineNode({ step, index }: { step: PipelineStep; index: number }) {
             <div className="h-px flex-1 bg-gradient-to-r from-brand/30 to-transparent" />
           </div>
 
+          <div className="w-full min-w-0">
           <h3 className={`font-display font-semibold text-lg md:text-xl mb-2 tracking-tight transition-colors duration-300 ${
             isHovered ? 'text-brand-light' : 'text-text-primary'
           }`}>
             {step.title}
           </h3>
-          <p className="font-sans text-text-secondary text-sm leading-relaxed mb-4">
+          <p className="font-sans text-text-secondary text-sm leading-relaxed mb-4 w-full min-w-0">
             {step.description}
           </p>
 
           <div className="inline-flex items-center gap-2 font-mono text-brand-light text-[11px] uppercase tracking-widest">
             <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-brand to-brand-light shadow-[0_0_8px_rgba(96,37,213,0.5)] animate-pulse" />
             {step.turnaround}
+          </div>
           </div>
 
           {/* Hover glow effect */}

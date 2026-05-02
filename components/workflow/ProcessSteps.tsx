@@ -191,12 +191,13 @@ function WorkflowNode({ step, index }: { step: StepData; index: number }) {
                 )}
 
                 {/* Step title */}
+                <div className="w-full min-w-0">
                 <h3 className="font-display font-semibold text-2xl md:text-3xl text-text-primary mb-4 tracking-tight leading-tight group-hover:text-brand-light transition-colors duration-300">
                   {step.title}
                 </h3>
 
                 {/* Description */}
-                <p className="font-sans text-text-secondary text-sm md:text-base leading-relaxed mb-6 max-w-sm">
+                <p className="font-sans text-text-secondary text-sm md:text-base leading-relaxed mb-6 max-w-full">
                   {step.description}
                 </p>
 
@@ -204,6 +205,7 @@ function WorkflowNode({ step, index }: { step: StepData; index: number }) {
                 <div className="inline-flex items-center gap-2 font-mono text-brand-light text-[11px] uppercase tracking-widest">
                   <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-brand to-brand-light shadow-[0_0_8px_rgba(96, 37, 213,0.5)] animate-pulse" />
                   {step.turnaround}
+                </div>
                 </div>
               </div>
             </motion.div>

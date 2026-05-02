@@ -1,12 +1,21 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { CLIENT_NAMES } from "@/lib/constants";
 import { useState } from "react";
 
+const logos = [
+  { name: "blinkit", src: "/logos/blinkit.png" },
+  { name: "nobroker", src: "/logos/nobroker.png" },
+  { name: "guru", src: "/logos/guru.png" },
+  { name: "internal-bhakti", src: "/logos/internal-bhakti.png" },
+  { name: "muffer", src: "/logos/muffer.png" },
+  { name: "ekore", src: "/logos/ekore.png" },
+  { name: "nca-hub", src: "/logos/nca-hub.png" },
+];
+
 export default function ClientLogos() {
-  // Triple the names for seamless infinite loop
-  const items = [...CLIENT_NAMES, ...CLIENT_NAMES, ...CLIENT_NAMES];
+  const items = [...logos, ...logos, ...logos];
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
@@ -39,19 +48,25 @@ export default function ClientLogos() {
             },
           }}
         >
-          {items.map((name, i) => (
-            <span
-              key={`${name}-${i}`}
+          {items.map((logo, i) => (
+            <div
+              key={`${logo.name}-${i}`}
               onMouseEnter={() => setHoveredIndex(i)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className={`flex-shrink-0 font-display text-xl md:text-2xl select-none whitespace-nowrap transition-all duration-500 ${
-                hoveredIndex === i
-                  ? 'text-brand-light scale-110 drop-shadow-[0_0_10px_rgba(96,37,213,0.3)]'
-                  : 'text-text-secondary/40 hover:text-text-secondary/70'
+              className={`relative flex-shrink-0 h-10 w-auto transition-all duration-500 ${
+                hoveredIndex === i ? 'scale-110' : ''
               }`}
+              style={{ width: "auto" }}
             >
-              {name}
-            </span>
+              <Image
+                src={logo.src}
+                alt={logo.name}
+                width={120}
+                height={40}
+                className="h-10 w-auto object-contain"
+                style={{ filter: "brightness(0) invert(1)" }}
+              />
+            </div>
           ))}
         </motion.div>
       </div>

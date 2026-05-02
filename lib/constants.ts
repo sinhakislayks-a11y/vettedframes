@@ -11,7 +11,7 @@ export const SOCIALS = {
   instagram: "https://instagram.com/framesbykislay",
   youtube: "https://youtube.com/@framesbykislay",
   twitter: "https://x.com/framesbykislay",
-  email: "hello@framesbykislay.com",
+  email: "sinhakislayks@gmail.com",
 } as const;
 
 // ── Services ──
