@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 
 const logos = [
-  { name: "blinkit", src: "/logos/blinkit.png" },
-  { name: "nobroker", src: "/logos/nobroker.png" },
-  { name: "guru", src: "/logos/guru.png" },
-  { name: "internal-bhakti", src: "/logos/internal-bhakti.png" },
-  { name: "muffer", src: "/logos/muffer.png" },
-  { name: "ekore", src: "/logos/ekore.png" },
-  { name: "nca-hub", src: "/logos/nca-hub.png" },
+  { name: "blinkit", src: "/logos/blinkit.svg" },
+  { name: "nobroker", src: "/logos/nobroker.svg" },
+  { name: "guru", src: "/logos/guru.svg" },
+  { name: "internal-bhakti", src: "/logos/internal-bhakti.svg" },
+  { name: "muffer", src: "/logos/muffer.svg" },
+  { name: "ekore", src: "/logos/ekore.svg" },
+  { name: "nca-hub", src: "/logos/nca-hub.svg" },
 ];
 
 export default function ClientLogos() {
@@ -63,8 +63,7 @@ export default function ClientLogos() {
                 alt={logo.name}
                 width={120}
                 height={40}
-                className="h-10 w-auto object-contain"
-                style={{ filter: "brightness(0) invert(1)" }}
+                className="h-10 w-auto object-contain rounded-xl shadow-lg"
               />
             </div>
           ))}
