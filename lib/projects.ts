@@ -231,6 +231,18 @@ export const ALL_PROJECTS: Project[] = [
     category: "reels",
     featured: false,
   },
+  {
+    id: "motion-glow-reel",
+    title: "Motion Graphics Reel",
+    client: "Brand Client",
+    role: "Motion Designer / Editor",
+    description:
+      "Kinetic typography and particle effects — motion-driven visual showcase.",
+    link: "https://youtube.com/shorts/ZaMhz1JeC_k",
+    thumbnail: "https://img.youtube.com/vi/ZaMhz1JeC_k/hqdefault.jpg",
+    category: "motion",
+    featured: true,
+  },
 ];
 
 export const FEATURED_PROJECTS = ALL_PROJECTS.filter((p) => p.featured);
