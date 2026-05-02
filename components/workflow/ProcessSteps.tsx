@@ -138,7 +138,7 @@ function WorkflowNode({ step, index }: { step: StepData; index: number }) {
               <div className="absolute inset-0 rounded-full bg-brand/20 blur-md scale-150 shadow-[0_0_30px_rgba(96, 37, 213,0.2)] group-hover:shadow-[0_0_40px_rgba(96, 37, 213,0.35)] transition-all duration-500" />
               {/* Node circle */}
               <div className="relative w-12 h-12 rounded-full border border-brand/50 bg-bg flex items-center justify-center group-hover:border-brand group-hover:shadow-[0_0_25px_rgba(96, 37, 213,0.4)] transition-all duration-500 group-hover:scale-110">
-                <span className="font-mono text-brand-light text-sm font-medium group-hover:text-white transition-colors duration-300">
+                <span className="font-mono text-brand-light text-sm font-medium group-hover:text-text-primary transition-colors duration-300">
                   {String(step.number).padStart(2, "0")}
                 </span>
               </div>

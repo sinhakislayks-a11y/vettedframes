@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { inter, jetbrainsMono } from "@/lib/fonts";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import WhatsAppBubble from "@/components/ui/WhatsAppBubble";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -92,6 +93,7 @@ export default function RootLayout({
           <Navbar />
           <div className="flex-1">{children}</div>
           <Footer />
+          <WhatsAppBubble />
           <Analytics />
         </ThemeProvider>
       </body>

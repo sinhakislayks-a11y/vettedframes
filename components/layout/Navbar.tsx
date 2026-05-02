@@ -65,7 +65,7 @@ export default function Navbar() {
             </div>
             <div className="flex items-baseline gap-0.5">
               <span className="font-display font-bold text-xl text-brand-light">Vetted</span>
-              <span className="font-brand italic text-xl text-white">Frames</span>
+              <span className="font-brand italic text-xl text-text-primary">Frames</span>
             </div>
           </Link>
 

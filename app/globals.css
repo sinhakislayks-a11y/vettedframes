@@ -57,13 +57,13 @@
   /* ── AI-Brutalist Color System ── */
 
   /* Base */
-  --color-bg: #050507;
-  --color-bg-secondary: #0A0A0F;
-  --color-surface: #12121A;
-  --color-surface-elevated: #2A2A35;
+  --color-bg: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
 
   /* Borders */
-  --color-border-custom: #1A1A24;
+  --color-border-custom: var(--border-custom);
 
   /* Purple accent system */
   --color-brand: #6025D5;
@@ -72,9 +72,9 @@
   --color-brand-dim: rgba(96, 37, 213, 0.08);
 
   /* Text hierarchy */
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #9CA3AF;
-  --color-text-muted: #6B7280;
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
 
   /* Fonts */
   --font-sans: var(--font-inter);
@@ -93,8 +93,43 @@
   --radius-4xl: 4px;
 }
 
-/* ── Dark-first: AI-brutalist is always dark ── */
+/* ── Light Theme (Default) ── */
 :root {
+  --background: #FFFFFF;
+  --foreground: #050507;
+  --card: #F9FAFB;
+  --card-foreground: #050507;
+  --popover: #FFFFFF;
+  --popover-foreground: #050507;
+  --primary: #6025D5;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F3F4F6;
+  --secondary-foreground: #111827;
+  --muted: #F3F4F6;
+  --muted-foreground: #6B7280;
+  --accent: #6025D5;
+  --accent-foreground: #FFFFFF;
+  --destructive: #ef4444;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #6025D5;
+  --radius: 4px;
+
+  /* AI-Brutalist Color System (Light) */
+  --bg-primary: #FAFAFA;
+  --bg-secondary: #F4F4F5;
+  --surface: #FFFFFF;
+  --surface-elevated: #F9FAFB;
+  --border-custom: #E4E4E7;
+  
+  /* Text hierarchy (Light) */
+  --text-primary: #050507;
+  --text-secondary: #4B5563;
+  --text-muted: #6B7280;
+}
+
+/* ── Dark Theme ── */
+.dark {
   --background: #050507;
   --foreground: #FFFFFF;
   --card: #12121A;
@@ -113,7 +148,18 @@
   --border: #1A1A24;
   --input: #1A1A24;
   --ring: #6025D5;
-  --radius: 4px;
+
+  /* AI-Brutalist Color System (Dark) */
+  --bg-primary: #050507;
+  --bg-secondary: #0A0A0F;
+  --surface: #12121A;
+  --surface-elevated: #2A2A35;
+  --border-custom: #1A1A24;
+  
+  /* Text hierarchy (Dark) */
+  --text-primary: #FFFFFF;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
 }
 
 /* ── Glow utilities (selective use) ── */
