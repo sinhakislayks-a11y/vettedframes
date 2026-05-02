@@ -108,7 +108,7 @@ function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
 }
 
 export default function WhatICreateSection() {
-  const { ref, isInView } = useInView<HTMLElement>({ threshold: 0.1 });
+  const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.1 });
 
   return (
     <section className="w-full bg-bg py-24 relative overflow-hidden">
