@@ -10,9 +10,25 @@ import WorkflowCTA from "@/components/workflow/WorkflowCTA";
 const FAQSection = dynamic(() => import("@/components/workflow/FAQSection"));
 
 export const metadata: Metadata = {
-  title: "Workflow — VettedFrames",
+  title: "My Workflow — Frames by Kislay",
   description:
-    "A clear 7-step process from brief to final delivery. See tools, deliverables comparison, and FAQs.",
+    "A clear 7-step process from brief to final delivery. See tools, deliverables comparison, and FAQs for working together.",
+  keywords: [
+    "video editor workflow",
+    "video production process",
+    "editing workflow",
+    "how I work video editor",
+  ],
+  openGraph: {
+    title: "How I Work — Frames by Kislay",
+    description:
+      "A clear 7-step process from brief to final delivery. See tools, deliverables comparison, and FAQs.",
+  },
+  twitter: {
+    title: "How I Work — Frames by Kislay",
+    description:
+      "A clear 7-step process from brief to final delivery.",
+  },
 };
 
 export default function WorkflowPage() {

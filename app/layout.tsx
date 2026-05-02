@@ -7,28 +7,28 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://vettedframes.vercel.app"),
-  title: "VettedFrames — Video Editor, Colorist, Cinematographer",
+  title: {
+    default: "Frames by Kislay — Video Editor & Colorist for Creators",
+    template: "%s | Frames by Kislay",
+  },
   description:
-    "High-retention reels and short-form content for SaaS founders and YouTube creators. Convert your ideas into defining visuals.",
+    "High-retention reels and short-form content for SaaS founders and YouTube creators in India. Transform your ideas into defining visuals.",
   openGraph: {
-    title: "Frames by Kislay",
-    description:
-      "High-retention reels and short-form content for SaaS founders and YouTube creators.",
+    siteName: "Frames by Kislay",
     type: "website",
     images: [
       {
         url: "/og-image-v3.png",
         width: 1200,
         height: 630,
-        alt: "Frames by Kislay",
+        alt: "Frames by Kislay — Video Editor for Creators",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Frames by Kislay",
-    description:
-      "High-retention reels and short-form content for SaaS founders and YouTube creators.",
+    site: "@framesbykislay",
+    creator: "@framesbykislay",
     images: ["/og-image-v3.png"],
   },
   verification: {

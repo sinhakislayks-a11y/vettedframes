@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { track } from "@vercel/analytics/react";
 
 interface ProjectThumbnailProps {
   src: string;
   alt: string;
   priority?: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
 export default function ProjectThumbnail({
@@ -15,6 +17,7 @@ export default function ProjectThumbnail({
   alt,
   priority = false,
   className = "",
+  onClick,
 }: ProjectThumbnailProps) {
   const [imgError, setImgError] = useState(false);
   const showPlaceholder = !src || imgError;
@@ -52,7 +55,10 @@ export default function ProjectThumbnail({
   }
 
   return (
-    <div className={`relative w-full aspect-video overflow-hidden ${className}`}>
+    <div
+      className={`relative w-full aspect-video overflow-hidden ${className}`}
+      onClick={onClick}
+    >
       <Image
         src={src}
         alt={alt}

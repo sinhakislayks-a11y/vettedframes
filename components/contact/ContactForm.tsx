@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { track } from "@vercel/analytics/react";
 import { contactFormSchema, PROJECT_TYPES } from "@/lib/validators";
 import type { ContactFormData } from "@/lib/validators";
 import { Input } from "@/components/ui/input";
@@ -56,6 +57,7 @@ export default function ContactForm() {
         );
       }
 
+      track("form_submit", { type: data.projectType });
       setIsSuccess(true);
     } catch (err) {
       setApiError(
