@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ContactSplineBackground from "@/components/contact/ContactSplineBackground";
 import AnoAI from "@/components/ui/animated-shader-background";
+import RotatingWord from "@/components/ui/RotatingWord";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -65,7 +66,7 @@ export default function ContactHero() {
           variants={fadeUp}
           className="font-display font-bold text-3xl md:text-5xl text-text-primary mb-6 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
         >
-          Got a reel or project in mind?
+          Got a <RotatingWord words={["reel", "project", "brand film", "campaign"]} className="text-brand-light" /> in mind?
         </motion.h1>
 
         <motion.p

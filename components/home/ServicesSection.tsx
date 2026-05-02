@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
 import { useState, useCallback } from "react";
 import { SERVICE_TIERS } from "@/lib/constants";
+import RotatingWord from "@/components/ui/RotatingWord";
 
 interface CardState {
   isHovered: boolean;
@@ -45,7 +46,7 @@ export default function ServicesSection() {
             What I offer
           </p>
           <h2 className="font-display font-bold text-3xl text-text-primary text-center">
-            Three ways to work together.
+            <RotatingWord words={["work together", "collaborate", "get started"]} className="text-brand-light" />
           </h2>
         </div>
 

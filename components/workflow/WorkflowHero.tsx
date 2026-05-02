@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import WorkflowSplineBackground from "@/components/workflow/WorkflowSplineBackground";
+import RotatingWord from "@/components/ui/RotatingWord";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -52,7 +53,7 @@ export default function WorkflowHero() {
           variants={fadeUp}
           className="font-display font-semibold text-4xl sm:text-5xl md:text-6xl text-text-primary leading-[1.1] tracking-tight mb-8"
         >
-          From raw footage
+          <RotatingWord words={["raw footage", "your brief", "rough cuts", "your idea"]} className="text-brand-light" />
           <br />
           <span className="text-brand-light">to finished reel.</span>
         </motion.h1>

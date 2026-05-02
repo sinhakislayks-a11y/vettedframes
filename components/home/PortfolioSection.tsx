@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
 import { FEATURED_PROJECTS, type Project } from "@/lib/projects";
+import RotatingWord from "@/components/ui/RotatingWord";
 import { ExternalLink } from "lucide-react";
 import ProjectThumbnail from "@/components/ui/ProjectThumbnail";
 
@@ -148,7 +149,7 @@ export default function PortfolioSection() {
             Selected Projects
           </p>
           <h2 className="font-display font-bold text-3xl text-text-primary">
-            Work that speaks.
+            <RotatingWord words={["perform", "convert", "retain", "land"]} className="text-brand-light" />
           </h2>
         </div>
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
+import RotatingWord from "@/components/ui/RotatingWord";
 
 interface Capability {
   emoji: string;
@@ -131,7 +132,7 @@ export default function WhatICreateSection() {
             transition={{ duration: 0.4, delay: 0.1 }}
             className="font-display font-bold text-3xl md:text-4xl text-text-primary"
           >
-            From short-form to full production.
+            What I <RotatingWord words={["create", "deliver", "build", "craft"]} className="text-brand-light" />
           </motion.h2>
         </div>
 
