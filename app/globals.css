@@ -80,7 +80,7 @@
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
   --font-display: "Cormorant Garamond", serif;
-  --font-brand: "Blosta Script", cursive;
+  --font-brand: "Cormorant Garamond", serif;
   --font-heading: "MADE Coachella", serif;
 
   /* Border radius - minimal brutalist */
