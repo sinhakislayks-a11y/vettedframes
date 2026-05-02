@@ -185,7 +185,7 @@ export default function ProjectsPage() {
       {activeFilter === "All" && showreel && <ShowreelCard project={showreel} />}
 
       {/* Projects Grid */}
-      <section id="youtube" id="reels" id="motion" id="animation" id="ai" className="flex-1 bg-bg py-16">
+      <section id="projects" className="flex-1 bg-bg py-16">
         <div className="mx-auto max-w-6xl px-6">
           <AnimatePresence mode="popLayout">
             <motion.div
