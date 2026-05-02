@@ -1,28 +1,49 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 
 const PRINCIPLES = [
   {
     title: "Rhythm, not just cuts",
     description:
       "Editing is musical. Every cut is a beat. Every transition is a breath. The best edits feel inevitable — you don't notice the decisions because they land exactly when they should.",
+    icon: (
+      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
   },
   {
     title: "Invisible but intentional",
     description:
       "Good editing is invisible. That's the goal. Not flashy transitions or Effects. Just clean, purposeful choices that serve the story. When someone watches your video and doesn't notice the editing — that's success.",
+    icon: (
+      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+      </svg>
+    ),
   },
   {
     title: "Retention is not a hack",
     description:
       "There's no magic hook formula. Retention comes from clarity — knowing what you're saying, knowing who you're saying it to, and timing every beat to land right. It's craft, not tricks.",
+    icon: (
+      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    ),
   },
   {
     title: "Feel matters as much as metrics",
     description:
       "I care about how content performs. But I also care about how it feels to watch. A video that gets clicks but feels hollow? That's not a win. I want to make things that work AND feel right.",
+    icon: (
+      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      </svg>
+    ),
   },
 ];
 
@@ -35,22 +56,49 @@ function PrincipleCard({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative"
+      transition={{ duration: 0.6, delay: index * 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative bg-surface/30 border border-border-custom rounded-[4px] p-8 hover:border-brand/30 transition-all duration-500 cursor-pointer overflow-hidden"
     >
-      {/* Number */}
-      <span className="font-mono text-brand/30 text-[64px] md:text-[80px] font-bold absolute -top-4 -left-2 md:-left-4 select-none pointer-events-none leading-none">
+      {/* Animated gradient background on hover */}
+      <motion.div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: "radial-gradient(circle at 50% 50%, rgba(96, 37, 213, 0.08) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Icon with glow */}
+      <motion.div
+        animate={{
+          color: isHovered ? "#7B5CF0" : "#6025D5",
+          filter: isHovered ? "drop-shadow(0 0 8px rgba(96, 37, 213, 0.5))" : "none",
+        }}
+        transition={{ duration: 0.3 }}
+        className="relative z-10 mb-6"
+      >
+        {principle.icon}
+      </motion.div>
+
+      {/* Number - fades on hover */}
+      <motion.span
+        className="font-mono text-brand/20 text-[64px] md:text-[80px] font-bold absolute -top-2 -left-2 md:-left-4 select-none pointer-events-none leading-none transition-opacity duration-500 group-hover:opacity-0"
+        animate={{ x: isHovered ? -10 : 0 }}
+        transition={{ duration: 0.3 }}
+      >
         {String(index + 1).padStart(2, "0")}
-      </span>
+      </motion.span>
 
       {/* Content */}
-      <div className="relative pt-16 md:pt-20 pl-2">
+      <div className="relative z-10 pt-12 md:pt-16">
         <h3 className="font-display font-semibold text-lg md:text-xl text-text-primary mb-3 tracking-tight">
           {principle.title}
         </h3>
@@ -59,8 +107,20 @@ function PrincipleCard({
         </p>
       </div>
 
-      {/* Hover line */}
-      <div className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-brand to-brand-light group-hover:w-full transition-all duration-500" />
+      {/* Bottom accent line */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-brand via-brand-light to-brand"
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        animate={{ scaleX: isHovered ? 1 : 0 }}
+        transition={{ duration: 0.5 }}
+      />
+
+      {/* Corner decoration */}
+      <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+        <div className="absolute top-0 right-0 w-px h-12 bg-gradient-to-b from-brand/20 to-transparent" />
+        <div className="absolute top-0 right-0 h-px w-12 bg-gradient-to-l from-brand/20 to-transparent" />
+      </div>
     </motion.div>
   );
 }
@@ -68,29 +128,63 @@ function PrincipleCard({
 export default function PhilosophySection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
     <section ref={ref} className="relative w-full py-32 md:py-48 overflow-hidden">
-      {/* Background with subtle gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-bg-secondary/30 via-bg to-bg-secondary/30" />
+      {/* Background with parallax gradients */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-b from-bg-secondary/30 via-bg to-bg-secondary/30"
+        style={{ y }}
+      />
 
-      {/* Decorative elements */}
-      <div className="absolute top-1/2 left-0 w-32 h-32 bg-gradient-radial from-brand/[0.05] to-transparent rounded-full blur-[60px] pointer-events-none" />
+      {/* Animated background orbs */}
+      <motion.div
+        className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-gradient-radial from-brand/[0.06] to-transparent blur-[80px] pointer-events-none"
+        animate={{
+          scale: [1, 1.2, 1],
+          x: [0, 30, 0],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-gradient-radial from-brand-light/[0.05] to-transparent blur-[60px] pointer-events-none"
+        animate={{
+          scale: [1, 1.3, 1],
+          y: [0, -20, 0],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         {/* Section header */}
-        <div className="mb-20 flex items-center gap-4">
-          <div className="w-8 h-px bg-brand" />
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="mb-20 flex items-center gap-4"
+        >
+          <motion.div
+            className="w-8 h-px bg-brand"
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.6 }}
+          />
           <span className="font-mono text-brand/60 text-[10px] uppercase tracking-[0.25em]">
             Perspective
           </span>
-        </div>
+        </motion.div>
 
         {/* Title */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
           className="mb-20 max-w-2xl"
         >
           <h2 className="font-display font-semibold text-3xl md:text-4xl lg:text-5xl text-text-primary tracking-tight leading-tight mb-6">
@@ -102,7 +196,7 @@ export default function PhilosophySection() {
         </motion.div>
 
         {/* Principles grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
           {PRINCIPLES.map((principle, index) => (
             <PrincipleCard
               key={principle.title}
@@ -112,6 +206,9 @@ export default function PhilosophySection() {
           ))}
         </div>
       </div>
+
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bg-secondary/50 to-transparent pointer-events-none" />
     </section>
   );
 }
