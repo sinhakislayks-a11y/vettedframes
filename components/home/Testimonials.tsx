@@ -89,7 +89,7 @@ export default function Testimonials() {
                   {testimonial.name}
                 </p>
                 <p className="font-sans text-text-secondary text-xs">
-                  {testimonial.role}, {testimonial.company}
+                  {[testimonial.role, testimonial.company].filter(Boolean).join(", ")}
                 </p>
               </div>
             </motion.div>

@@ -53,24 +53,38 @@ export interface Testimonial {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "Kislay turned our raw product demo into a reel that hit 2M views. The retention curve was insane — 78% watched till the end.",
-    name: "Arjun Mehta",
-    role: "Founder",
-    company: "ShipFast.io",
+      "Working with someone this sharp is rare. Turnaround was fast, communication was seamless, and he nailed the brief without hand-holding. When we needed adjustments, he moved quickly and got it right. This is what professional looks like.",
+    name: "Muffer",
+    role: "Video Editing Agency",
+    company: "",
   },
   {
     quote:
-      "I've worked with a dozen editors. Kislay is the first one who actually understood pacing for YouTube. My average view duration jumped 40%.",
-    name: "Priya Sharma",
-    role: "YouTube Creator",
-    company: "520K subscribers",
+      "We throw a lot of different content types at our editors — international briefs, varied formats, tight deadlines. Kislay always adapted every single time without skipping a beat. Genuinely one of the most flexible creatives we've collaborated with.",
+    name: "CKS Motion",
+    role: "Creative Agency",
+    company: "Noida",
   },
   {
     quote:
-      "The color grade alone made our brand videos feel like a Netflix promo. We now get asked who does our production.",
-    name: "Ravi Kumar",
-    role: "Head of Marketing",
-    company: "StackBlitz",
+      "In the finance content space, quality and consistency aren't optional they're everything. Kislay showed up prepared, delivered clean edits, and actually kept us in the loop throughout. Would recommend without hesitation.",
+    name: "Ono Creators",
+    role: "Finance Content",
+    company: "",
+  },
+  {
+    quote:
+      "bro just gets it. didn't have to over-explain the vibe or the vision he felt it and brought it to life. the visuals matched the energy of the music perfectly. that's hard to find fr.",
+    name: "Mizaaj",
+    role: "Hip Hop Artist",
+    company: "Jammu",
+  },
+  {
+    quote:
+      "We engaged them as a freelancer for a project requiring precision and a clear creative eye. The result exceeded our expectations delivered in a single pass, with zero revisions needed. Exceptional standard of work.",
+    name: "Ekore Metre Plus",
+    role: "Client",
+    company: "Italy",
   },
 ];
 
