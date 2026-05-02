@@ -1,6 +1,7 @@
 // ── Navigation ──
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
   { label: "Projects", href: "/projects" },
   { label: "Workflow", href: "/workflow" },
   { label: "Contact", href: "/contact" },

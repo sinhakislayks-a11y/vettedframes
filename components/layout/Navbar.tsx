@@ -8,6 +8,7 @@ import Image from "next/image";
 import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Search, X } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -90,14 +91,17 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Search toggle */}
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
-              aria-label="Toggle search"
-            >
-              <Search className="w-4 h-4" />
-            </button>
+            {/* Actions (Search & Theme) */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="w-8 h-8 flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors cursor-pointer rounded-full hover:bg-surface-elevated"
+                aria-label="Toggle search"
+              >
+                <Search className="w-4 h-4" />
+              </button>
+              <ThemeToggle />
+            </div>
 
             <Link
               href="/contact"
@@ -108,14 +112,15 @@ export default function Navbar() {
           </div>
 
           {/* Mobile toggle */}
-          <div className="flex items-center gap-4 md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
+              className="w-8 h-8 flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors cursor-pointer rounded-full hover:bg-surface-elevated"
               aria-label="Toggle search"
             >
               <Search className="w-4 h-4" />
             </button>
+            <ThemeToggle />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="flex flex-col gap-1 p-2 cursor-pointer"
