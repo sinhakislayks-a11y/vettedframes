@@ -202,8 +202,8 @@ export const ALL_PROJECTS: Project[] = [
     role: "Editor / Colorist",
     description:
       "Retention-optimized talking head edit — pacing, captions, b-roll.",
-    link: "https://youtu.be/wTDpjgk1fpI",
-    thumbnail: "https://img.youtube.com/vi/wTDpjgk1fpI/maxresdefault.jpg",
+    link: "https://youtu.be/JczEhCRuxvM",
+    thumbnail: "https://img.youtube.com/vi/JczEhCRuxvM/maxresdefault.jpg",
     category: "youtube",
     featured: true,
   },
