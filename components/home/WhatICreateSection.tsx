@@ -4,12 +4,39 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
 import RotatingWord from "@/components/ui/RotatingWord";
+import { KeywordButton } from "@/components/ui/keyword-button";
 
 interface Capability {
   emoji: string;
   title: string;
   description: string;
   href: string;
+}
+
+// Keywords with their tooltips
+const KEYWORDS: Record<string, { tooltip: string }> = {
+  hook: { tooltip: "The first 3 seconds that decide everything." },
+  "3 seconds": { tooltip: "The attention span window where viewers decide to stay or scroll." },
+  retention: { tooltip: "Keeping viewers watching is the only metric that matters." },
+};
+
+// Helper to render description with keyword tooltips
+function DescriptionWithKeywords({ text }: { text: string }) {
+  const parts = text.split(/(\bhook\b|\b3 seconds\b|\bretention\b)/gi);
+
+  return (
+    <p className="font-sans text-text-secondary text-sm leading-relaxed">
+      {parts.map((part, i) => {
+        const keyword = Object.keys(KEYWORDS).find(k => k.toLowerCase() === part.toLowerCase());
+        if (keyword && KEYWORDS[keyword]) {
+          return (
+            <KeywordButton key={i} label={part} tooltip={KEYWORDS[keyword].tooltip} />
+          );
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </p>
+  );
 }
 
 const CAPABILITIES: Capability[] = [
@@ -96,9 +123,7 @@ function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
           </h3>
 
           {/* Description */}
-          <p className="font-sans text-text-secondary text-sm leading-relaxed">
-            {cap.description}
-          </p>
+          <DescriptionWithKeywords text={cap.description} />
         </motion.div>
       </motion.div>
     </Link>

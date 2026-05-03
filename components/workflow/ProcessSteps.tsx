@@ -2,6 +2,34 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
+import { KeywordButton } from "@/components/ui/keyword-button";
+
+// Keywords with their tooltips
+const KEYWORDS: Record<string, { tooltip: string }> = {
+  hook: { tooltip: "The first 3 seconds that decide everything." },
+  hooks: { tooltip: "The first 3 seconds that decide everything." },
+  retention: { tooltip: "Keeping viewers watching is the only metric that matters." },
+};
+
+// Helper to render text with keyword tooltips
+function TextWithKeywords({ text }: { text: string }) {
+  const pattern = /\b(hook|hooks|retention)\b/gi;
+  const parts = text.split(pattern);
+
+  return (
+    <span>
+      {parts.map((part, i) => {
+        const keyword = Object.keys(KEYWORDS).find(k => k.toLowerCase() === part.toLowerCase());
+        if (keyword && KEYWORDS[keyword]) {
+          return (
+            <KeywordButton key={i} label={part} tooltip={KEYWORDS[keyword].tooltip} />
+          );
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </span>
+  );
+}
 
 // ── Step data with annotations ──────────────────────────────────────────────
 interface StepData {
@@ -198,7 +226,7 @@ function WorkflowNode({ step, index }: { step: StepData; index: number }) {
 
                 {/* Description */}
                 <p className="font-sans text-text-secondary text-sm md:text-base leading-relaxed mb-6 max-w-full">
-                  {step.description}
+                  <TextWithKeywords text={step.description} />
                 </p>
 
                 {/* Turnaround badge */}

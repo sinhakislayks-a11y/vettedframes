@@ -2,6 +2,32 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { KeywordButton } from "@/components/ui/keyword-button";
+
+// Keywords with their tooltips
+const KEYWORDS: Record<string, { tooltip: string }> = {
+  hooks: { tooltip: "The first 3 seconds that decide everything." },
+};
+
+// Helper to render text with keyword tooltips
+function TextWithKeywords({ text }: { text: string }) {
+  const pattern = /\b(hooks)\b/gi;
+  const parts = text.split(pattern);
+
+  return (
+    <span>
+      {parts.map((part, i) => {
+        const keyword = Object.keys(KEYWORDS).find(k => k.toLowerCase() === part.toLowerCase());
+        if (keyword && KEYWORDS[keyword]) {
+          return (
+            <KeywordButton key={i} label={part} tooltip={KEYWORDS[keyword].tooltip} />
+          );
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </span>
+  );
+}
 
 interface PipelineStep {
   number: number;
@@ -147,7 +173,7 @@ function PipelineNode({ step, index }: { step: PipelineStep; index: number }) {
             {step.title}
           </h3>
           <p className="font-sans text-text-secondary text-sm leading-relaxed mb-4 w-full min-w-0">
-            {step.description}
+            <TextWithKeywords text={step.description} />
           </p>
 
           <div className="inline-flex items-center gap-2 font-mono text-brand-light text-[11px] uppercase tracking-widest">

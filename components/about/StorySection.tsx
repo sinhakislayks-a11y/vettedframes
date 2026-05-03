@@ -2,6 +2,32 @@
 
 import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { KeywordButton } from "@/components/ui/keyword-button";
+
+// Keywords with their tooltips
+const KEYWORDS: Record<string, { tooltip: string }> = {
+  hook: { tooltip: "The first 3 seconds that decide everything." },
+  retention: { tooltip: "Keeping viewers watching is the only metric that matters." },
+};
+
+// Helper to render content with keyword tooltips
+function ContentWithKeywords({ text }: { text: string }) {
+  const parts = text.split(/(\bhook\b|\bretention\b)/gi);
+
+  return (
+    <span>
+      {parts.map((part, i) => {
+        const keyword = Object.keys(KEYWORDS).find(k => k.toLowerCase() === part.toLowerCase());
+        if (keyword && KEYWORDS[keyword]) {
+          return (
+            <KeywordButton key={i} label={part} tooltip={KEYWORDS[keyword].tooltip} />
+          );
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </span>
+  );
+}
 
 function StoryBlock({
   eyebrow,
@@ -68,7 +94,7 @@ function StoryBlock({
         viewport={{ once: true }}
         className="font-sans text-text-secondary text-base md:text-lg leading-relaxed max-w-lg"
       >
-        {content}
+        <ContentWithKeywords text={content} />
       </motion.p>
     </motion.div>
   );

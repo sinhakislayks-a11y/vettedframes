@@ -2,6 +2,34 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
+import { KeywordButton } from "@/components/ui/keyword-button";
+
+// Keywords with their tooltips
+const KEYWORDS: Record<string, { tooltip: string }> = {
+  hook: { tooltip: "The first 3 seconds that decide everything." },
+  "color grading": { tooltip: "The emotion layer. Most editors skip this." },
+  "motion graphics": { tooltip: "Kinetic type, lower thirds, and overlays that add production value." },
+};
+
+// Helper to render text with keyword tooltips
+function TextWithKeywords({ text }: { text: string }) {
+  const pattern = /\b(hook|color grading|motion graphics)\b/gi;
+  const parts = text.split(pattern);
+
+  return (
+    <span>
+      {parts.map((part, i) => {
+        const keyword = Object.keys(KEYWORDS).find(k => k.toLowerCase() === part.toLowerCase());
+        if (keyword && KEYWORDS[keyword]) {
+          return (
+            <KeywordButton key={i} label={part} tooltip={KEYWORDS[keyword].tooltip} />
+          );
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </span>
+  );
+}
 
 interface ExplainerItem {
   title: string;
@@ -145,11 +173,11 @@ function ExplainerSection({ item, index, isEven }: { item: ExplainerItem; index:
               <span className="text-brand-light"> {item.accentWord}</span>
             </h3>
             <p className="font-sans text-text-secondary text-base leading-relaxed mb-6">
-              {item.description}
+              <TextWithKeywords text={item.description} />
             </p>
             <div className="border-l-2 border-brand/30 pl-5">
               <p className="font-sans text-text-secondary/80 text-sm leading-relaxed italic">
-                &ldquo;{item.philosophy}&rdquo;
+                &ldquo;<TextWithKeywords text={item.philosophy} />&rdquo;
               </p>
             </div>
           </motion.div>
