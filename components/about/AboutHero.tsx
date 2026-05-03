@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { SplineScene } from "@/components/ui/SplineScene";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -93,17 +94,17 @@ function FilmFrame({ className }: { className: string }) {
   );
 }
 
-// Animated gradient background for when Spline fails or as base
-function AnimatedGradientBG() {
+// Animated gradient fallback
+function AnimatedGradientFallback() {
   return (
     <motion.div
       className="absolute inset-0"
       animate={{
         background: [
-          "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.3) 0%, rgba(123, 92, 240, 0.15) 40%, transparent 70%)",
-          "radial-gradient(ellipse at 40% 60%, rgba(123, 92, 240, 0.35) 0%, rgba(96, 37, 213, 0.2) 40%, transparent 70%)",
-          "radial-gradient(ellipse at 60% 40%, rgba(96, 37, 213, 0.3) 0%, rgba(167, 139, 250, 0.15) 40%, transparent 70%)",
-          "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.3) 0%, rgba(123, 92, 240, 0.15) 40%, transparent 70%)",
+          "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.35) 0%, rgba(123, 92, 240, 0.2) 40%, transparent 70%)",
+          "radial-gradient(ellipse at 40% 60%, rgba(123, 92, 240, 0.4) 0%, rgba(96, 37, 213, 0.25) 40%, transparent 70%)",
+          "radial-gradient(ellipse at 60% 40%, rgba(96, 37, 213, 0.35) 0%, rgba(167, 139, 250, 0.2) 40%, transparent 70%)",
+          "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.35) 0%, rgba(123, 92, 240, 0.2) 40%, transparent 70%)",
         ],
       }}
       transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
@@ -111,19 +112,28 @@ function AnimatedGradientBG() {
   );
 }
 
+// Mobile gradient background
+function MobileGradient() {
+  return (
+    <motion.div
+      className="absolute inset-0 opacity-20 md:hidden"
+      animate={{
+        background: [
+          "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.4) 0%, transparent 60%)",
+          "radial-gradient(ellipse at 50% 50%, rgba(123, 92, 240, 0.4) 0%, transparent 60%)",
+          "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.4) 0%, transparent 60%)",
+        ],
+      }}
+      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+    />
+  );
+}
+
+// Spline scene URL from user's iframe embed
+const SPLINE_SCENE_URL = "https://my.spline.design/distortingtypography-FZZGSzd1DOcI2dBCHY8XaW7d/";
+
 export default function AboutHero() {
   const containerRef = useRef<HTMLElement>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [showSpline, setShowSpline] = useState(true);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -136,82 +146,29 @@ export default function AboutHero() {
 
   const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
 
-  // Handle iframe load with timeout fallback
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (!isLoaded) {
-        setShowSpline(false);
-      }
-    }, 10000);
-
-    return () => clearTimeout(timeout);
-  }, [isLoaded]);
-
-  const handleIframeLoad = () => {
-    setIsLoaded(true);
-  };
-
-  const handleIframeError = () => {
-    setShowSpline(false);
-  };
-
   return (
     <section
       ref={containerRef}
       className="relative w-full min-h-[100dvh] flex items-center overflow-hidden"
     >
-      {/* Spline 3D Background - Desktop only */}
-      <div className="absolute inset-0 overflow-hidden hidden md:block">
-        {/* Base animated gradient - always visible behind Spline */}
-        <AnimatedGradientBG />
+      {/* Desktop: Spline 3D Background */}
+      <div className="absolute inset-0 hidden md:block">
+        {/* Base animated gradient */}
+        <AnimatedGradientFallback />
 
-        {/* Spline iframe - full screen, behind content */}
-        {showSpline && (
-          <iframe
-            ref={iframeRef}
-            src="https://my.spline.design/distortingtypography-FZZGSzd1DOcI2dBCHY8XaW7d/"
-            className="absolute inset-0 w-full h-full"
-            frameBorder="0"
-            allow="autoplay; xr-spatial-tracking; gyroscope; fullscreen"
-            allowFullScreen
-            onLoad={handleIframeLoad}
-            onError={handleIframeError}
-            title="Interactive 3D Background"
-            loading="eager"
-            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+        {/* Spline Scene */}
+        <div className="absolute inset-0">
+          <SplineScene
+            scene={SPLINE_SCENE_URL}
+            className="absolute inset-0"
+            fallback={<AnimatedGradientFallback />}
           />
-        )}
-
-        {/* Loading indicator */}
-        {!isLoaded && showSpline && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <motion.div
-              className="flex flex-col items-center gap-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin" />
-              <span className="font-mono text-brand/50 text-xs uppercase tracking-widest">
-                Loading
-              </span>
-            </motion.div>
-          </div>
-        )}
+        </div>
       </div>
 
-      {/* Mobile gradient background with glow */}
+      {/* Mobile gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-bg via-bg to-bg-secondary md:hidden" />
-      <motion.div
-        className="absolute inset-0 opacity-20 pointer-events-none md:hidden"
-        animate={{
-          background: [
-            "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.4) 0%, transparent 60%)",
-            "radial-gradient(ellipse at 50% 50%, rgba(123, 92, 240, 0.4) 0%, transparent 60%)",
-            "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.4) 0%, transparent 60%)",
-          ],
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
+      <MobileGradient />
 
       {/* Film grain overlay */}
       <div
