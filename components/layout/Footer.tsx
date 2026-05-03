@@ -1,17 +1,53 @@
 import Link from "next/link";
 import Image from "next/image";
-import { SOCIALS, SITE } from "@/lib/constants";
+import { Instagram, Twitter, Mail, MapPin, ArrowUpRight } from "lucide-react";
+import { SOCIALS, SITE, NAV_LINKS } from "@/lib/constants";
+import { KeywordButton } from "@/components/ui/keyword-button";
+
+// Footer link data
+const quickLinks = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Workflow", href: "/workflow" },
+];
+
+const serviceLinks = [
+  { label: "YouTube Edits", href: "/projects#youtube" },
+  { label: "Reels & Short-form", href: "/projects#reels" },
+  { label: "Motion Graphics", href: "/projects#motion" },
+  { label: "Animation", href: "/projects#animation" },
+];
+
+const socialLinks = [
+  { icon: Instagram, label: "Instagram", href: SOCIALS.instagram },
+  { icon: YoutubeIcon, label: "YouTube", href: SOCIALS.youtube },
+  { icon: Twitter, label: "Twitter", href: SOCIALS.twitter },
+  { icon: Mail, label: "Email", href: `mailto:${SOCIALS.email}` },
+];
+
+const contactInfo = [
+  { icon: Mail, text: SOCIALS.email, href: `mailto:${SOCIALS.email}` },
+  { icon: MapPin, text: "India", isAddress: true },
+];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-border-custom bg-bg-secondary">
-      <div className="mx-auto max-w-6xl px-6 py-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Brand */}
-          <div className="flex flex-col items-center md:items-start gap-4">
-            <Link href="/" className="flex items-center gap-3">
+    <footer className="relative w-full overflow-hidden border-t border-border-custom bg-bg-secondary">
+      {/* Background glow effects */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-32 left-1/4 h-72 w-72 rounded-full bg-gradient-radial from-brand/[0.08] to-transparent blur-[100px]" />
+        <div className="absolute -bottom-24 right-1/4 h-80 w-80 rounded-full bg-gradient-radial from-brand-light/[0.05] to-transparent blur-[100px]" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-6 pt-16 pb-8">
+        {/* Main footer content */}
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
+          {/* Column 1: Brand & About */}
+          <div className="flex flex-col items-center md:items-start">
+            <Link href="/" className="mb-6 flex items-center gap-3">
               <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-brand shadow-[0_0_12px_rgba(139,92,246,0.4)]">
                 <Image
                   src="/logo.png"
@@ -25,51 +61,113 @@ export default function Footer() {
                 <span className="text-xl text-text-primary" style={{ fontFamily: 'Blosta Script, cursive', fontSize: '1.4rem' }}>Frames</span>
               </div>
             </Link>
-            <p className="text-text-secondary text-sm font-sans">
+
+            <p className="mb-6 max-w-xs text-center text-sm leading-relaxed text-text-secondary md:text-left">
               {SITE.tagline}
             </p>
+
+            {/* Social links */}
+            <div className="flex gap-4">
+              {socialLinks.map(({ icon: Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noopener noreferrer"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border-custom text-text-secondary transition-all duration-200 hover:border-brand hover:text-brand-light hover:shadow-[0_0_15px_rgba(96,37,213,0.3)]"
+                  aria-label={label}
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Social links */}
-          <div className="flex items-center gap-6">
-            <a
-              href={SOCIALS.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-text-secondary hover:text-brand-light hover:shadow-[0_0_10px_rgba(139,92,246,0.2)] px-2 py-1 rounded-[4px] text-sm font-sans transition-all duration-200"
-            >
-              Instagram
-            </a>
-            <a
-              href={SOCIALS.youtube}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-text-secondary hover:text-brand-light hover:shadow-[0_0_10px_rgba(139,92,246,0.2)] px-2 py-1 rounded-[4px] text-sm font-sans transition-all duration-200"
-            >
-              YouTube
-            </a>
-            <a
-              href={SOCIALS.twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-text-secondary hover:text-brand-light hover:shadow-[0_0_10px_rgba(139,92,246,0.2)] px-2 py-1 rounded-[4px] text-sm font-sans transition-all duration-200"
-            >
-              Twitter
-            </a>
-            <a
-              href={`mailto:${SOCIALS.email}`}
-              className="text-text-secondary hover:text-brand-light hover:shadow-[0_0_10px_rgba(139,92,246,0.2)] px-2 py-1 rounded-[4px] text-sm font-sans transition-all duration-200"
-            >
-              Email
-            </a>
+          {/* Column 2: Quick Links */}
+          <div className="text-center md:text-left">
+            <h3 className="mb-6 font-mono text-xs uppercase tracking-widest text-brand-light">
+              Navigation
+            </h3>
+            <ul className="space-y-3">
+              {quickLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link
+                    href={href}
+                    className="group inline-flex items-center gap-1 text-sm text-text-secondary transition-colors duration-200 hover:text-brand-light"
+                  >
+                    <span>{label}</span>
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 3: Services */}
+          <div className="text-center md:text-left">
+            <h3 className="mb-6 font-mono text-xs uppercase tracking-widest text-brand-light">
+              Services
+            </h3>
+            <ul className="space-y-3">
+              {serviceLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link
+                    href={href}
+                    className="group inline-flex items-center gap-1 text-sm text-text-secondary transition-colors duration-200 hover:text-brand-light"
+                  >
+                    <span>{label}</span>
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Contact */}
+          <div className="text-center md:text-left">
+            <h3 className="mb-6 font-mono text-xs uppercase tracking-widest text-brand-light">
+              Contact
+            </h3>
+            <ul className="space-y-4">
+              {contactInfo.map(({ icon: Icon, text, href, isAddress }) => (
+                <li key={text}>
+                  <a
+                    href={href || "#"}
+                    className="flex items-center justify-center gap-2 text-sm text-text-secondary transition-colors duration-200 hover:text-brand-light md:justify-start"
+                  >
+                    <Icon className="h-4 w-4 shrink-0 text-brand" />
+                    <span>{text}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {/* CTA */}
+            <div className="mt-6">
+              <KeywordButton
+                label="Start a project"
+                tooltip="Let's talk about your next video."
+              />
+            </div>
           </div>
         </div>
 
-        {/* Separator + copyright */}
-        <div className="mt-10 pt-6 border-t border-border-custom">
-          <p className="text-center text-text-secondary text-xs font-sans">
+        {/* Separator */}
+        <div className="mt-12 h-px bg-gradient-to-r from-transparent via-border-custom to-transparent" />
+
+        {/* Bottom bar */}
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 text-center md:flex-row">
+          <p className="text-xs text-text-secondary">
             © {currentYear} {SITE.name}. All rights reserved.
           </p>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy" className="text-xs text-text-secondary transition-colors duration-200 hover:text-brand-light">
+              Privacy
+            </Link>
+            <Link href="/terms" className="text-xs text-text-secondary transition-colors duration-200 hover:text-brand-light">
+              Terms
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

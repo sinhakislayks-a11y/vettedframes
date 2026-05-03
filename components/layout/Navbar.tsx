@@ -9,6 +9,37 @@ import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Search, X } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { KeywordButton } from "@/components/ui/keyword-button";
+
+// Nav link tooltips
+const NAV_TOOLTIPS: Record<string, string> = {
+  Home: "See recent work and what I'm about.",
+  About: "The editor behind the cuts.",
+  Projects: "50+ projects across 5 categories.",
+  Workflow: "From brief to final export — every step.",
+  Contact: "Let's talk about your next video.",
+};
+
+// Nav link wrapper with KeywordButton
+function NavLink({ label, href, isActive }: { label: string; href: string; isActive: boolean }) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "text-sm font-sans transition-colors duration-200 relative group",
+        isActive
+          ? "text-brand-light"
+          : "text-text-secondary hover:text-text-primary"
+      )}
+    >
+      <KeywordButton label={label} tooltip={NAV_TOOLTIPS[label] || ""} />
+      {isActive && (
+        <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-brand-light/60 shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
+      )}
+      <span className="absolute -bottom-0.5 left-0 h-px w-0 group-hover:w-full bg-brand/40 transition-all duration-200" />
+    </Link>
+  );
+}
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -73,22 +104,12 @@ export default function Navbar() {
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
-              <Link
+              <NavLink
                 key={link.href}
                 href={link.href}
-                className={cn(
-                  "text-sm font-sans transition-colors duration-200 relative group",
-                  pathname === link.href
-                    ? "text-brand-light"
-                    : "text-text-secondary hover:text-text-primary"
-                )}
-              >
-                {link.label}
-                {pathname === link.href && (
-                  <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-brand-light/60 shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
-                )}
-                <span className="absolute -bottom-0.5 left-0 h-px w-0 group-hover:w-full bg-brand/40 transition-all duration-200" />
-              </Link>
+                label={link.label}
+                isActive={pathname === link.href}
+              />
             ))}
 
             {/* Actions (Search & Theme) */}
@@ -208,7 +229,7 @@ export default function Navbar() {
                       : "text-text-secondary"
                   )}
                 >
-                  {link.label}
+                  <KeywordButton label={link.label} tooltip={NAV_TOOLTIPS[link.label] || ""} />
                 </Link>
               ))}
               <Link
