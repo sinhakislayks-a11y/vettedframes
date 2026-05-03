@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { SplineScene } from "@/components/ui/SplineScene";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -133,7 +132,16 @@ function MobileGradient() {
 const SPLINE_SCENE_URL = "https://my.spline.design/distortingtypography-FZZGSzd1DOcI2dBCHY8XaW7d/";
 
 export default function AboutHero() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -156,12 +164,26 @@ export default function AboutHero() {
         {/* Base animated gradient */}
         <AnimatedGradientFallback />
 
-        {/* Spline Scene */}
+        {/* Spline Scene via iframe */}
         <div className="absolute inset-0">
-          <SplineScene
-            scene={SPLINE_SCENE_URL}
-            className="absolute inset-0"
-            fallback={<AnimatedGradientFallback />}
+          <iframe
+            src={SPLINE_SCENE_URL}
+            frameBorder="0"
+            width="100%"
+            height="100%"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              border: "none",
+              opacity: isLoaded ? 1 : 0,
+              transition: "opacity 0.8s ease-in-out",
+              pointerEvents: "auto",
+              zIndex: 1,
+            }}
+            allow="autoplay; xr-spatial-tracking"
+            onLoad={() => setIsLoaded(true)}
+            title="3D Background Scene"
           />
         </div>
       </div>
