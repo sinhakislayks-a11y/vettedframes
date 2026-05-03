@@ -78,8 +78,6 @@ function ReasonItem({
       <div className="flex-1 pt-0 pb-8">
         <motion.h3
           className="font-display font-semibold text-lg text-text-primary mb-2"
-          animate={{ color: isHovered ? "#7B5CF0" : "#050507" }}
-          transition={{ duration: 0.3 }}
         >
           {reason.title}
         </motion.h3>

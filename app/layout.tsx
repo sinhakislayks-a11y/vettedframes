@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppBubble from "@/components/ui/WhatsAppBubble";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AnimatedGradientBg } from "@/components/layout/AnimatedGradientBg";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -90,6 +91,7 @@ export default function RootLayout({
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           />
+          <AnimatedGradientBg />
           <Navbar />
           <div className="flex-1">{children}</div>
           <Footer />

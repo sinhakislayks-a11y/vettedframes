@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, lazy, useState, useEffect } from "react";
+import { Suspense, lazy, useState, useEffect, Component, ReactNode } from "react";
 import { motion } from "framer-motion";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
@@ -9,7 +9,34 @@ interface SplineSceneProps {
   scene: string;
   className?: string;
   onLoad?: (app: any) => void;
-  fallback?: React.ReactNode;
+  fallback?: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+class SplineErrorBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, ErrorBoundaryState> {
+  constructor(props: { children: ReactNode; fallback: ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: any) {
+    console.warn("Spline scene failed to load:", error.message);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <>{this.props.fallback}</>;
+    }
+    return this.props.children;
+  }
 }
 
 function LoadingSpinner() {
@@ -49,22 +76,22 @@ export function SplineScene({ scene, className, onLoad, fallback }: SplineSceneP
     return fallback ? <>{fallback}</> : null;
   }
 
+  const loadingSpinner = <LoadingSpinner />;
+
   return (
     <div className={`relative w-full h-full ${className || ""}`}>
-      {!loaded && <LoadingSpinner />}
-      <Suspense fallback={<LoadingSpinner />}>
-        <Spline
-          scene={scene}
-          onLoad={(app) => {
-            setLoaded(true);
-            if (onLoad) onLoad(app);
-          }}
-          className={`w-full h-full ${loaded ? "opacity-100" : "opacity-0"}`}
-          style={{
-            transition: "opacity 1s ease-in-out",
-          }}
-        />
-      </Suspense>
+      {!loaded && loadingSpinner}
+      <SplineErrorBoundary fallback={fallback || null}>
+        <Suspense fallback={loadingSpinner}>
+          <Spline
+            scene={scene}
+            onLoad={(app) => {
+              setLoaded(true);
+              if (onLoad) onLoad(app);
+            }}
+          />
+        </Suspense>
+      </SplineErrorBoundary>
     </div>
   );
 }
