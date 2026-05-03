@@ -131,6 +131,29 @@ function MobileGradient() {
 // Spline scene URL from user's iframe embed
 const SPLINE_SCENE_URL = "https://my.spline.design/distortingtypography-FZZGSzd1DOcI2dBCHY8XaW7d/";
 
+// Loading spinner component
+function LoadingSpinner() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="absolute inset-0 flex items-center justify-center"
+    >
+      <div className="flex flex-col items-center gap-3">
+        <div
+          className="w-12 h-12 rounded-full border-2 border-brand/30 border-t-brand animate-spin"
+          style={{
+            boxShadow: "0 0 20px rgba(96, 37, 213, 0.4)",
+          }}
+        />
+        <span className="font-mono text-brand/50 text-[10px] uppercase tracking-widest">
+          Loading
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function AboutHero() {
   const [isMobile, setIsMobile] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -166,6 +189,9 @@ export default function AboutHero() {
 
         {/* Spline Scene via iframe */}
         <div className="absolute inset-0">
+          {/* Loading spinner - shows until iframe loads */}
+          {!isLoaded && <LoadingSpinner />}
+
           <iframe
             src={SPLINE_SCENE_URL}
             frameBorder="0"
@@ -179,7 +205,7 @@ export default function AboutHero() {
               opacity: isLoaded ? 1 : 0,
               transition: "opacity 0.8s ease-in-out",
               pointerEvents: "auto",
-              zIndex: 1,
+              zIndex: 5,
             }}
             allow="autoplay; xr-spatial-tracking"
             onLoad={() => setIsLoaded(true)}
@@ -241,7 +267,7 @@ export default function AboutHero() {
 
       {/* Content */}
       <motion.div
-        className="relative z-10 mx-auto max-w-4xl px-6 py-32"
+        className="relative z-20 mx-auto max-w-4xl px-6 py-32"
         style={{ y, opacity, scale }}
       >
         <motion.div
