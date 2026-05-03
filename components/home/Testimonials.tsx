@@ -14,20 +14,33 @@ export default function Testimonials() {
     id: index + 1,
   }));
 
-  const handleShuffle = useCallback(() => {
+  const performShuffle = useCallback(() => {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     setTimeout(() => setIsAnimating(false), 800);
   }, [isAnimating, testimonials.length]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleShuffle();
-    }, 6000);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-    return () => clearInterval(interval);
-  }, [handleShuffle]);
+  const startInterval = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      performShuffle();
+    }, 6000);
+  }, [performShuffle]);
+
+  useEffect(() => {
+    startInterval();
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [startInterval]);
+
+  const handleShuffle = useCallback(() => {
+    performShuffle();
+    startInterval(); // Reset timer on manual shuffle
+  }, [performShuffle, startInterval]);
 
   const visibleTestimonials = [
     testimonials[currentIndex],
@@ -127,7 +140,7 @@ export default function Testimonials() {
           {/* Cards wrapper */}
           <div className="relative h-[420px] w-[320px]">
             {/* Testimonial Cards with smooth left-to-right slide */}
-            <AnimatePresence>
+            <AnimatePresence mode="popLayout">
               {visibleTestimonials.map((testimonial, index) => {
                 const isFront = index === 0;
                 const isMiddle = index === 1;
@@ -136,33 +149,38 @@ export default function Testimonials() {
                   <motion.div
                     key={testimonial.id}
                     initial={{
-                      x: 100,
+                      x: 300,
                       opacity: 0,
                       scale: 0.8,
                     }}
                     animate={{
-                      x: isFront ? 0 : isMiddle ? 40 : 80,
-                      y: isFront ? 0 : isMiddle ? -20 : -40,
-                      opacity: isFront ? 1 : isMiddle ? 0.6 : 0.3,
+                      x: isFront ? 0 : isMiddle ? 60 : 120,
+                      y: isFront ? 0 : isMiddle ? -15 : -30,
+                      opacity: isFront ? 1 : isMiddle ? 0.4 : 0.15,
                       scale: isFront ? 1 : isMiddle ? 0.9 : 0.8,
                       rotate: isFront ? -6 : isMiddle ? -3 : 0,
+                      zIndex: 3 - index,
                     }}
                     exit={{
-                      x: -200,
+                      x: -600,
                       opacity: 0,
-                      scale: 0.8,
-                      transition: { duration: 0.4 }
+                      rotate: -25,
+                      scale: 0.9,
+                      transition: { 
+                        duration: 0.4,
+                        ease: "easeIn" 
+                      }
                     }}
                     transition={{
                       type: "spring",
                       stiffness: 260,
-                      damping: 20
+                      damping: 30,
+                      mass: 1
                     }}
                     style={{
                       position: "absolute",
                       left: 0,
                       top: 0,
-                      zIndex: 3 - index,
                     }}
                   >
                     <TestimonialCard
