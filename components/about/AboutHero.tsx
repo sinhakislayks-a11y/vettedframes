@@ -93,11 +93,29 @@ function FilmFrame({ className }: { className: string }) {
   );
 }
 
+// Animated gradient background for when Spline fails or as base
+function AnimatedGradientBG() {
+  return (
+    <motion.div
+      className="absolute inset-0"
+      animate={{
+        background: [
+          "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.3) 0%, rgba(123, 92, 240, 0.15) 40%, transparent 70%)",
+          "radial-gradient(ellipse at 40% 60%, rgba(123, 92, 240, 0.35) 0%, rgba(96, 37, 213, 0.2) 40%, transparent 70%)",
+          "radial-gradient(ellipse at 60% 40%, rgba(96, 37, 213, 0.3) 0%, rgba(167, 139, 250, 0.15) 40%, transparent 70%)",
+          "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.3) 0%, rgba(123, 92, 240, 0.15) 40%, transparent 70%)",
+        ],
+      }}
+      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+    />
+  );
+}
+
 export default function AboutHero() {
   const containerRef = useRef<HTMLElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [splineError, setSplineError] = useState(false);
+  const [showSpline, setShowSpline] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -118,16 +136,24 @@ export default function AboutHero() {
 
   const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
 
-  // Handle iframe load timeout
+  // Handle iframe load with timeout fallback
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (!isLoaded) {
-        setSplineError(true);
+        setShowSpline(false);
       }
-    }, 8000); // 8 second timeout
+    }, 10000);
 
     return () => clearTimeout(timeout);
   }, [isLoaded]);
+
+  const handleIframeLoad = () => {
+    setIsLoaded(true);
+  };
+
+  const handleIframeError = () => {
+    setShowSpline(false);
+  };
 
   return (
     <section
@@ -136,59 +162,39 @@ export default function AboutHero() {
     >
       {/* Spline 3D Background - Desktop only */}
       <div className="absolute inset-0 overflow-hidden hidden md:block">
-        {/* Animated purple glow behind Spline */}
-        <motion.div
-          className="absolute inset-0"
-          animate={{
-            background: [
-              "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.15) 0%, transparent 60%)",
-              "radial-gradient(ellipse at 50% 50%, rgba(123, 92, 240, 0.2) 0%, transparent 60%)",
-              "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.15) 0%, transparent 60%)",
-            ],
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          style={{ zIndex: 0 }}
-        />
+        {/* Base animated gradient - always visible behind Spline */}
+        <AnimatedGradientBG />
 
-        {/* Spline iframe */}
-        {!splineError && (
+        {/* Spline iframe - full screen, behind content */}
+        {showSpline && (
           <iframe
             ref={iframeRef}
             src="https://my.spline.design/distortingtypography-FZZGSzd1DOcI2dBCHY8XaW7d/"
+            className="absolute inset-0 w-full h-full"
             frameBorder="0"
-            width="100%"
-            height="100%"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              border: "none",
-              opacity: isLoaded ? 1 : 0,
-              transition: "opacity 1.5s ease-in-out",
-              pointerEvents: "auto",
-              zIndex: 1,
-            }}
-            allow="autoplay; xr-spatial-tracking"
-            onLoad={() => setIsLoaded(true)}
-            onError={() => setSplineError(true)}
-            title="3D Background Scene"
+            allow="autoplay; xr-spatial-tracking; gyroscope; fullscreen"
+            allowFullScreen
+            onLoad={handleIframeLoad}
+            onError={handleIframeError}
+            title="Interactive 3D Background"
+            loading="eager"
+            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
           />
         )}
 
-        {/* Fallback gradient if Spline fails */}
-        {(splineError || !isLoaded) && (
-          <div className="absolute inset-0" style={{ zIndex: 2 }}>
+        {/* Loading indicator */}
+        {!isLoaded && showSpline && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <motion.div
-              className="absolute inset-0"
-              animate={{
-                background: [
-                  "radial-gradient(ellipse at 30% 40%, rgba(96, 37, 213, 0.35) 0%, transparent 50%)",
-                  "radial-gradient(ellipse at 70% 60%, rgba(123, 92, 240, 0.3) 0%, transparent 45%)",
-                  "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.35) 0%, transparent 50%)",
-                ],
-              }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            />
+              className="flex flex-col items-center gap-3"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin" />
+              <span className="font-mono text-brand/50 text-xs uppercase tracking-widest">
+                Loading
+              </span>
+            </motion.div>
           </div>
         )}
       </div>
