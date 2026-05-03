@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const dynamic = "auto";
 import PageBackground from "@/components/ui/PageBackground";
 import AboutHero from "@/components/about/AboutHero";
 import StorySection from "@/components/about/StorySection";

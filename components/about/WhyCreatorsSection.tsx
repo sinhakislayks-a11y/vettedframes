@@ -42,16 +42,19 @@ function ReasonItem({
       ref={ref}
       initial={{ opacity: 0, x: 30 }}
       animate={isInView ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.5, delay: 0.1 + index * 0.15 }}
+      transition={{ duration: 0.5, delay: 0.1 + index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="flex gap-5 group cursor-pointer"
+      style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
     >
       {/* Connector with animation */}
       <div className="flex flex-col items-center relative">
         <motion.div
           className="w-12 h-px bg-gradient-to-r from-brand/40 to-brand/20 group-hover:from-brand/60 group-hover:to-brand/40 transition-all duration-300"
           animate={{ width: isHovered ? 56 : 48 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         />
         <motion.div
           className="w-3 h-3 rounded-full border border-brand/50 bg-bg mt-2 flex items-center justify-center"
@@ -60,11 +63,12 @@ function ReasonItem({
             backgroundColor: isHovered ? "rgba(96, 37, 213, 0.2)" : "transparent",
             scale: isHovered ? 1.2 : 1,
           }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.div
             className="w-1.5 h-1.5 rounded-full bg-brand"
             animate={{ scale: isHovered ? 1.2 : 1 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           />
         </motion.div>
 
@@ -104,24 +108,23 @@ export default function WhyCreatorsSection() {
       {/* Background */}
       <motion.div
         className="absolute inset-0 bg-surface/30"
-        style={{ y }}
+        style={{ y, willChange: "transform", transform: "translateZ(0)" }}
       />
 
-      {/* Gradient accents */}
-      <motion.div
+      {/* Gradient accents - replaced infinite animation with CSS */}
+      <div
         className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-brand/[0.04] to-transparent pointer-events-none hidden md:block"
-        animate={{ opacity: [0.04, 0.08, 0.04] }}
-        transition={{ duration: 5, repeat: Infinity }}
+        style={{
+          animation: "fade-opacity 5s ease-in-out infinite",
+        }}
       />
 
-      {/* Floating geometric shapes */}
-      <motion.div
+      {/* Floating geometric shapes - hidden on mobile */}
+      <div
         className="absolute top-[20%] right-[15%] pointer-events-none hidden lg:block"
-        animate={{
-          rotate: [0, 90, 180, 270, 360],
-          opacity: [0.1, 0.2, 0.1],
+        style={{
+          animation: "rotate-slow 20s linear infinite",
         }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
       >
         <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
           <rect
@@ -143,21 +146,22 @@ export default function WhyCreatorsSection() {
             strokeOpacity="0.2"
           />
         </svg>
-      </motion.div>
+      </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
           className="mb-20 flex items-center gap-4"
         >
           <motion.div
             className="w-8 h-px bg-brand"
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : {}}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           />
           <span className="font-mono text-brand/60 text-[10px] uppercase tracking-[0.25em]">
             Why creators
@@ -170,7 +174,8 @@ export default function WhyCreatorsSection() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true }}
             className="flex flex-col"
           >
             <h2 className="font-display font-semibold text-3xl md:text-4xl lg:text-5xl text-text-primary tracking-tight leading-tight mb-8">
@@ -204,7 +209,8 @@ export default function WhyCreatorsSection() {
         className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, delay: 0.8 }}
+        transition={{ duration: 0.4, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        viewport={{ once: true }}
       >
         <div className="flex items-center gap-4">
           <div className="w-16 h-px bg-gradient-to-r from-transparent via-brand/30 to-transparent" />
@@ -212,6 +218,18 @@ export default function WhyCreatorsSection() {
           <div className="w-16 h-px bg-gradient-to-r from-transparent via-brand/30 to-transparent" />
         </div>
       </motion.div>
+
+      {/* CSS keyframes for animations */}
+      <style jsx>{`
+        @keyframes fade-opacity {
+          0%, 100% { opacity: 0.04; }
+          50% { opacity: 0.08; }
+        }
+        @keyframes rotate-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </section>
   );
 }

@@ -63,10 +63,12 @@ function PrincipleCard({
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration: 0.5, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="group relative bg-surface/30 border border-border-custom rounded-[4px] p-8 hover:border-brand/30 transition-all duration-500 cursor-pointer overflow-hidden"
+      style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
     >
       {/* Animated gradient background on hover */}
       <motion.div
@@ -92,7 +94,7 @@ function PrincipleCard({
       <motion.span
         className="font-mono text-brand/20 text-[64px] md:text-[80px] font-bold absolute -top-2 -left-2 md:-left-4 select-none pointer-events-none leading-none transition-opacity duration-500 group-hover:opacity-0"
         animate={{ x: isHovered ? -10 : 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       >
         {String(index + 1).padStart(2, "0")}
       </motion.span>
@@ -113,7 +115,8 @@ function PrincipleCard({
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         animate={{ scaleX: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        viewport={{ once: true }}
       />
 
       {/* Corner decoration */}
@@ -140,25 +143,22 @@ export default function PhilosophySection() {
       {/* Background with parallax gradients */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-b from-bg-secondary/30 via-bg to-bg-secondary/30"
-        style={{ y }}
+        style={{ y, willChange: "transform", transform: "translateZ(0)" }}
       />
 
-      {/* Animated background orbs */}
-      <motion.div
-        className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-gradient-radial from-brand/[0.06] to-transparent blur-[80px] pointer-events-none"
-        animate={{
-          scale: [1, 1.2, 1],
-          x: [0, 30, 0],
+      {/* Animated background orbs - replaced infinite animation with CSS */}
+      {/* These use CSS animations via Tailwind classes for better performance */}
+      <div
+        className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-gradient-radial from-brand/[0.06] to-transparent blur-[80px] pointer-events-none hidden md:block"
+        style={{
+          animation: "pulse-slow 10s ease-in-out infinite",
         }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
-        className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-gradient-radial from-brand-light/[0.05] to-transparent blur-[60px] pointer-events-none"
-        animate={{
-          scale: [1, 1.3, 1],
-          y: [0, -20, 0],
+      <div
+        className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-gradient-radial from-brand-light/[0.05] to-transparent blur-[60px] pointer-events-none hidden md:block"
+        style={{
+          animation: "pulse-slow-delayed 8s ease-in-out infinite 2s",
         }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
       />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
@@ -166,14 +166,15 @@ export default function PhilosophySection() {
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
           className="mb-20 flex items-center gap-4"
         >
           <motion.div
             className="w-8 h-px bg-brand"
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : {}}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           />
           <span className="font-mono text-brand/60 text-[10px] uppercase tracking-[0.25em]">
             Perspective
@@ -184,7 +185,8 @@ export default function PhilosophySection() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
           className="mb-20 max-w-2xl"
         >
           <h2 className="font-display font-semibold text-3xl md:text-4xl lg:text-5xl text-text-primary tracking-tight leading-tight mb-6">
@@ -209,6 +211,30 @@ export default function PhilosophySection() {
 
       {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bg-secondary/50 to-transparent pointer-events-none" />
+
+      {/* CSS keyframes injected via style tag */}
+      <style jsx>{`
+        @keyframes pulse-slow {
+          0%, 100% {
+            transform: scale(1) translateX(0);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.2) translateX(30px);
+            opacity: 0.8;
+          }
+        }
+        @keyframes pulse-slow-delayed {
+          0%, 100% {
+            transform: scale(1) translateY(0);
+            opacity: 0.8;
+          }
+          50% {
+            transform: scale(1.3) translateY(-20px);
+            opacity: 0.6;
+          }
+        }
+      `}</style>
     </section>
   );
 }

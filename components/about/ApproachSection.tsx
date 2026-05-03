@@ -42,10 +42,12 @@ function PillarCard({
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: 0.1 + index * 0.15 }}
+      transition={{ duration: 0.5, delay: 0.1 + index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="relative p-8 bg-surface/50 border border-border-custom rounded-[4px] group overflow-hidden"
+      style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
     >
       {/* Animated gradient overlay */}
       <motion.div
@@ -77,7 +79,7 @@ function PillarCard({
           color: isHovered ? "#7B5CF0" : "#6025D5",
           filter: isHovered ? "drop-shadow(0 0 10px rgba(96, 37, 213, 0.4))" : "none",
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       >
         <span className="font-mono text-4xl font-bold">{pillar.number}</span>
       </motion.div>
@@ -97,12 +99,12 @@ function PillarCard({
         <motion.div
           className="absolute top-0 right-0 w-8 h-px bg-gradient-to-l from-brand/30 to-transparent"
           animate={{ width: isHovered ? 32 : 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         />
         <motion.div
           className="absolute top-0 right-0 h-8 w-px bg-gradient-to-b from-brand/30 to-transparent"
           animate={{ height: isHovered ? 32 : 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         />
       </div>
 
@@ -111,7 +113,7 @@ function PillarCard({
         className="absolute bottom-0 left-0 h-px bg-gradient-to-r from-brand via-brand-light to-brand"
         initial={{ scaleX: 0 }}
         whileHover={{ scaleX: 1 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         style={{ originX: 0 }}
       />
     </motion.div>
@@ -133,29 +135,25 @@ export default function ApproachSection() {
       {/* Background */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-b from-bg-secondary/50 to-bg"
-        style={{ y }}
+        style={{ y, willChange: "transform", transform: "translateZ(0)" }}
       />
 
       {/* Top fade line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border-custom/50 to-transparent" />
 
-      {/* Animated background elements */}
+      {/* Animated background elements - CSS-based for performance */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-radial from-brand/[0.04] to-transparent blur-[80px]"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.4, 0.6, 0.4],
+        <div
+          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-radial from-brand/[0.04] to-transparent blur-[80px] hidden md:block"
+          style={{
+            animation: "pulse-scale 8s ease-in-out infinite",
           }}
-          transition={{ duration: 8, repeat: Infinity }}
         />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full bg-gradient-radial from-brand-light/[0.03] to-transparent blur-[60px]"
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.3, 0.5, 0.3],
+        <div
+          className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full bg-gradient-radial from-brand-light/[0.03] to-transparent blur-[60px] hidden md:block"
+          style={{
+            animation: "pulse-scale-delayed 10s ease-in-out infinite 2s",
           }}
-          transition={{ duration: 10, repeat: Infinity, delay: 2 }}
         />
       </div>
 
@@ -164,14 +162,15 @@ export default function ApproachSection() {
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
           className="mb-20 flex items-center gap-4"
         >
           <motion.div
             className="w-8 h-px bg-brand"
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : {}}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           />
           <span className="font-mono text-brand/60 text-[10px] uppercase tracking-[0.25em]">
             How I work
@@ -182,7 +181,8 @@ export default function ApproachSection() {
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
           className="font-display font-semibold text-3xl md:text-4xl lg:text-5xl text-text-primary tracking-tight leading-tight mb-16 max-w-2xl"
         >
           Not a freelancer. Not an agency.
@@ -199,7 +199,8 @@ export default function ApproachSection() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
           className="text-center max-w-2xl mx-auto relative"
         >
           {/* Decorative quote marks */}
@@ -224,6 +225,30 @@ export default function ApproachSection() {
 
       {/* Bottom gradient */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bg-secondary/30 to-transparent pointer-events-none" />
+
+      {/* CSS keyframes for background animations */}
+      <style jsx>{`
+        @keyframes pulse-scale {
+          0%, 100% {
+            transform: scale(1);
+            opacity: 0.4;
+          }
+          50% {
+            transform: scale(1.2);
+            opacity: 0.6;
+          }
+        }
+        @keyframes pulse-scale-delayed {
+          0%, 100% {
+            transform: scale(1);
+            opacity: 0.3;
+          }
+          50% {
+            transform: scale(1.3);
+            opacity: 0.5;
+          }
+        }
+      `}</style>
     </section>
   );
 }
