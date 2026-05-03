@@ -63,7 +63,7 @@ const orbs: OrbConfig[] = [
 function GradientOrb({ config }: { config: OrbConfig }) {
   return (
     <motion.div
-      className="absolute rounded-full will-change-transform"
+      className="absolute rounded-full"
       style={{
         width: config.size,
         height: config.size,
@@ -71,6 +71,8 @@ function GradientOrb({ config }: { config: OrbConfig }) {
         top: config.initialY,
         background: `radial-gradient(circle at center, ${config.color} 0%, transparent 70%)`,
         opacity: config.opacity,
+        willChange: "transform",
+        transform: "translate3d(0, 0, 0)",
       }}
       animate={{
         x: [0, config.animateX, 0],
@@ -81,7 +83,7 @@ function GradientOrb({ config }: { config: OrbConfig }) {
         delay: config.delay || 0,
         repeat: Infinity,
         repeatType: "mirror",
-        ease: "easeInOut",
+        ease: "linear",
       }}
     />
   );

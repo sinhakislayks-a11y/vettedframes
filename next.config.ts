@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  compress: true,
   images: {
     remotePatterns: [
       {
@@ -24,6 +25,12 @@ const nextConfig: NextConfig = {
         hostname: "**.fbcdn.net",
       },
     ],
+    formats: ["image/avif", "image/webp"],
+  },
+  poweredByHeader: false,
+  reactStrictMode: true,
+  experimental: {
+    optimizePackageImports: ["lucide-react", "framer-motion"],
   },
 };
 

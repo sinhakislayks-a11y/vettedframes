@@ -339,6 +339,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    contain: layout style paint;
   }
   html {
     @apply font-sans;

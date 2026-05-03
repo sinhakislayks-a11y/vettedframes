@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { useState } from "react";
 
 const logos = [
@@ -37,23 +36,13 @@ export default function ClientLogos() {
         <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-surface via-surface/80 to-transparent" />
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-surface via-surface/80 to-transparent" />
 
-        <motion.div
-          className="flex items-center gap-16"
-          animate={{ x: ["0%", "-33.33%"] }}
-          transition={{
-            x: {
-              duration: 25,
-              repeat: Infinity,
-              ease: "linear",
-            },
-          }}
-        >
+        <div className="logo-marquee flex items-center gap-16">
           {items.map((logo, i) => (
             <div
               key={`${logo.name}-${i}`}
               onMouseEnter={() => setHoveredIndex(i)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className={`relative flex-shrink-0 h-10 w-auto transition-all duration-500 ${
+              className={`relative flex-shrink-0 h-10 w-auto transition-transform duration-500 ${
                 hoveredIndex === i ? 'scale-110' : ''
               }`}
               style={{ width: "auto" }}
@@ -67,8 +56,18 @@ export default function ClientLogos() {
               />
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
+
+      <style jsx>{`
+        .logo-marquee {
+          animation: marquee 30s linear infinite;
+        }
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-33.33%); }
+        }
+      `}</style>
     </section>
   );
 }

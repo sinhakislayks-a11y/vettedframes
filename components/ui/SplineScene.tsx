@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, lazy, useState, useEffect, Component, ReactNode } from "react";
+import { Suspense, lazy, useState, useEffect, useRef, Component, ReactNode } from "react";
 import { motion } from "framer-motion";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
@@ -39,6 +39,23 @@ class SplineErrorBoundary extends Component<{ children: ReactNode; fallback: Rea
   }
 }
 
+function GradientFallback() {
+  return (
+    <div
+      className="absolute inset-0"
+      style={{
+        background: `
+          radial-gradient(ellipse at 20% 30%, rgba(139,92,246,0.25) 0%, transparent 45%),
+          radial-gradient(ellipse at 80% 20%, rgba(109,40,217,0.20) 0%, transparent 40%),
+          radial-gradient(ellipse at 50% 80%, rgba(167,139,250,0.15) 0%, transparent 45%),
+          radial-gradient(ellipse at 30% 70%, rgba(139,92,246,0.12) 0%, transparent 35%),
+          linear-gradient(180deg, #050507 0%, #0A0A0F 40%, #12121A 70%, #050507 100%)
+        `,
+      }}
+    />
+  );
+}
+
 function LoadingSpinner() {
   return (
     <motion.div
@@ -61,9 +78,46 @@ function LoadingSpinner() {
   );
 }
 
+function SplineIframe({ onLoad }: { onLoad?: () => void }) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <>
+      <GradientFallback />
+      <iframe
+        ref={iframeRef}
+        src="https://my.spline.design/theeternalarc-tkcFHBzOasiJym6BQGBfeSpd-xWa/"
+        frameBorder="0"
+        width="100%"
+        height="100%"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          border: "none",
+          opacity: isLoaded ? 1 : 0,
+          transition: "opacity 0.8s ease-in-out",
+          pointerEvents: "auto",
+          zIndex: 1,
+        }}
+        allow="autoplay; xr-spatial-tracking"
+        onLoad={() => {
+          setIsLoaded(true);
+          onLoad?.();
+        }}
+        title="3D Background Scene"
+        loading="lazy"
+      />
+    </>
+  );
+}
+
 export function SplineScene({ scene, className, onLoad, fallback }: SplineSceneProps) {
   const [loaded, setLoaded] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -72,26 +126,47 @@ export function SplineScene({ scene, className, onLoad, fallback }: SplineSceneP
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  if (isMobile) {
-    return fallback ? <>{fallback}</> : null;
-  }
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1, rootMargin: "100px" }
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const loadingSpinner = <LoadingSpinner />;
 
   return (
-    <div className={`relative w-full h-full ${className || ""}`}>
+    <div ref={containerRef} className={`relative w-full h-full ${className || ""}`}>
       {!loaded && loadingSpinner}
-      <SplineErrorBoundary fallback={fallback || null}>
-        <Suspense fallback={loadingSpinner}>
-          <Spline
-            scene={scene}
-            onLoad={(app) => {
-              setLoaded(true);
-              if (onLoad) onLoad(app);
-            }}
-          />
-        </Suspense>
-      </SplineErrorBoundary>
+
+      {isMobile ? (
+        <div className="absolute inset-0 overflow-hidden">
+          <GradientFallback />
+        </div>
+      ) : isVisible ? (
+        <SplineErrorBoundary fallback={<SplineIframe onLoad={() => setLoaded(true)} />}>
+          <Suspense fallback={loadingSpinner}>
+            <Spline
+              scene={scene}
+              onLoad={(app) => {
+                setLoaded(true);
+                if (onLoad) onLoad(app);
+              }}
+            />
+          </Suspense>
+        </SplineErrorBoundary>
+      ) : (
+        <div className="absolute inset-0 overflow-hidden">
+          <GradientFallback />
+        </div>
+      )}
     </div>
   );
 }
