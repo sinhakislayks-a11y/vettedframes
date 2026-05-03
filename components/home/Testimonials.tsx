@@ -2,25 +2,21 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { TestimonialCard } from "@/components/ui/testimonial-cards";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { TESTIMONIALS } from "@/lib/constants";
 
 export default function Testimonials() {
-  const [positions, setPositions] = useState<Array<"front" | "middle" | "back">>(
-    ["front", "middle", "back", "back", "back"]
-  );
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleShuffle = useCallback(() => {
-    setPositions((prev) => {
-      const newPositions = [...prev];
-      newPositions.unshift(newPositions.pop()!);
-      return newPositions;
-    });
+    if (isAnimating) return;
+    setIsAnimating(true);
     setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
-  }, []);
+    setTimeout(() => setIsAnimating(false), 1200);
+  }, [isAnimating]);
 
-  // Auto-rotate every 6 seconds - slower pace
   useEffect(() => {
     const interval = setInterval(() => {
       handleShuffle();
@@ -43,6 +39,12 @@ export default function Testimonials() {
       id: index + 1,
     })
   );
+
+  const visibleTestimonials = [
+    testimonials[currentIndex],
+    testimonials[(currentIndex + 1) % testimonials.length],
+    testimonials[(currentIndex + 2) % testimonials.length],
+  ];
 
   return (
     <section className="relative w-full overflow-hidden bg-gradient-to-b from-bg-secondary via-surface to-bg-secondary py-24">
@@ -127,6 +129,7 @@ export default function Testimonials() {
 
         {/* Cards container */}
         <motion.div
+          ref={containerRef}
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -135,54 +138,55 @@ export default function Testimonials() {
         >
           {/* Cards wrapper */}
           <div className="relative h-[420px] w-[320px] md:-ml-[100px]">
-            {/* Testimonial Cards with smooth transitions */}
-            <AnimatePresence mode="popLayout">
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={`${testimonial.name}-${currentIndex}`}
-                  layout
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    rotate:
-                      positions[index] === "front"
-                        ? "-6deg"
-                        : positions[index] === "middle"
-                        ? "0deg"
-                        : "6deg",
-                    x:
-                      positions[index] === "front"
-                        ? "0%"
-                        : positions[index] === "middle"
-                        ? "33%"
-                        : "66%",
-                  }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{
-                    duration: 1.2,
-                    ease: [0.4, 0, 0.2, 1],
-                  }}
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    zIndex:
-                      positions[index] === "front"
-                        ? 2
-                        : positions[index] === "middle"
-                        ? 1
-                        : 0,
-                  }}
-                >
-                  <TestimonialCard
-                    testimonial={testimonial}
-                    handleShuffle={handleShuffle}
-                    position={positions[index] as "front" | "middle" | "back"}
-                    author={testimonial.name}
-                  />
-                </motion.div>
-              ))}
+            {/* Testimonial Cards with smooth left-to-right slide */}
+            <AnimatePresence mode="wait">
+              {visibleTestimonials.map((testimonial, index) => {
+                const isFront = index === 0;
+                const isMiddle = index === 1;
+
+                return (
+                  <motion.div
+                    key={`${testimonial.name}-${currentIndex}-${index}`}
+                    initial={{
+                      x: isFront ? 400 : isMiddle ? 400 : 400,
+                      opacity: isFront ? 0 : isMiddle ? 0.4 : 0.8,
+                      scale: isFront ? 0.85 : isMiddle ? 0.9 : 0.95,
+                      rotate: isFront ? -8 : isMiddle ? -4 : 0,
+                    }}
+                    animate={{
+                      x: isFront ? 0 : isMiddle ? "33%" : "66%",
+                      opacity: isFront ? 1 : isMiddle ? 0.6 : 0.4,
+                      scale: isFront ? 1 : isMiddle ? 0.92 : 0.88,
+                      rotate: isFront ? "-6deg" : isMiddle ? "-3deg" : "0deg",
+                    }}
+                    exit={{
+                      x: -400,
+                      opacity: 0,
+                      scale: 0.85,
+                      rotate: "-8deg",
+                    }}
+                    transition={{
+                      x: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
+                      opacity: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
+                      scale: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
+                      rotate: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
+                    }}
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      top: 0,
+                      zIndex: isFront ? 2 : isMiddle ? 1 : 0,
+                    }}
+                  >
+                    <TestimonialCard
+                      testimonial={testimonial}
+                      handleShuffle={handleShuffle}
+                      position={isFront ? "front" : isMiddle ? "middle" : "back"}
+                      author={testimonial.name}
+                    />
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
           </div>
         </motion.div>
@@ -221,12 +225,12 @@ export default function Testimonials() {
                 className="h-2 w-2 rounded-full"
                 animate={{
                   backgroundColor:
-                    positions[0] === "front" && index === 0
+                    index === currentIndex
                       ? "rgba(96, 37, 213, 1)"
                       : "rgba(96, 37, 213, 0.2)",
-                  scale: positions[0] === "front" && index === 0 ? 1.4 : 1,
+                  scale: index === currentIndex ? 1.4 : 1,
                   boxShadow:
-                    positions[0] === "front" && index === 0
+                    index === currentIndex
                       ? "0 0 12px rgba(96, 37, 213, 0.6)"
                       : "none",
                 }}

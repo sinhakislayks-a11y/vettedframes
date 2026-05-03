@@ -16,24 +16,7 @@ const fadeUp = {
   }),
 };
 
-// Gradient fallback for mobile/loading
-function GradientFallback() {
-  return (
-    <div
-      className="absolute inset-0"
-      style={{
-        background: `
-          radial-gradient(ellipse at 30% 40%, rgba(96, 37, 213, 0.3) 0%, transparent 50%),
-          radial-gradient(ellipse at 70% 60%, rgba(123, 92, 240, 0.2) 0%, transparent 45%),
-          radial-gradient(ellipse at 50% 30%, rgba(96, 37, 213, 0.15) 0%, transparent 40%),
-          linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 50%, #FAFAFA 100%)
-        `,
-      }}
-    />
-  );
-}
-
-// Floating geometric elements
+// Floating geometric elements with purple glow
 function FloatingElement({
   type,
   className,
@@ -48,7 +31,7 @@ function FloatingElement({
       className={`absolute pointer-events-none ${className}`}
       initial={{ opacity: 0, scale: 0 }}
       animate={{
-        opacity: [0, 0.15, 0.15, 0],
+        opacity: [0, 0.2, 0.2, 0],
         scale: 1,
         y: [0, -20, 0],
         rotate: type === "line" ? [0, 5, 0, -5, 0] : [0, 3, 0],
@@ -61,19 +44,19 @@ function FloatingElement({
       }}
     >
       {type === "circle" && (
-        <div className="w-20 h-20 md:w-32 md:h-32 rounded-full border border-brand/20" />
+        <div className="w-20 h-20 md:w-32 md:h-32 rounded-full border border-brand/30 shadow-[0_0_20px_rgba(96,37,213,0.2)]" />
       )}
       {type === "square" && (
-        <div className="w-16 h-16 md:w-24 md:h-24 rounded-[4px] border border-brand-light/15 rotate-45" />
+        <div className="w-16 h-16 md:w-24 md:h-24 rounded-[4px] border border-brand-light/25 rotate-45 shadow-[0_0_15px_rgba(123,92,240,0.15)]" />
       )}
       {type === "line" && (
-        <div className="w-px h-24 md:h-32 bg-gradient-to-b from-brand/30 to-transparent" />
+        <div className="w-px h-24 md:h-32 bg-gradient-to-b from-brand/40 to-transparent shadow-[0_0_10px_rgba(96,37,213,0.2)]" />
       )}
     </motion.div>
   );
 }
 
-// Film frame motif
+// Film frame motif with glow
 function FilmFrame({ className }: { className: string }) {
   return (
     <motion.div
@@ -88,7 +71,7 @@ function FilmFrame({ className }: { className: string }) {
         viewBox="0 0 60 80"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="opacity-20"
+        className="opacity-30 drop-shadow-[0_0_8px_rgba(96,37,213,0.4)]"
       >
         <rect
           x="2"
@@ -97,14 +80,14 @@ function FilmFrame({ className }: { className: string }) {
           height="76"
           rx="2"
           stroke="#6025D5"
-          strokeWidth="1"
+          strokeWidth="1.5"
         />
-        <rect x="6" y="8" width="48" height="32" fill="#6025D5" fillOpacity="0.1" />
-        <rect x="6" y="44" width="48" height="28" fill="#6025D5" fillOpacity="0.1" />
-        <circle cx="10" cy="6" r="2" fill="#6025D5" />
-        <circle cx="50" cy="6" r="2" fill="#6025D5" />
-        <circle cx="10" cy="74" r="2" fill="#6025D5" />
-        <circle cx="50" cy="74" r="2" fill="#6025D5" />
+        <rect x="6" y="8" width="48" height="32" fill="#6025D5" fillOpacity="0.15" />
+        <rect x="6" y="44" width="48" height="28" fill="#6025D5" fillOpacity="0.15" />
+        <circle cx="10" cy="6" r="2.5" fill="#6025D5" />
+        <circle cx="50" cy="6" r="2.5" fill="#6025D5" />
+        <circle cx="10" cy="74" r="2.5" fill="#6025D5" />
+        <circle cx="50" cy="74" r="2.5" fill="#6025D5" />
       </svg>
     </motion.div>
   );
@@ -114,6 +97,7 @@ export default function AboutHero() {
   const containerRef = useRef<HTMLElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [splineError, setSplineError] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -134,6 +118,17 @@ export default function AboutHero() {
 
   const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
 
+  // Handle iframe load timeout
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!isLoaded) {
+        setSplineError(true);
+      }
+    }, 8000); // 8 second timeout
+
+    return () => clearTimeout(timeout);
+  }, [isLoaded]);
+
   return (
     <section
       ref={containerRef}
@@ -141,44 +136,75 @@ export default function AboutHero() {
     >
       {/* Spline 3D Background - Desktop only */}
       <div className="absolute inset-0 overflow-hidden hidden md:block">
-        <GradientFallback />
-        <iframe
-          ref={iframeRef}
-          src="https://my.spline.design/distortingtypography-FZZGSzd1DOcI2dBCHY8XaW7d/"
-          frameBorder="0"
-          width="100%"
-          height="100%"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            border: "none",
-            opacity: isLoaded ? 1 : 0,
-            transition: "opacity 1s ease-in-out",
-            pointerEvents: "auto",
-            zIndex: 0,
+        {/* Animated purple glow behind Spline */}
+        <motion.div
+          className="absolute inset-0"
+          animate={{
+            background: [
+              "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.15) 0%, transparent 60%)",
+              "radial-gradient(ellipse at 50% 50%, rgba(123, 92, 240, 0.2) 0%, transparent 60%)",
+              "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.15) 0%, transparent 60%)",
+            ],
           }}
-          allow="autoplay; xr-spatial-tracking"
-          onLoad={() => setIsLoaded(true)}
-          title="3D Background Scene"
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          style={{ zIndex: 0 }}
         />
+
+        {/* Spline iframe */}
+        {!splineError && (
+          <iframe
+            ref={iframeRef}
+            src="https://my.spline.design/distortingtypography-FZZGSzd1DOcI2dBCHY8XaW7d/"
+            frameBorder="0"
+            width="100%"
+            height="100%"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              border: "none",
+              opacity: isLoaded ? 1 : 0,
+              transition: "opacity 1.5s ease-in-out",
+              pointerEvents: "auto",
+              zIndex: 1,
+            }}
+            allow="autoplay; xr-spatial-tracking"
+            onLoad={() => setIsLoaded(true)}
+            onError={() => setSplineError(true)}
+            title="3D Background Scene"
+          />
+        )}
+
+        {/* Fallback gradient if Spline fails */}
+        {(splineError || !isLoaded) && (
+          <div className="absolute inset-0" style={{ zIndex: 2 }}>
+            <motion.div
+              className="absolute inset-0"
+              animate={{
+                background: [
+                  "radial-gradient(ellipse at 30% 40%, rgba(96, 37, 213, 0.35) 0%, transparent 50%)",
+                  "radial-gradient(ellipse at 70% 60%, rgba(123, 92, 240, 0.3) 0%, transparent 45%)",
+                  "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.35) 0%, transparent 50%)",
+                ],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
+        )}
       </div>
 
-      {/* Mobile gradient background */}
+      {/* Mobile gradient background with glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-bg via-bg to-bg-secondary md:hidden" />
-
-      {/* Animated mesh gradient for mobile */}
       <motion.div
-        className="absolute inset-0 opacity-[0.08] pointer-events-none md:hidden"
+        className="absolute inset-0 opacity-20 pointer-events-none md:hidden"
         animate={{
           background: [
-            "radial-gradient(ellipse at 20% 30%, rgba(96, 37, 213, 0.4) 0%, transparent 50%)",
-            "radial-gradient(ellipse at 80% 70%, rgba(123, 92, 240, 0.4) 0%, transparent 50%)",
-            "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.4) 0%, transparent 50%)",
-            "radial-gradient(ellipse at 20% 30%, rgba(96, 37, 213, 0.4) 0%, transparent 50%)",
+            "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.4) 0%, transparent 60%)",
+            "radial-gradient(ellipse at 50% 50%, rgba(123, 92, 240, 0.4) 0%, transparent 60%)",
+            "radial-gradient(ellipse at 50% 50%, rgba(96, 37, 213, 0.4) 0%, transparent 60%)",
           ],
         }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* Film grain overlay */}
@@ -189,7 +215,7 @@ export default function AboutHero() {
         }}
       />
 
-      {/* Floating geometric elements - Desktop only */}
+      {/* Floating geometric elements - Desktop only with purple glow */}
       <div className="hidden md:block">
         <FloatingElement type="circle" className="top-[15%] left-[10%]" delay={0} />
         <FloatingElement type="square" className="top-[25%] right-[15%]" delay={0.5} />
@@ -210,7 +236,7 @@ export default function AboutHero() {
         style={{ y: smoothY }}
       >
         <span
-          className="font-display text-[20vw] font-bold text-brand/[0.02] whitespace-nowrap"
+          className="font-display text-[20vw] font-bold text-brand/[0.03] whitespace-nowrap drop-shadow-[0_0_30px_rgba(96,37,213,0.15)]"
           aria-hidden
         >
           KISLAY
@@ -240,7 +266,7 @@ export default function AboutHero() {
           variants={fadeUp}
           className="flex items-center gap-4 mb-8"
         >
-          <div className="w-12 h-px bg-brand" />
+          <div className="w-12 h-px bg-brand shadow-[0_0_10px_rgba(96,37,213,0.4)]" />
           <motion.span
             className="font-mono text-brand/60 uppercase tracking-[0.25em] text-[11px]"
             animate={{ opacity: [0.6, 1, 0.6] }}
@@ -259,7 +285,7 @@ export default function AboutHero() {
         >
           I make videos that
           <br />
-          <span className="bg-gradient-to-r from-brand via-brand-light to-purple-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-brand via-brand-light to-purple-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(96,37,213,0.3)]">
             hold attention.
           </span>
         </motion.h1>
@@ -288,12 +314,12 @@ export default function AboutHero() {
         >
           <div className="flex flex-col items-center gap-2">
             <motion.div
-              className="w-px h-10 bg-gradient-to-b from-brand/40 to-transparent"
+              className="w-px h-10 bg-gradient-to-b from-brand/40 to-transparent shadow-[0_0_8px_rgba(96,37,213,0.3)]"
               animate={{ scaleY: [1, 1.2, 1], opacity: [0.4, 1, 0.4] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
             <motion.div
-              className="w-2 h-2 rounded-full bg-brand/50"
+              className="w-2 h-2 rounded-full bg-brand/50 shadow-[0_0_10px_rgba(96,37,213,0.4)]"
               animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
             />
