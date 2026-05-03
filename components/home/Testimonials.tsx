@@ -8,14 +8,18 @@ import { TESTIMONIALS } from "@/lib/constants";
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+
+  const testimonials = TESTIMONIALS.map((testimonial, index) => ({
+    ...testimonial,
+    id: index + 1,
+  }));
 
   const handleShuffle = useCallback(() => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
-    setTimeout(() => setIsAnimating(false), 1200);
-  }, [isAnimating]);
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    setTimeout(() => setIsAnimating(false), 800);
+  }, [isAnimating, testimonials.length]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,21 +28,6 @@ export default function Testimonials() {
 
     return () => clearInterval(interval);
   }, [handleShuffle]);
-
-  interface TestimonialData {
-    id: number;
-    quote: string;
-    name: string;
-    role: string;
-    company?: string;
-  }
-
-  const testimonials: TestimonialData[] = TESTIMONIALS.slice(0, 5).map(
-    (testimonial, index) => ({
-      ...testimonial,
-      id: index + 1,
-    })
-  );
 
   const visibleTestimonials = [
     testimonials[currentIndex],
@@ -129,53 +118,51 @@ export default function Testimonials() {
 
         {/* Cards container */}
         <motion.div
-          ref={containerRef}
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-          className="relative flex justify-center"
+          className="relative flex justify-center items-center"
         >
           {/* Cards wrapper */}
-          <div className="relative h-[420px] w-[320px] md:-ml-[100px]">
+          <div className="relative h-[420px] w-[320px]">
             {/* Testimonial Cards with smooth left-to-right slide */}
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               {visibleTestimonials.map((testimonial, index) => {
                 const isFront = index === 0;
                 const isMiddle = index === 1;
 
                 return (
                   <motion.div
-                    key={`${testimonial.name}-${currentIndex}-${index}`}
+                    key={testimonial.id}
                     initial={{
-                      x: isFront ? 400 : isMiddle ? 400 : 400,
-                      opacity: isFront ? 0 : isMiddle ? 0.4 : 0.8,
-                      scale: isFront ? 0.85 : isMiddle ? 0.9 : 0.95,
-                      rotate: isFront ? -8 : isMiddle ? -4 : 0,
+                      x: 100,
+                      opacity: 0,
+                      scale: 0.8,
                     }}
                     animate={{
-                      x: isFront ? 0 : isMiddle ? "33%" : "66%",
-                      opacity: isFront ? 1 : isMiddle ? 0.6 : 0.4,
-                      scale: isFront ? 1 : isMiddle ? 0.92 : 0.88,
-                      rotate: isFront ? "-6deg" : isMiddle ? "-3deg" : "0deg",
+                      x: isFront ? 0 : isMiddle ? 40 : 80,
+                      y: isFront ? 0 : isMiddle ? -20 : -40,
+                      opacity: isFront ? 1 : isMiddle ? 0.6 : 0.3,
+                      scale: isFront ? 1 : isMiddle ? 0.9 : 0.8,
+                      rotate: isFront ? -6 : isMiddle ? -3 : 0,
                     }}
                     exit={{
-                      x: -400,
+                      x: -200,
                       opacity: 0,
-                      scale: 0.85,
-                      rotate: "-8deg",
+                      scale: 0.8,
+                      transition: { duration: 0.4 }
                     }}
                     transition={{
-                      x: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
-                      opacity: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
-                      scale: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
-                      rotate: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20
                     }}
                     style={{
                       position: "absolute",
                       left: 0,
                       top: 0,
-                      zIndex: isFront ? 2 : isMiddle ? 1 : 0,
+                      zIndex: 3 - index,
                     }}
                   >
                     <TestimonialCard

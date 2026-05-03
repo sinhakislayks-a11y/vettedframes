@@ -24,34 +24,17 @@ export function TestimonialCard({
   position,
   author,
 }: TestimonialCardProps) {
-  const dragRef = React.useRef(0);
   const isFront = position === "front";
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
-      drag={true}
-      dragElastic={0.35}
-      dragListener={isFront}
-      dragConstraints={{
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      }}
-      onDragStart={(e) => {
-        const mouseEvent = e as MouseEvent;
-        dragRef.current = mouseEvent.clientX;
-      }}
-      onDragEnd={(e) => {
-        const mouseEvent = e as MouseEvent;
-        if (dragRef.current - mouseEvent.clientX > 150) {
+      drag={isFront ? "x" : false}
+      dragElastic={0.2}
+      dragConstraints={{ left: 0, right: 0 }}
+      onDragEnd={(_, info) => {
+        if (info.offset.x < -100) {
           handleShuffle();
         }
-        dragRef.current = 0;
       }}
       className={`absolute left-0 top-0 grid h-[420px] w-[320px] select-none place-content-center space-y-5 rounded-xl border border-border-custom bg-surface/80 p-6 backdrop-blur-md ${
         isFront
