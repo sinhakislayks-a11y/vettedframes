@@ -3,6 +3,7 @@ import PageBackground from "@/components/ui/PageBackground";
 import HeroSection from "@/components/home/HeroSection";
 import PositioningStrip from "@/components/home/PositioningStrip";
 import ServicesSection from "@/components/home/ServicesSection";
+import EditorTestSection from "@/components/home/EditorTestSection";
 import WhatICreateSection from "@/components/home/WhatICreateSection";
 import PortfolioSection from "@/components/home/PortfolioSection";
 import ClientLogos from "@/components/home/ClientLogos";
@@ -38,6 +39,7 @@ export default function HomePage() {
         <HeroSection />
         <PositioningStrip />
         <ServicesSection />
+        <EditorTestSection />
         <WhatICreateSection />
         <PortfolioSection />
         <ClientLogos />
