@@ -205,12 +205,11 @@ export default function ApproachSection() {
         >
           {/* Decorative quote marks */}
           <span className="absolute -top-12 left-1/2 -translate-x-1/2 font-display text-[100px] text-brand/[0.05] select-none leading-none">
-            "
+            &ldquo;
           </span>
 
           <p className="font-display font-light text-xl md:text-2xl text-text-primary/80 leading-relaxed italic mb-12 px-8">
-            If you're building something that matters and want someone who
-            understands the craft behind the content — let's talk.
+            {`If you&apos;re building something that matters and want someone who understands the craft behind the content — let&apos;s talk.`}
           </p>
 
           <Link

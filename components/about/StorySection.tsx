@@ -222,12 +222,11 @@ export default function StorySection() {
         >
           {/* Quote marks */}
           <span className="absolute -top-8 left-1/2 -translate-x-1/2 font-display text-[80px] text-brand/10 select-none">
-            "
+            &ldquo;
           </span>
 
           <blockquote className="font-display font-light text-xl md:text-3xl text-text-primary/90 leading-snug italic px-8">
-            "But I don't see editing as execution. I see it as the invisible
-            architecture that controls how content feels."
+            {`"But I don&apos;t see editing as execution. I see it as the invisible architecture that controls how content feels."`}
           </blockquote>
 
           {/* Animated underline */}

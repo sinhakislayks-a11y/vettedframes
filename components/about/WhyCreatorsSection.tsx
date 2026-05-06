@@ -189,9 +189,7 @@ export default function WhyCreatorsSection() {
             </p>
 
             <p className="font-sans text-text-secondary text-base md:text-lg leading-relaxed">
-              I don't want to be a vendor. I want to be the person a creator
-              calls when they have an idea and need it to become something that
-              works.
+              {`I don&apos;t want to be a vendor. I want to be the person a creator calls when they have an idea and need it to become something that works.`}
             </p>
           </motion.div>
 

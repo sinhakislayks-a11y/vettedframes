@@ -278,7 +278,7 @@ export default function EditorTestSection() {
                 className="absolute inset-0 flex flex-col items-center justify-center bg-white z-50"
               >
                 <p className="font-display text-text-primary text-3xl md:text-4xl text-center px-8 leading-relaxed mb-12">
-                  That's exactly how I approach every edit — in that order, every time.
+                  {`That&apos;s exactly how I approach every edit — in that order, every time.`}
                 </p>
                 <Link
                   href="/projects"

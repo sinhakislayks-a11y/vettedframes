@@ -151,7 +151,7 @@ export default function AboutPage() {
       {/* Quote */}
       <Section className="px-6 lg:px-12 text-center mb-16" delay={0.2}>
         <p className="text-lg md:text-xl text-gray-300 italic leading-relaxed max-w-3xl mx-auto">
-          "But I don't see editing as execution. I see it as the invisible architecture that controls how content feels."
+          {`"But I don&apos;t see editing as execution. I see it as the invisible architecture that controls how content feels."`}
         </p>
       </Section>
 
@@ -202,7 +202,7 @@ export default function AboutPage() {
           <span className="text-gray-500 text-[10px] uppercase tracking-widest">Why creators</span>
         </div>
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">Creator content sits at the intersection of four things</h2>
-        <p className="text-sm md:text-base text-gray-400 mb-6 max-w-2xl">Speed, psychology, storytelling, and audience trust. Most editors are strong in one or two. I've developed fluency across all four.</p>
+        <p className="text-sm md:text-base text-gray-400 mb-6 max-w-2xl">Speed, psychology, storytelling, and audience trust. Most editors are strong in one or two. I&apos;ve developed fluency across all four.</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {REASONS.map((reason, index) => (
@@ -256,7 +256,7 @@ export default function AboutPage() {
         </div>
 
         <p className="text-center text-gray-400 italic mb-6 max-w-xl">
-          If you're building something that matters and want someone who understands the craft behind the content — let's talk.
+          {`If you&apos;re building something that matters and want someone who understands the craft behind the content — let&apos;s talk.`}
         </p>
       </Section>
 
