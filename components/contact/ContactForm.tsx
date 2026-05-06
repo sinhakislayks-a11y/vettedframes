@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { track } from "@vercel/analytics/react";
@@ -10,13 +10,6 @@ import type { ContactFormData } from "@/lib/validators";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import FormSuccess from "./FormSuccess";
 
@@ -139,31 +132,16 @@ export default function ContactForm() {
               <Label className="font-sans text-sm text-text-primary">
                 Project Type
               </Label>
-              <Controller
-                name="projectType"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
-                    <SelectTrigger className="w-full bg-surface-elevated border-border-custom rounded-[4px] px-4 py-2.5 h-auto text-sm font-sans text-text-primary focus-visible:border-brand focus-visible:ring-brand/20 cursor-pointer">
-                      <SelectValue placeholder="Select a project type" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-surface-elevated border-border-custom rounded-[4px]">
-                      {PROJECT_TYPES.map((type) => (
-                        <SelectItem
-                          key={type.value}
-                          value={type.value}
-                          className="text-sm text-text-primary font-sans cursor-pointer focus:bg-brand/15 focus:text-brand-light hover:bg-surface transition-colors"
-                        >
-                          {type.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
+              <select
+                {...register("projectType")}
+                className="w-full bg-surface-elevated border border-border-custom rounded-[4px] px-4 py-2.5 h-auto text-sm font-sans text-text-primary focus-visible:border-brand focus-visible:ring-brand/20 cursor-pointer appearance-none"
+              >
+                {PROJECT_TYPES.map((type) => (
+                  <option key={type.value} value={type.value}>
+                    {type.label}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Message */}

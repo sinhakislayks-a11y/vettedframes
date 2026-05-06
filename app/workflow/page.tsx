@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import PageBackground from "@/components/ui/PageBackground";
 import WorkflowHero from "@/components/workflow/WorkflowHero";
-import VerticalPipeline from "@/components/workflow/VerticalPipeline";
+import WorkflowPipeline from "@/components/workflow/WorkflowPipeline";
 import ProcessExplainers from "@/components/workflow/ProcessExplainers";
 import TableOfContents from "@/components/workflow/TableOfContents";
 import ToolsSection from "@/components/workflow/ToolsSection";
@@ -37,7 +37,7 @@ export default function WorkflowPage() {
     <PageBackground variant="horizontal-lines" mask="fade-y" size={32}>
       <main className="flex flex-col">
         <WorkflowHero />
-        <VerticalPipeline />
+        <WorkflowPipeline />
         <ProcessExplainers />
         <TableOfContents />
         <ToolsSection />
