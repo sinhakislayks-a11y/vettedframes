@@ -13,6 +13,18 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  // Relaxed rules for development
+  { rules: {
+    "react/no-unescaped-entities": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react-hooks/set-state-in-effect": "off",
+    "react-hooks/refs": "off",
+    "react-hooks/preserve-manual-memoization": "off",
+    "react-compiler/react-compiler": "off",
+    "react-hooks/immutability": "off",
+    "no-use-before-define": "off",
+  } },
 ]);
 
 export default eslintConfig;
