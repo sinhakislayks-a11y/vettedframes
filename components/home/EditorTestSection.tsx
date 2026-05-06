@@ -120,6 +120,8 @@ export default function EditorTestSection() {
     // Use refs to get latest state
   }, []);
 
+  if (isMobile) return null;
+
   return (
     <section ref={ref} className="w-full bg-bg py-24">
       <div className="mx-auto max-w-6xl px-6">

@@ -4,10 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TestimonialCard } from "@/components/ui/testimonial-cards";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { TESTIMONIALS } from "@/lib/constants";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const isMobile = useIsMobile();
 
   const testimonials = TESTIMONIALS.map((testimonial, index) => ({
     ...testimonial,
@@ -139,111 +141,136 @@ export default function Testimonials() {
         >
           {/* Cards wrapper */}
           <div className="relative h-[420px] w-[320px]">
-            {/* Testimonial Cards with smooth left-to-right slide */}
-            <AnimatePresence mode="popLayout">
-              {visibleTestimonials.map((testimonial, index) => {
-                const isFront = index === 0;
-                const isMiddle = index === 1;
+            {/* Mobile: Static single card */}
+            {isMobile ? (
+              <div className="h-full w-full rounded-xl border border-border-custom bg-surface/80 p-6 backdrop-blur-sm flex flex-col items-center justify-center">
+                <div className="flex justify-center mb-6">
+                  <svg className="w-8 h-8 text-brand/40" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                  </svg>
+                </div>
+                <p className="text-center text-base leading-relaxed italic text-text-secondary mb-6">
+                  "{testimonials[currentIndex].quote}"
+                </p>
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-sm font-medium text-brand-light">
+                    {testimonials[currentIndex].name}
+                  </span>
+                  <span className="text-xs text-text-muted">
+                    {testimonials[currentIndex].role}
+                    {testimonials[currentIndex].company && ` @ ${testimonials[currentIndex].company}`}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              /* Desktop: 3-card stacked animation */
+              <AnimatePresence mode="popLayout">
+                {visibleTestimonials.map((testimonial, index) => {
+                  const isFront = index === 0;
+                  const isMiddle = index === 1;
 
-                return (
-                  <motion.div
-                    key={testimonial.id}
-                    initial={{
-                      x: 300,
-                      opacity: 0,
-                      scale: 0.8,
-                    }}
-                    animate={{
-                      x: isFront ? 0 : isMiddle ? 60 : 120,
-                      y: isFront ? 0 : isMiddle ? -15 : -30,
-                      opacity: isFront ? 1 : isMiddle ? 0.4 : 0.15,
-                      scale: isFront ? 1 : isMiddle ? 0.9 : 0.8,
-                      rotate: isFront ? -6 : isMiddle ? -3 : 0,
-                      zIndex: 3 - index,
-                    }}
-                    exit={{
-                      x: -600,
-                      opacity: 0,
-                      rotate: -25,
-                      scale: 0.9,
-                      transition: { 
-                        duration: 0.4,
-                        ease: "easeIn" 
-                      }
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 30,
-                      mass: 1
-                    }}
-                    style={{
-                      position: "absolute",
-                      left: 0,
-                      top: 0,
-                    }}
-                  >
-                    <TestimonialCard
-                      testimonial={testimonial}
-                      handleShuffle={handleShuffle}
-                      position={isFront ? "front" : isMiddle ? "middle" : "back"}
-                      author={testimonial.name}
-                    />
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
+                  return (
+                    <motion.div
+                      key={testimonial.id}
+                      initial={{
+                        x: 300,
+                        opacity: 0,
+                        scale: 0.8,
+                      }}
+                      animate={{
+                        x: isFront ? 0 : isMiddle ? 60 : 120,
+                        y: isFront ? 0 : isMiddle ? -15 : -30,
+                        opacity: isFront ? 1 : isMiddle ? 0.4 : 0.15,
+                        scale: isFront ? 1 : isMiddle ? 0.9 : 0.8,
+                        rotate: isFront ? -6 : isMiddle ? -3 : 0,
+                        zIndex: 3 - index,
+                      }}
+                      exit={{
+                        x: -600,
+                        opacity: 0,
+                        rotate: -25,
+                        scale: 0.9,
+                        transition: {
+                          duration: 0.4,
+                          ease: "easeIn"
+                        }
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 30,
+                        mass: 1
+                      }}
+                      style={{
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                      }}
+                    >
+                      <TestimonialCard
+                        testimonial={testimonial}
+                        handleShuffle={handleShuffle}
+                        position={isFront ? "front" : isMiddle ? "middle" : "back"}
+                        author={testimonial.name}
+                      />
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            )}
           </div>
         </motion.div>
 
-        {/* Interaction hint */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-12 flex flex-col items-center gap-3"
-        >
-          {/* Drag icon */}
-          <div className="flex items-center gap-2 text-text-secondary/50">
-            <motion.svg
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              animate={{ x: [-8, 8, -8], opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <path d="M7 16l-4-4 4-4M17 8l4 4-4 4M14 4l-4 16" />
-            </motion.svg>
-            <span className="font-mono text-[10px] uppercase tracking-widest">
-              Drag to explore
-            </span>
-          </div>
+        {/* Interaction hint - desktop only */}
+        {!isMobile && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="mt-12 flex flex-col items-center gap-3"
+          >
+            {/* Drag icon */}
+            <div className="flex items-center gap-2 text-text-secondary/50">
+              <motion.svg
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                animate={{ x: [-8, 8, -8], opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <path d="M7 16l-4-4 4-4M17 8l4 4-4 4M14 4l-4 16" />
+              </motion.svg>
+              <span className="font-mono text-[10px] uppercase tracking-widest">
+                Drag to explore
+              </span>
+            </div>
 
-          {/* Dots indicator */}
-          <div className="flex gap-3">
-            {testimonials.map((_, index) => (
-              <motion.div
-                key={index}
-                className="h-2 w-2 rounded-full"
-                animate={{
-                  backgroundColor:
-                    index === currentIndex
-                      ? "rgba(96, 37, 213, 1)"
-                      : "rgba(96, 37, 213, 0.2)",
-                  scale: index === currentIndex ? 1.4 : 1,
-                  boxShadow:
-                    index === currentIndex
-                      ? "0 0 12px rgba(96, 37, 213, 0.6)"
-                      : "none",
-                }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-              />
-            ))}
-          </div>
-        </motion.div>
+            {/* Dots indicator */}
+            <div className="flex gap-3">
+              {testimonials.map((_, index) => (
+                <motion.div
+                  key={index}
+                  className="h-2 w-2 rounded-full"
+                  animate={{
+                    backgroundColor:
+                      index === currentIndex
+                        ? "rgba(96, 37, 213, 1)"
+                        : "rgba(96, 37, 213, 0.2)",
+                    scale: index === currentIndex ? 1.4 : 1,
+                    boxShadow:
+                      index === currentIndex
+                        ? "0 0 12px rgba(96, 37, 213, 0.6)"
+                        : "none",
+                  }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );
