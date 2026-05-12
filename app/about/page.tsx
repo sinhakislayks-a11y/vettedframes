@@ -104,13 +104,15 @@ export default function AboutPage() {
 
       {/* Main Content - positioned above spline */}
       <div className="relative z-10">
-        {/* Hero Section */}
-        <section className="relative min-h-screen pt-8 px-6 lg:px-12 flex flex-col overflow-hidden">
-          {/* Spline Background restricted to Hero Section */}
-          <div className="absolute inset-0 z-0 opacity-60">
+        {/* Hero Section — Spline is interactive here */}
+        <section className="relative min-h-screen pt-8 flex flex-col overflow-hidden">
+          {/* Spline 3D Background — fills hero, receives all mouse events */}
+          <div className="absolute inset-0 z-0">
             <AboutSplineBackground />
           </div>
-          <div className="relative z-10 flex justify-between gap-8 items-start min-h-[70vh]">
+
+          {/* Hero text overlay — pointer-events-none lets mouse pass to Spline */}
+          <div className="relative z-10 pointer-events-none flex justify-between gap-8 items-start min-h-[70vh] px-6 lg:px-12">
             {/* Left Vertical Label - Desktop only */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -147,11 +149,14 @@ export default function AboutPage() {
             >
               <img
                 alt="Kislay Sinha - Video Editor"
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 pointer-events-auto"
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop"
               />
             </motion.div>
           </div>
+
+          {/* Bottom gradient fade — clean transition from hero into content */}
+          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#050507] to-transparent pointer-events-none z-10" />
         </section>
 
         {/* Story Section - Grid Layout */}
