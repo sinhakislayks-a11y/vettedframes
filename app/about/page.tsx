@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-import SplineScene from "@/components/ui/SplineScene";
+import AboutSplineBackground from "@/components/about/AboutSplineBackground";
 
 // Icons
 function GridIcon({ className }: { className?: string }) {
@@ -88,10 +88,7 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen pb-20 lg:pb-0 overflow-hidden bg-[#050507]">
-      {/* Spline Background */}
-      <div className="fixed inset-0 z-0 opacity-60">
-        <SplineScene scene="https://prod.spline.design/theeternalarc/scene.splinecode" />
-      </div>
+
 
       {/* Large Watermark Background */}
       <div className="fixed inset-0 z-[1] pointer-events-none overflow-hidden">
@@ -108,8 +105,12 @@ export default function AboutPage() {
       {/* Main Content - positioned above spline */}
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="relative min-h-screen pt-8 px-6 lg:px-12 flex flex-col">
-          <div className="flex justify-between gap-8 items-start min-h-[70vh]">
+        <section className="relative min-h-screen pt-8 px-6 lg:px-12 flex flex-col overflow-hidden">
+          {/* Spline Background restricted to Hero Section */}
+          <div className="absolute inset-0 z-0 opacity-60">
+            <AboutSplineBackground />
+          </div>
+          <div className="relative z-10 flex justify-between gap-8 items-start min-h-[70vh]">
             {/* Left Vertical Label - Desktop only */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
