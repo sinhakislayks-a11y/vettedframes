@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-const Spline = dynamic(() => import("@splinetool/react-spline"), { ssr: false });
+import SplineScene from "@/components/ui/SplineScene";
 
 // Icons
 function GridIcon({ className }: { className?: string }) {
@@ -90,7 +90,7 @@ export default function AboutPage() {
     <div className="min-h-screen pb-20 lg:pb-0 overflow-hidden bg-[#050507]">
       {/* Spline Background */}
       <div className="fixed inset-0 z-0 opacity-60">
-        <Spline scene="https://prod.spline.design/theeternalarc/scene.splinecode" />
+        <SplineScene scene="https://prod.spline.design/theeternalarc/scene.splinecode" />
       </div>
 
       {/* Large Watermark Background */}
