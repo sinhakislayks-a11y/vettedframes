@@ -3,7 +3,6 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 
 import AboutSplineBackground from "@/components/about/AboutSplineBackground";
 
@@ -104,21 +103,27 @@ export default function AboutPage() {
 
       {/* Main Content - positioned above spline */}
       <div className="relative z-10">
-        {/* Hero Section — Spline is interactive here */}
-        <section className="relative min-h-screen pt-8 flex flex-col overflow-hidden">
+        {/* Hero Section — Pure interactive Spline */}
+        <section className="relative h-screen flex flex-col overflow-hidden">
           {/* Spline 3D Background — fills hero, receives all mouse events */}
           <div className="absolute inset-0 z-0">
             <AboutSplineBackground />
           </div>
 
-          {/* Hero text overlay — pointer-events-none lets mouse pass to Spline */}
-          <div className="relative z-10 pointer-events-none flex justify-between gap-8 items-start min-h-[70vh] px-6 lg:px-12">
+          {/* Bottom gradient fade — clean transition from hero into content */}
+          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#050507] to-transparent pointer-events-none z-10" />
+        </section>
+
+        {/* Title + Portrait Section — below the Spline hero */}
+        <section className="relative px-6 lg:px-12 py-16 -mt-24 z-20">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-8 items-start">
             {/* Left Vertical Label - Desktop only */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="hidden lg:flex items-end pb-8"
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="hidden lg:flex items-end self-stretch"
             >
               <span className="text-[11px] tracking-[0.3em] text-gray-500 uppercase font-medium" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
                 Storyteller / Post-Production / Video Editor
@@ -128,9 +133,10 @@ export default function AboutPage() {
             {/* Main Title */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex-1 pt-8 lg:pt-12"
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex-1"
             >
               <span className="inline-block px-3 py-1 text-[10px] uppercase tracking-widest text-purple-400 border border-purple-400/30 rounded-full mb-6">
                 The agency years
@@ -140,23 +146,21 @@ export default function AboutPage() {
               </h1>
             </motion.div>
 
-            {/* Hero Portrait - Desktop only */}
+            {/* Portrait */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               className="hidden md:block w-1/3 lg:w-1/4 aspect-[4/5] rounded-2xl overflow-hidden border border-white/10"
             >
               <img
                 alt="Kislay Sinha - Video Editor"
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 pointer-events-auto"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop"
               />
             </motion.div>
           </div>
-
-          {/* Bottom gradient fade — clean transition from hero into content */}
-          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#050507] to-transparent pointer-events-none z-10" />
         </section>
 
         {/* Story Section - Grid Layout */}
